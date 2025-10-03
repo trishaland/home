@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrishaLand</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Poppins", sans-serif;
+      color: black;
+      background: #ffffff;
+      overflow-x: hidden;
+    }
+
+    /* Navbar */
+    header {
+      position: fixed; top: 0; left: 0;
+      width: 100%;
+      background: rgba(173, 216, 230, 0.8);
+      backdrop-filter: blur(8px);
+      padding: 15px 20px;
+      display: flex; justify-content: space-between; align-items: center;
+      z-index: 1000;
+    }
+    .logo { display: flex; flex-direction: column; line-height: 1.2; }
+    .logo-main { font-size: 22px; font-weight: 500; color: #004080; }
+    .logo-sub { font-size: 12px; font-weight: 400; color: #333; }
+    nav ul { list-style: none; display: flex; gap: 25px; }
+    nav ul li a {
+      text-decoration: none; color: #000; font-weight: 400; transition: 0.3s;
+    }
+    nav ul li a:hover { color: #004080; }
+
+    /* Hamburger */
+    .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; }
+    .hamburger span {
+      width: 25px; height: 3px; background: #000; border-radius: 5px;
+    }
+    @media (max-width: 768px) {
+      nav ul {
+        display: none;
+        position: absolute;
+        top: 60px; right: 20px;
+        background: #add8e6;
+        flex-direction: column; gap: 15px;
+        padding: 20px;
+        border-radius: 10px;
+      }
+      nav ul.active { display: flex; }
+      .hamburger { display: flex; }
+    }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+      display: flex; justify-content: center; align-items: center;
+    }
+    .hero-video {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: -2;
+    }
+    .hero::after {
+      content: "";
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(to bottom, rgba(0, 64, 128, 0.5), rgba(255,255,255,0.6));
+      z-index: -1;
+    }
+    .hero-gradient {
+      position: relative;
+      height: 120px;
+      background: linear-gradient(to bottom, transparent, #ffffff);
+      margin-top: -120px;
+      z-index: 1;
+    }
+
+    /* ABOUT */
+    .about-new {
+      width: 100%; padding: 100px 20px;
+      background: #ffffff; display: flex; justify-content: center;
+    }
+    .about-container {
+      display: flex; flex-wrap: wrap; gap: 50px;
+      max-width: 1200px; align-items: center;
+    }
+    .about-left-new { flex: 1; min-width: 300px; }
+    .opening-text {
+      font-size: 1.1rem; font-weight: 500; color: #0054c9;
+      margin-bottom: 20px; line-height: 1.4;
+    }
+    .about-photo {
+      width: 100%; max-width: 380px;
+      border-radius: 10px; object-fit: cover;
+    }
+    .about-right-new { flex: 1; min-width: 320px; }
+    .about-name {
+      font-size: 2rem; font-weight: 600; color: #4a7df0; margin-bottom: 10px;
+    }
+    .about-quote {
+      font-size: 1rem; font-style: italic; color: #3994ff; margin-bottom: 30px;
+    }
+    .biodata-card {
+      background: #4eaaf7;
+      padding: 25px;
+      border-radius: 15px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 25px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .biodata-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+    .biodata-item {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 1rem; color: white;
+    }
+    .btn-about {
+      display: inline-block;
+      background: #1e90ff; color: white;
+      padding: 12px 24px; text-decoration: none;
+      border-radius: 8px; font-size: 1rem; font-weight: 500;
+      transition: 0.3s;
+    }
+    .btn-about:hover { background: #1875d1; }
+    @media (max-width: 768px) {
+      .about-container { flex-direction: column; text-align: center; }
+      .biodata-card { grid-template-columns: 1fr; }
+      .about-photo { margin: 0 auto; }
+    }
+
+    /* COUNTDOWN */
+    .countdown-section {
+      background: #f0f8ff;
+      padding: 80px 20px;
+      text-align: center;
+    }
+    .countdown-section h2 {
+      font-size: 2rem;
+      color: #004080;
+      margin-bottom: 20px;
+    }
+    .countdown-section p {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 40px;
+    }
+    .countdown-timer {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .time-box {
+      background: #111;
+      color: white;
+      padding: 25px 15px;
+      border-radius: 8px;
+      min-width: 90px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .time-box span {
+      display: block;
+      font-size: 2.2rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    .time-box small {
+      font-size: 0.85rem;
+      font-weight: 400;
+      opacity: 0.8;
+    }
+    @media (max-width: 600px) {
+      .time-box {
+        min-width: 70px;
+        padding: 18px 10px;
+      }
+      .time-box span {
+        font-size: 1.6rem;
+      }
+    }
+
+    /* Hero responsive */
+    @media (max-width: 768px) {
+      .hero { height: 50vh; }
+      .hero-gradient { height: 80px; margin-top: -80px; }
+    }
+  </style>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const hamburger = document.querySelector(".hamburger");
+      const navMenu = document.querySelector("nav ul");
+      hamburger.addEventListener("click", () => {
+        navMenu.classList.toggle("active");
+      });
+
+      // Countdown
+      const targetDate = new Date("Feb 16, 2026 00:00:00").getTime();
+      const daysEl = document.getElementById("days");
+      const hoursEl = document.getElementById("hours");
+      const minutesEl = document.getElementById("minutes");
+      const secondsEl = document.getElementById("seconds");
+
+      function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        if (distance <= 0) {
+          document.querySelector(".countdown-section").style.background = "#ffe4ec";
+          document.querySelector(".countdown-timer").innerHTML = "<h3>🎉 Selamat Ulang Tahun, Trisha! 🎂</h3>";
+          clearInterval(timer);
+          return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        daysEl.innerText = days;
+        hoursEl.innerText = hours;
+        minutesEl.innerText = minutes;
+        secondsEl.innerText = seconds;
+      }
+
+      const timer = setInterval(updateCountdown, 1000);
+      updateCountdown();
+    });
+  </script>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header>
+    <div class="logo">
+      <div class="logo-main">Trishaland</div>
+      <div class="logo-sub">Fansite Trisha JKT48</div>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#">HOME</a></li>
+        <li><a href="#">ABOUT TRISHA</a></li>
+        <li><a href="#">SCHEDULE</a></li>
+        <li><a href="#">CORNER</a></li>
+      </ul>
+    </nav>
+    <div class="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <video autoplay muted loop playsinline class="hero-video">
+      <source src="trishahero.mp4" type="video/mp4">
+      Browser kamu tidak mendukung video background.
+    </video>
+  </section>
+  <div class="hero-gradient"></div>
+
+  <!-- ABOUT -->
+  <section class="about-new">
+    <div class="about-container">
+      <div class="about-left-new">
+        <p class="opening-text">
+          Jalan-jalan ke kota mamasa<br>
+          Selamat datang di Fansite Trisha
+        </p>
+        <img src="trisha1.jpg" alt="Trisha" class="about-photo">
+      </div>
+
+      <div class="about-right-new">
+        <h2 class="about-name">Jazzlyn Trisha</h2>
+        <p class="about-quote">
+          “Pelukis yang hadir di mimpi-mimpimu indahmu,<br>
+          one two trishaaa...”
+        </p>
+
+        <div class="biodata-card">
+          <div class="biodata-item"><span>📅</span> 16 Februari 2011</div>
+          <div class="biodata-item"><span>📏</span> 164 cm</div>
+          <div class="biodata-item"><span>💉</span> Golongan O</div>
+          <div class="biodata-item"><span>📍</span> Jakarta, Indonesia</div>
+          <div class="biodata-item"><span>♒</span> Aquarius</div>
+          <div class="biodata-item"><span>🎨</span> Melukis</div>
+        </div>
+
+        <a href="#" class="btn-about">Selengkapnya</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- COUNTDOWN -->
+  <section class="countdown-section">
+    <h2>Countdown Ulang Tahun Trisha 🎂</h2>
+    <p>Hitung mundur menuju 16 Februari 2026</p>
+    <div class="countdown-timer">
+      <div class="time-box"><span id="days">0</span><small>Hari</small></div>
+      <div class="time-box"><span id="hours">0</span><small>Jam</small></div>
+      <div class="time-box"><span id="minutes">0</span><small>Menit</small></div>
+      <div class="time-box"><span id="seconds">0</span><small>Detik</small></div>
+    </div>
+  </section>
+
+</body>
+</html>
