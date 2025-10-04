@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Trisha - TrishaLand</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Poppins", sans-serif;
+      color: #000;
+      background: #ffffff;
+      overflow-x: hidden;
+    }
+
+    /* Header sama persis dari index.html */
+    header {
+      position: fixed; top: 0; left: 0;
+      width: 100%;
+      background: rgba(173, 216, 230, 0.8);
+      backdrop-filter: blur(8px);
+      padding: 15px 20px;
+      display: flex; justify-content: space-between; align-items: center;
+      z-index: 1000;
+      height: 60px;
+    }
+
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .logo-img { width: 55px; height: auto; object-fit: contain; }
+    .logo-text { display: flex; flex-direction: column; line-height: 1.2; }
+    .logo-main { font-size: 22px; font-weight: 600; color: #004080; }
+    .logo-sub { font-size: 12px; color: #333; }
+
+    .mobile-logo {
+      display: none;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .mobile-logo img { width: 150px; height: auto; object-fit: contain; }
+
+    nav ul { list-style: none; display: flex; gap: 25px; }
+    nav ul li a {
+      text-decoration: none; color: #000; font-weight: 400; transition: 0.3s;
+    }
+    nav ul li a:hover { color: #004080; }
+    .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; }
+    .hamburger span {
+      width: 25px; height: 3px; background: #000; border-radius: 5px;
+    }
+
+    @media (max-width: 768px) {
+      .logo { display: none; }
+      .mobile-logo { display: block; }
+      nav ul {
+        display: none;
+        position: absolute;
+        top: 60px; right: 20px;
+        background: #add8e6;
+        flex-direction: column; gap: 15px;
+        padding: 20px; border-radius: 10px;
+      }
+      nav ul.active { display: flex; }
+      .hamburger { display: flex; }
+    }
+
+    /* --- SECTION ABOUT PAGE --- */
+    .about-main {
+      padding: 120px 20px 80px;
+      max-width: 1100px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .about-main h1 {
+      font-size: 2.5rem;
+      color: #004080;
+      margin-bottom: 15px;
+    }
+
+    .about-main p.subtitle {
+      font-size: 1.1rem;
+      color: #333;
+      margin-bottom: 50px;
+    }
+
+    .about-content {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .about-photo {
+      flex: 1;
+      min-width: 280px;
+      text-align: center;
+    }
+
+    .about-photo img {
+      width: 100%;
+      max-width: 380px;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+
+    .about-info {
+      flex: 2;
+      min-width: 320px;
+      text-align: left;
+    }
+
+    .about-info h2 {
+      color: #4a7df0;
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+
+    .about-info p {
+      margin-bottom: 20px;
+      line-height: 1.6;
+      color: #444;
+    }
+
+    .highlight {
+      background: #e6f0ff;
+      padding: 15px 20px;
+      border-left: 4px solid #004080;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      font-style: italic;
+      color: #004080;
+    }
+
+    /* BIO GRID */
+    .biodata {
+      background: #4eaaf7;
+      color: white;
+      padding: 25px;
+      border-radius: 15px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    .biodata div {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .about-content { flex-direction: column; text-align: center; }
+      .about-info { text-align: center; }
+      .biodata { grid-template-columns: 1fr; }
+    }
+
+    /* FOOTER */
+    .footer {
+      background: #004080;
+      color: white;
+      padding: 50px 20px 20px;
+      margin-top: 50px;
+    }
+    .footer-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 30px;
+    }
+    .footer-column {
+      flex: 1;
+      min-width: 200px;
+    }
+    .footer-column h3 {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      color: #ffdd57;
+    }
+    .footer-column ul {
+      list-style: none;
+      padding: 0;
+    }
+    .footer-column ul li {
+      margin-bottom: 10px;
+    }
+    .footer-column ul li a {
+      text-decoration: none;
+      color: white;
+      transition: color 0.3s;
+    }
+    .footer-column ul li a:hover {
+      color: #ffdd57;
+    }
+    .footer-bottom {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      padding-top: 15px;
+    }
+  </style>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const hamburger = document.querySelector(".hamburger");
+      const navMenu = document.querySelector("nav ul");
+      hamburger.addEventListener("click", () => {
+        navMenu.classList.toggle("active");
+      });
+    });
+  </script>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <img src="TrishaLand.png" alt="Logo TrishaLand" class="logo-img">
+      <div class="logo-text">
+        <div class="logo-main">Trishaland</div>
+        <div class="logo-sub">Fansite Trisha JKT48</div>
+      </div>
+    </div>
+
+    <div class="mobile-logo">
+      <img src="TrishaLandMobile.png" alt="Logo TrishaLand Mobile">
+    </div>
+
+    <nav>
+      <ul>
+        <li><a href="index.html">HOME</a></li>
+        <li><a href="about.html" style="color:#ffffff;">ABOUT TRISHA</a></li>
+        <li><a href="#">SCHEDULE</a></li>
+        <li><a href="#">CORNER</a></li>
+      </ul>
+    </nav>
+
+    <div class="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </header>
+
+  <!-- ABOUT PAGE CONTENT -->
+  <section class="about-main">
+    <h1>About Trisha</h1>
+    <p class="subtitle">Kenali lebih dekat sosok penuh talenta dari JKT48 Team T 💙</p>
+
+    <div class="about-content">
+      <div class="about-photo">
+        <img src="trisha2.png" alt="Trisha JKT48">
+      </div>
+
+      <div class="about-info">
+        <h2>Jazzlyn Trisha</h2>
+        <div class="highlight">
+          “Pelukis yang hadir di mimpi-mimpimu indahmu, one two Trishaaa!”
+        </div>
+        <p>Trisha adalah salah satu anggota JKT48 yang dikenal dengan kepribadian hangat dan senyumnya yang menular. Ia memiliki minat besar dalam dunia seni, terutama melukis dan menggambar, yang membuat para penggemarnya menjulukinya sebagai “TrishArt Queen”.</p>
+
+        <p>Sejak bergabung dengan JKT48, Trisha telah menunjukkan bakatnya dalam berbagai pertunjukan, baik di atas panggung maupun melalui konten digital. Karakter uniknya menjadikan Trisha salah satu member muda yang penuh potensi dan inspiratif bagi banyak fans.</p>
+
+        <div class="biodata">
+          <div>📅 16 Februari 2011</div>
+          <div>📍 Jakarta, Indonesia</div>
+          <div>💉 Golongan Darah O</div>
+          <div>♒ Aquarius</div>
+          <div>📏 Tinggi 164 cm</div>
+          <div>🎨 Hobi: Melukis, Menulis, dan Desain</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-column">
+        <h3>Halaman</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Trisha</a></li>
+          <li><a href="#">Schedule</a></li>
+          <li><a href="#">Corner</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Sosial Media Trisha</h3>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Threads</a></li>
+          <li><a href="#">X / Twitter</a></li>
+          <li><a href="#">TikTok</a></li>
+          <li><a href="#">IDN App</a></li>
+          <li><a href="#">Showroom</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Hashtag</h3>
+        <ul>
+          <li>#TrishAfternoon</li>
+          <li>#TrishArt</li>
+          <li>#Trishartuday</li>
+          <li>#WannaSeeTrisha</li>
+          <li>#Trishaur</li>
+          <li>#Trishelca</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      © 2025 Trishaland. All rights reserved.
+    </div>
+  </footer>
+
+</body>
+</html>
