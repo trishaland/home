@@ -17,48 +17,79 @@
       overflow-x: hidden;
     }
 
-    /* Navbar */
+    /* Navbar — lebih ramping tapi logo tetap besar */
     header {
       position: fixed; top: 0; left: 0;
       width: 100%;
-      background: rgba(173, 216, 230, 0.8);
+      background: rgba(173, 216, 230, 0.9);
       backdrop-filter: blur(8px);
-      padding: 15px 20px;
+      padding: 8px 25px; /* ← header lebih kecil dari sebelumnya */
       display: flex; justify-content: space-between; align-items: center;
       z-index: 1000;
+      height: 60px; /* kontrol tinggi header */
     }
-    .logo { display: flex; flex-direction: column; line-height: 1.2; }
-    .logo-main { font-size: 22px; font-weight: 500; color: #004080; }
-    .logo-sub { font-size: 12px; font-weight: 400; color: #333; }
-    nav ul { list-style: none; display: flex; gap: 25px; }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-img {
+      width: 60px; /* ← logo sedikit lebih besar */
+      height: auto;
+      object-fit: contain;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .logo-main {
+      font-size: 20px;
+      font-weight: 600;
+      color: #004080;
+    }
+
+    .logo-sub {
+      font-size: 11px;
+      color: #333;
+    }
+
+    nav ul { list-style: none; display: flex; gap: 18px; align-items: center; }
     nav ul li a {
       text-decoration: none; color: #000; font-weight: 400; transition: 0.3s;
+      font-size: 14px;
     }
     nav ul li a:hover { color: #004080; }
 
     /* Hamburger */
-    .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; }
+    .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 4px; }
     .hamburger span {
-      width: 25px; height: 3px; background: #000; border-radius: 5px;
+      width: 22px; height: 3px; background: #000; border-radius: 5px;
     }
+
     @media (max-width: 768px) {
       nav ul {
         display: none;
         position: absolute;
-        top: 60px; right: 20px;
+        top: 55px; right: 20px;
         background: #add8e6;
-        flex-direction: column; gap: 15px;
-        padding: 20px;
+        flex-direction: column; gap: 12px;
+        padding: 18px;
         border-radius: 10px;
       }
       nav ul.active { display: flex; }
       .hamburger { display: flex; }
+      .logo-img { width: 50px; }
     }
 
     /* Hero */
     .hero {
       position: relative;
-      height: 100vh;
+      height: 95vh;
       overflow: hidden;
       display: flex; justify-content: center; align-items: center;
     }
@@ -78,15 +109,15 @@
     }
     .hero-gradient {
       position: relative;
-      height: 120px;
+      height: 100px;
       background: linear-gradient(to bottom, transparent, #ffffff);
-      margin-top: -120px;
+      margin-top: -100px;
       z-index: 1;
     }
 
     /* ABOUT */
     .about-new {
-      width: 100%; padding: 100px 20px;
+      width: 100%; padding: 90px 20px;
       background: #ffffff; display: flex; justify-content: center;
     }
     .about-container {
@@ -184,93 +215,51 @@
       opacity: 0.8;
     }
 
-    /* CALENDAR */
-    .calendar-section {
-      padding: 80px 20px;
-      text-align: center;
-    }
-    .calendar-section h2 {
-      font-size: 2rem;
-      color: #004080;
-      margin-bottom: 20px;
-    }
-
     /* FOOTER */
     .footer {
-      background: #f9f9f9;
-      color: #222;
+      background: #004080;
+      color: white;
       padding: 50px 20px 20px;
-      border-top: 1px solid #ddd;
+      margin-top: 50px;
     }
     .footer-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
       max-width: 1200px;
       margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      gap: 50px;
-      flex-wrap: wrap;
+      gap: 30px;
     }
-    .footer-brand {
+    .footer-column {
       flex: 1;
       min-width: 200px;
     }
-    .footer-logo {
-      font-size: 1.6rem;
-      font-weight: 600;
-      margin-bottom: 5px;
-      color: #004080;
-    }
-    .footer-desc {
-      font-size: 0.95rem;
-      color: #555;
-    }
-    .footer-columns {
-      flex: 2;
-      display: flex;
-      justify-content: space-between;
-      gap: 40px;
-      flex-wrap: wrap;
-    }
     .footer-column h3 {
-      font-size: 1.05rem;
-      margin-bottom: 12px;
-      font-weight: 600;
-      color: #004080;
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      color: #ffdd57;
     }
     .footer-column ul {
       list-style: none;
       padding: 0;
     }
     .footer-column ul li {
-      margin-bottom: 8px;
-      font-size: 0.95rem;
+      margin-bottom: 10px;
     }
     .footer-column ul li a {
       text-decoration: none;
-      color: #333;
-      transition: 0.3s;
+      color: white;
+      transition: color 0.3s;
     }
     .footer-column ul li a:hover {
-      color: #004080;
+      color: #ffdd57;
     }
     .footer-bottom {
       text-align: center;
       margin-top: 30px;
-      font-size: 0.85rem;
-      color: #777;
-      border-top: 1px solid #ddd;
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(255,255,255,0.2);
       padding-top: 15px;
-    }
-
-    /* Responsive */
-    @media (max-width: 600px) {
-      .time-box {
-        min-width: 70px;
-        padding: 18px 10px;
-      }
-      .time-box span {
-        font-size: 1.6rem;
-      }
     }
   </style>
 
@@ -321,8 +310,11 @@
   <!-- Navbar -->
   <header>
     <div class="logo">
-      <div class="logo-main">Trishaland</div>
-      <div class="logo-sub">Fansite Trisha JKT48</div>
+      <img src="TrishaLand.png" alt="Logo Trishaland" class="logo-img">
+      <div class="logo-text">
+        <div class="logo-main">Trishaland</div>
+        <div class="logo-sub">Fansite Trisha JKT48</div>
+      </div>
     </div>
     <nav>
       <ul>
@@ -344,6 +336,7 @@
       Browser kamu tidak mendukung video background.
     </video>
   </section>
+
   <div class="hero-gradient"></div>
 
   <!-- ABOUT -->
@@ -391,57 +384,47 @@
   </section>
 
   <!-- KALENDER -->
-  <section class="calendar-section">
-    <h2>Schedule Trisha 📅</h2>
+  <section class="schedule-section" style="padding:80px 20px; text-align:center;">
+    <h2 style="font-size:2rem; color:#004080; margin-bottom:20px;">Schedule Trisha 📅</h2>
     <iframe src="https://calendar.google.com/calendar/embed?src=trishalandd%40gmail.com&ctz=Asia%2FJakarta" 
-      style="border:0" width="100%" height="600" frameborder="0" scrolling="no"></iframe>
+            style="border:0" width="100%" height="600" frameborder="0" scrolling="no"></iframe>
   </section>
 
   <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-container">
-
-      <!-- Logo + Deskripsi -->
-      <div class="footer-brand">
-        <h2 class="footer-logo">Trishaland</h2>
-        <p class="footer-desc">Fansite Trisha JKT48</p>
+      <div class="footer-column">
+        <h3>Halaman</h3>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About Trisha</a></li>
+          <li><a href="#">Schedule</a></li>
+          <li><a href="#">Corner</a></li>
+        </ul>
       </div>
 
-      <!-- Kolom menu -->
-      <div class="footer-columns">
-        <div class="footer-column">
-          <h3>Halaman</h3>
-          <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About Trisha</a></li>
-            <li><a href="#">Schedule</a></li>
-            <li><a href="#">Corner</a></li>
-          </ul>
-        </div>
+      <div class="footer-column">
+        <h3>Sosial Media Trisha</h3>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Threads</a></li>
+          <li><a href="#">X / Twitter</a></li>
+          <li><a href="#">TikTok</a></li>
+          <li><a href="#">IDN App</a></li>
+          <li><a href="#">Showroom</a></li>
+        </ul>
+      </div>
 
-        <div class="footer-column">
-          <h3>Sosial Media Trisha</h3>
-          <ul>
-            <li><a href="#">Instagram</a></li>
-            <li><a href="#">Threads</a></li>
-            <li><a href="#">X / Twitter</a></li>
-            <li><a href="#">TikTok</a></li>
-            <li><a href="#">IDN App</a></li>
-            <li><a href="#">Showroom</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-column">
-          <h3>Hashtag</h3>
-          <ul>
-            <li>#TrishAfternoon</li>
-            <li>#TrishArt</li>
-            <li>#Trishartuday</li>
-            <li>#WannaSeeTrisha</li>
-            <li>#Trishaur</li>
-            <li>#Trishelca</li>
-          </ul>
-        </div>
+      <div class="footer-column">
+        <h3>Hashtag</h3>
+        <ul>
+          <li>#TrishAfternoon</li>
+          <li>#TrishArt</li>
+          <li>#Trishartuday</li>
+          <li>#WannaSeeTrisha</li>
+          <li>#Trishaur</li>
+          <li>#Trishelca</li>
+        </ul>
       </div>
     </div>
 
