@@ -10,7 +10,6 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    /* --- FLEX BASE --- */
     html, body {
       height: 100%;
     }
@@ -32,7 +31,7 @@
       justify-content: center;
     }
 
-    /* HEADER */
+    /* HEADER (tidak diubah) */
     header {
       position: fixed; top: 0; left: 0;
       width: 100%;
@@ -123,12 +122,20 @@
       font-weight: 700;
     }
     .slide-left p { opacity: .95; font-size: 1rem; line-height: 1.6; }
-    .slide-right { flex: 0 0 360px; display: flex; align-items: flex-end; justify-content: center; }
+
+    .slide-right {
+      flex: 0 0 360px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    /* Foto tanpa shadow/border */
     .slide-right img {
       width: 100%;
       height: auto;
-      border-radius: 8px;
-      box-shadow: 0 8px 20px rgba(0,0,0,.25);
+      border-radius: 0;
+      box-shadow: none;
       user-select: none;
       pointer-events: none;
     }
@@ -149,11 +156,12 @@
       .slide-left h1 { font-size: 1.4rem; }
     }
 
-    /* FOOTER */
+    /* FOOTER (tidak diubah, tapi dipaksa nempel bawah) */
     .footer {
       background: #004080;
       color: white;
       padding: 50px 20px 20px;
+      margin-top: auto;
     }
     .footer-container {
       display: flex;
@@ -194,6 +202,7 @@
     });
   </script>
 </head>
+
 <body>
 
   <!-- HEADER -->
@@ -258,7 +267,7 @@
               <p>Sabtu, 25 Oktober 2025 • 16.00 – 17.00 WIB</p>
             </div>
             <div class="slide-right">
-              <img src="trisha1.png" alt="Trisha 3">
+              <img src="heroabout3.png" alt="Trisha 3">
             </div>
           </article>
         </div>
