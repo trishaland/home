@@ -6,13 +6,10 @@
   <title>About Trisha</title>
   <link rel="icon" type="image/png" href="TrishaLand.png">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
-
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    html, body {
-      height: 100%;
-    }
+    html, body { height: 100%; }
 
     body {
       font-family: "Poppins", sans-serif;
@@ -31,7 +28,7 @@
       justify-content: center;
     }
 
-    /* HEADER (tidak diubah) */
+    /* HEADER */
     header {
       position: fixed; top: 0; left: 0;
       width: 100%;
@@ -63,9 +60,7 @@
     }
     nav ul li a:hover { color: #004080; }
     .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; }
-    .hamburger span {
-      width: 25px; height: 3px; background: #000; border-radius: 5px;
-    }
+    .hamburger span { width: 25px; height: 3px; background: #000; border-radius: 5px; }
 
     @media (max-width: 768px) {
       .logo { display: none; }
@@ -115,22 +110,9 @@
       font-weight: 600;
       margin-bottom: 18px;
     }
-    .slide-left h1 {
-      font-size: 2.4rem;
-      line-height: 1.1;
-      margin-bottom: 18px;
-      font-weight: 700;
-    }
+    .slide-left h1 { font-size: 2.4rem; line-height: 1.1; margin-bottom: 18px; font-weight: 700; }
     .slide-left p { opacity: .95; font-size: 1rem; line-height: 1.6; }
-
-    .slide-right {
-      flex: 0 0 360px;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-    }
-
-    /* Foto tanpa shadow/border */
+    .slide-right { flex: 0 0 360px; display: flex; align-items: flex-end; justify-content: center; }
     .slide-right img {
       width: 100%;
       height: auto;
@@ -140,7 +122,6 @@
       pointer-events: none;
     }
 
-    /* Dots */
     .dots { position: absolute; left: 0; right: 0; bottom: 16px; text-align: center; }
     .dots button {
       width: 10px; height: 10px;
@@ -156,7 +137,7 @@
       .slide-left h1 { font-size: 1.4rem; }
     }
 
-    /* FOOTER (tidak diubah, tapi dipaksa nempel bawah) */
+    /* FOOTER */
     .footer {
       background: #004080;
       color: white;
@@ -238,48 +219,59 @@
     <section class="hero-slider" id="slider">
       <div class="viewport">
         <div class="slides">
+
+          <!-- VIDEO CALL -->
           <article class="slide">
-            <div class="slide-left">
-              <div class="label">Video Call</div>
-              <h1>DIGITAL PHOTOBOOK “PERTARUHAN CINTA”<br> BONUS VIDEO CALL WITH JKT48</h1>
-              <p>Senin, 13 Oktober 2025 • 16.30 – 20.30 WIB<br>Rabu, 15 Oktober 2025 • 16.30 – 20.30 WIB</p>
-            </div>
-            <div class="slide-right">
-              <img src="trisha1.png" alt="Trisha 1">
-            </div>
+            <a href="https://jkt48.com/tickets/handshake?id=773" target="_blank" style="display:flex;align-items:center;justify-content:space-between;gap:30px;text-decoration:none;color:white;">
+              <div class="slide-left">
+                <div class="label">Video Call</div>
+                <h1>DIGITAL PHOTOBOOK “PERTARUHAN CINTA”<br> BONUS VIDEO CALL WITH JKT48</h1>
+                <p>Senin, 13 Oktober 2025 • 16.30 – 20.30 WIB<br>Rabu, 15 Oktober 2025 • 16.30 – 20.30 WIB</p>
+              </div>
+              <div class="slide-right">
+                <img src="trisha1.png" alt="Trisha 1">
+              </div>
+            </a>
           </article>
 
+          <!-- MEET & GREET -->
           <article class="slide">
-            <div class="slide-left">
-              <div class="label">Meet & Greet</div>
-              <h1>SISTER REUNION JKT48 & AKB48 PERSONAL MEET & GREET FESTIVAL</h1>
-              <p>Sabtu, 25 Oktober 2025 • 10.00 – 11.00 WIB<br>Sabtu, 25 Oktober 2025 • 11.00 – 12.00 WIB</p>
-            </div>
-            <div class="slide-right">
-              <img src="trisha1.png" alt="Trisha 2">
-            </div>
+            <a href="https://jkt48.com/tickets/handshake?id=765" target="_blank" style="display:flex;align-items:center;justify-content:space-between;gap:30px;text-decoration:none;color:white;">
+              <div class="slide-left">
+                <div class="label">Meet & Greet</div>
+                <h1>SISTER REUNION JKT48 & AKB48 PERSONAL MEET & GREET FESTIVAL</h1>
+                <p>Sabtu, 25 Oktober 2025 • 10.00 – 11.00 WIB<br>Sabtu, 25 Oktober 2025 • 11.00 – 12.00 WIB</p>
+              </div>
+              <div class="slide-right">
+                <img src="trisha1.png" alt="Trisha 2">
+              </div>
+            </a>
           </article>
 
+          <!-- 2-SHOT -->
           <article class="slide">
-            <div class="slide-left">
-              <div class="label">2-Shot</div>
-              <h1>SISTER REUNION JKT48 & AKB48 PERSONAL MEET & GREET FESTIVAL</h1>
-              <p>Sabtu, 25 Oktober 2025 • 16.00 – 17.00 WIB</p>
-            </div>
-            <div class="slide-right">
-              <img src="heroabout3.png" alt="Trisha 3">
-            </div>
+            <a href="https://jkt48.com/tickets/twoshot?id=105" target="_blank" style="display:flex;align-items:center;justify-content:space-between;gap:30px;text-decoration:none;color:white;">
+              <div class="slide-left">
+                <div class="label">2-Shot</div>
+                <h1>SISTER REUNION JKT48 & AKB48 PERSONAL MEET & GREET FESTIVAL</h1>
+                <p>Sabtu, 25 Oktober 2025 • 16.00 – 17.00 WIB</p>
+              </div>
+              <div class="slide-right">
+                <img src="trisha1.png" alt="Trisha 3">
+              </div>
+            </a>
           </article>
+
         </div>
       </div>
 
-        <div class="dots">
-          <button class="dot active"></button>
-          <button class="dot"></button>
-          <button class="dot"></button>
-        </div>
-      </section>
-    </div>
+      <div class="dots">
+        <button class="dot active"></button>
+        <button class="dot"></button>
+        <button class="dot"></button>
+      </div>
+    </section>
+  </div>
   </main>
 
   <!-- FOOTER -->
@@ -297,12 +289,12 @@
       <div class="footer-column">
         <h3>Sosial Media Trisha</h3>
         <ul>
-          <li><a href="#">Instagram</a></li>
-          <li><a href="#">Threads</a></li>
-          <li><a href="#">X / Twitter</a></li>
-          <li><a href="#">TikTok</a></li>
-          <li><a href="#">IDN App</a></li>
-          <li><a href="#">Showroom</a></li>
+          <li><a href="https://www.instagram.com/jkt48.trisha/" target="_blank">Instagram</a></li>
+          <li><a href="https://www.threads.com/@jkt48.trisha?xmt=AQF0-sEtwtdm2hYKSQltbYMsN6rjfFrYxUrnCwj_ybbCsJc" target="_blank">Threads</a></li>
+          <li><a href="https://x.com/JTrisha_JKT48" target="_blank">X / Twitter</a></li>
+          <li><a href="https://www.tiktok.com/@jkt48.trisha" target="_blank">TikTok</a></li>
+          <li><a href="https://www.idn.app/jkt48_trisha" target="_blank">IDN App</a></li>
+          <li><a href="https://www.showroom-live.com/r/JKT48_Trisha" target="_blank">Showroom</a></li>
         </ul>
       </div>
 
