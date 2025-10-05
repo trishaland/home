@@ -236,6 +236,61 @@
     @media (max-width: 700px){
       .game-box { width: 92%; }
     }
+
+/* ===== RESPONSIVE GAME LAYOUT ===== */
+@media (max-width: 768px) {
+  .game-page {
+    padding: 10px;
+  }
+
+  .game-box {
+    width: 95%;
+    padding: 8px;
+    border-width: 2px;
+    transform: none; /* biar center di layar kecil */
+  }
+
+  canvas {
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  .info {
+    font-size: 14px;
+    line-height: 1.4;
+    word-wrap: break-word;
+  }
+
+  #btn-sell, #open-shop {
+    width: 100%;
+    height: 50px;
+    font-size: 18px;
+    margin: 6px 0;
+  }
+
+  .upgrades {
+    margin-top: 10px;
+  }
+
+  .upgrade {
+    font-size: 13px;
+    line-height: 1.3;
+  }
+
+  .upgrade button {
+    font-size: 12px;
+    padding: 4px 6px;
+  }
+
+  .char-card {
+    width: 100px;
+  }
+
+  .char-card img {
+    width: 60px;
+    height: 60px;
+  }
+}
   </style>
 
   <!-- Hamburger script from about12 (for header) -->
