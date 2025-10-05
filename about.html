@@ -21,7 +21,12 @@
       min-height: 100vh;
     }
 
-    main { flex: 1; display: flex; flex-direction: column; }
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
 
     /* HEADER */
     header {
@@ -31,25 +36,35 @@
       backdrop-filter: blur(8px);
       padding: 15px 20px;
       display: flex; justify-content: space-between; align-items: center;
-      z-index: 1000; height: 60px;
+      z-index: 1000;
+      height: 60px;
     }
 
     .logo { display: flex; align-items: center; gap: 10px; }
     .logo-img { width: 55px; height: auto; object-fit: contain; }
+    .logo-text { display: flex; flex-direction: column; line-height: 1.2; }
     .logo-main { font-size: 22px; font-weight: 600; color: #004080; }
     .logo-sub { font-size: 12px; color: #333; }
+
+    .mobile-logo {
+      display: none;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .mobile-logo img { width: 150px; height: auto; object-fit: contain; }
 
     nav ul { list-style: none; display: flex; gap: 25px; }
     nav ul li a {
       text-decoration: none; color: #000; font-weight: 400; transition: 0.3s;
     }
     nav ul li a:hover { color: #004080; }
-    nav ul li a.active { color: #ffffff; }
-
-    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; }
     .hamburger span { width: 25px; height: 3px; background: #000; border-radius: 5px; }
 
     @media (max-width: 768px) {
+      .logo { display: none; }
+      .mobile-logo { display: block; }
       nav ul {
         display: none;
         position: absolute;
@@ -63,12 +78,13 @@
     }
 
     /* HERO SLIDER */
-    .hero-wrap { margin-top: 60px; }
+    .hero-wrap { margin-top: 60px; flex: 1; }
     .hero-slider {
       position: relative;
       overflow: hidden;
       background: #42a5f5;
-      padding: 40px 0 0 0;
+      padding: 40px 0;
+      flex: 1;
     }
     .viewport { width: 100%; overflow: hidden; }
     .slides {
@@ -121,85 +137,6 @@
       .slide-left h1 { font-size: 1.4rem; }
     }
 
-    /* SECTION ABOUT */
-    .biodata-section {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 40px;
-      padding: 60px 10% 80px;
-      background: #f8fbff;
-      margin-top: 0;
-    }
-
-    .biodata-left {
-      flex: 1;
-      font-size: 1rem;
-      line-height: 1.8;
-      color: #333;
-    }
-
-    .biodata-center {
-      flex: 1;
-      text-align: center;
-    }
-
-    .biodata-center img {
-      width: 100%;
-      max-width: 350px;
-      height: auto;
-      border-radius: 12px;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.15);
-      transition: transform 0.3s ease;
-    }
-
-    .biodata-center img:hover {
-      transform: scale(1.03);
-    }
-
-    .biodata-right {
-      flex: 1;
-      text-align: center;
-    }
-
-    .biodata-right h2 {
-      font-size: 1.6rem;
-      font-weight: 700;
-      margin-bottom: 16px;
-      color: #333;
-    }
-
-    .biodata-right a {
-      display: inline-block;
-      background: #42a5f5;
-      color: #fff;
-      font-weight: 700;
-      text-decoration: none;
-      padding: 12px 30px;
-      border-radius: 10px;
-      font-size: 1rem;
-      transition: all 0.3s;
-    }
-
-    .biodata-right a:hover {
-      background: #1e88e5;
-      transform: scale(1.05);
-    }
-
-    /* RESPONSIVE FIX */
-    @media (max-width: 768px) {
-      .biodata-section {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding: 50px 5%;
-      }
-      .biodata-left { order: 1; width: 100%; font-size: 0.95rem; }
-      .biodata-center { order: 2; width: 100%; }
-      .biodata-center img { max-width: 80%; margin: 20px 0; }
-      .biodata-right { order: 3; width: 100%; }
-    }
-
     /* FOOTER */
     .footer {
       background: #004080;
@@ -216,32 +153,57 @@
       gap: 30px;
     }
     .footer-column { flex: 1; min-width: 200px; }
-    .footer-column h3 { font-size: 1.2rem; margin-bottom: 15px; color: #ffdd57; }
+    .footer-column h3 {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      color: #ffdd57;
+    }
     .footer-column ul { list-style: none; padding: 0; }
     .footer-column ul li { margin-bottom: 10px; }
-    .footer-column ul li a { text-decoration: none; color: white; transition: color 0.3s; }
+    .footer-column ul li a {
+      text-decoration: none; color: white; transition: color 0.3s;
+    }
     .footer-column ul li a:hover { color: #ffdd57; }
     .footer-bottom {
-      text-align: center; margin-top: 30px; font-size: 0.9rem;
-      border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px;
+      text-align: center;
+      margin-top: 30px;
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      padding-top: 15px;
     }
   </style>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const hamburger = document.querySelector(".hamburger");
+      const navMenu = document.querySelector("nav ul");
+      hamburger.addEventListener("click", () => {
+        navMenu.classList.toggle("active");
+      });
+    });
+  </script>
 </head>
 
 <body>
+
+  <!-- HEADER -->
   <header>
     <div class="logo">
       <img src="TrishaLand.png" alt="Logo TrishaLand" class="logo-img">
-      <div>
+      <div class="logo-text">
         <div class="logo-main">Trishaland</div>
         <div class="logo-sub">Fansite Trisha JKT48</div>
       </div>
     </div>
 
+    <div class="mobile-logo">
+      <img src="TrishaLandMobile.png" alt="Logo TrishaLand Mobile">
+    </div>
+
     <nav>
       <ul>
         <li><a href="index.html">HOME</a></li>
-        <li><a href="about.html" class="active">ABOUT TRISHA</a></li>
+        <li><a href="about.html" style="color:#ffffff;">ABOUT TRISHA</a></li>
         <li><a href="corner.html">CORNER</a></li>
       </ul>
     </nav>
@@ -251,46 +213,47 @@
     </div>
   </header>
 
+  <!-- MAIN CONTENT -->
   <main>
-    <!-- HERO -->
-    <div class="hero-wrap">
-      <section class="hero-slider" id="slider">
-        <div class="viewport">
-          <div class="slides">
-            <article class="slide">
-              <div class="slide-left">
-                <div class="label">Video Call</div>
-                <h1>DIGITAL PHOTOBOOK “PERTARUHAN CINTA”<br> BONUS VIDEO CALL WITH JKT48</h1>
-                <p>Senin, 13 Oktober 2025 • 16.30 – 20.30 WIB<br>Rabu, 15 Oktober 2025 • 16.30 – 20.30 WIB</p>
-              </div>
-              <div class="slide-right">
-                <img src="heroabout1.png" alt="Trisha 1">
-              </div>
-            </article>
+  <div class="hero-wrap">
+    <section class="hero-slider" id="slider">
+      <div class="viewport">
+        <div class="slides">
+          <article class="slide">
+            <div class="slide-left">
+              <div class="label">Video Call</div>
+              <h1>DIGITAL PHOTOBOOK “PERTARUHAN CINTA”<br> BONUS VIDEO CALL WITH JKT48</h1>
+              <p>Senin, 13 Oktober 2025 • 16.30 – 20.30 WIB<br>Rabu, 15 Oktober 2025 • 16.30 – 20.30 WIB</p>
+            </div>
+            <div class="slide-right">
+              <img src="heroabout1.png" alt="Trisha 1">
+            </div>
+          </article>
 
-            <article class="slide">
-              <div class="slide-left">
-                <div class="label">Meet & Greet</div>
-                <h1>SISTER REUNION JKT48 & AKB48 PERSONAL MEET & GREET FESTIVAL</h1>
-                <p>Sabtu, 25 Oktober 2025 • 10.00 – 11.00 WIB<br>Sabtu, 25 Oktober 2025 • 11.00 – 12.00 WIB</p>
-              </div>
-              <div class="slide-right">
-                <img src="heroabout2.png" alt="Trisha 2">
-              </div>
-            </article>
+          <article class="slide">
+            <div class="slide-left">
+              <div class="label">Meet & Greet</div>
+              <h1>SISTER REUNION JKT48 & AKB48 PERSONAL MEET & GREET FESTIVAL</h1>
+              <p>Sabtu, 25 Oktober 2025 • 10.00 – 11.00 WIB<br>Sabtu, 25 Oktober 2025 • 11.00 – 12.00 WIB</p>
+            </div>
+            <div class="slide-right">
+              <img src="heroabout2.png" alt="Trisha 2">
+            </div>
+          </article>
 
-            <article class="slide">
-              <div class="slide-left">
-                <div class="label">2-Shot</div>
-                <h1>SISTER REUNION JKT48 & AKB48 PERSONAL MEET & GREET FESTIVAL</h1>
-                <p>Sabtu, 25 Oktober 2025 • 16.00 – 17.00 WIB</p>
-              </div>
-              <div class="slide-right">
-                <img src="heroabout3.png" alt="Trisha 3">
-              </div>
-            </article>
-          </div>
+          <article class="slide">
+            <div class="slide-left">
+              <div class="label">2-Shot</div>
+              <h1>SISTER REUNION JKT48 & AKB48 PERSONAL MEET & GREET FESTIVAL</h1>
+              <p>Sabtu, 25 Oktober 2025 • 16.00 – 17.00 WIB</p>
+            </div>
+            <div class="slide-right">
+              <img src="heroabout3.png" alt="Trisha 3">
+            </div>
+          </article>
         </div>
+      </div>
+
         <div class="dots">
           <button class="dot active"></button>
           <button class="dot"></button>
@@ -298,25 +261,9 @@
         </div>
       </section>
     </div>
-
-    <!-- SECTION ABOUT -->
-    <section class="biodata-section">
-      <div class="biodata-left">
-        <p>Hellooowww~ 🌼 Aku <b>Jazzlyn Agatha Trisha</b>, tapi panggil aja aku Trisha biar lebih akrab yaa! 💖✨ Aku lahir tanggal 16 Februari 2011 di Jakarta, masih 14 tahun tapi udah siap banget buat ngejar mimpi aku di JKT48 sebagai trainee generasi 12!! YEAYYY 🩵</p>
-        <p>Aku tuh orangnya ceria, rame, tapi juga lembut hati (ciee hehe). Aku suka banget melukis, baca buku sambil denger musik, dan pastinya dance 💃 soalnya di situ aku bisa banget nunjukin perasaan aku lewat gerakan!</p>
-      </div>
-
-      <div class="biodata-center">
-        <img src="sectionabout1.jpg" alt="Trisha dengan balon">
-      </div>
-
-      <div class="biodata-right">
-        <h2>Kakak mau balon dari aku?</h2>
-        <a href="#">MAUUU!!!</a>
-      </div>
-    </section>
   </main>
 
+  <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-column">
@@ -331,15 +278,31 @@
       <div class="footer-column">
         <h3>Sosial Media Trisha</h3>
         <ul>
-          <li><a href="https://www.instagram.com/jkt48.trisha/">Instagram</a></li>
-          <li><a href="https://x.com/JTrisha_JKT48">X / Twitter</a></li>
-          <li><a href="https://www.tiktok.com/@jkt48.trisha">TikTok</a></li>
-          <li><a href="https://www.showroom-live.com/r/JKT48_Trisha">Showroom</a></li>
-          <li><a href="https://www.idn.app/jkt48_trisha">IDN App</a></li>
+          <li><a href="https://www.instagram.com/jkt48.trisha/" target="_blank">Instagram</a></li>
+          <li><a href="https://www.threads.com/@jkt48.trisha?xmt=AQF0-sEtwtdm2hYKSQltbYMsN6rjfFrYxUrnCwj_ybbCsJc" target="_blank">Threads</a></li>
+          <li><a href="https://x.com/JTrisha_JKT48" target="_blank">X / Twitter</a></li>
+          <li><a href="https://www.tiktok.com/@jkt48.trisha" target="_blank">TikTok</a></li>
+          <li><a href="https://www.idn.app/jkt48_trisha" target="_blank">IDN App</a></li>
+          <li><a href="https://www.showroom-live.com/r/JKT48_Trisha" target="_blank">Showroom</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Hashtag</h3>
+        <ul>
+          <li>#TrishAfternoon</li>
+          <li>#TrishArt</li>
+          <li>#Trishartuday</li>
+          <li>#WannaSeeTrisha</li>
+          <li>#Trishaur</li>
+          <li>#Trishelca</li>
         </ul>
       </div>
     </div>
-    <div class="footer-bottom">© 2025 Trishaland. All rights reserved.</div>
+
+    <div class="footer-bottom">
+      © 2025 Trishaland. All rights reserved.
+    </div>
   </footer>
 
   <!-- SLIDER SCRIPT -->
@@ -351,6 +314,7 @@
     const total = dots.length;
     let index = 0;
     let autoId = null;
+    let isDragging = false;
     let startX = 0;
     let width = slider.clientWidth;
 
@@ -384,6 +348,61 @@
       d.addEventListener('click', ()=>{
         stopAuto(); goTo(i); startAuto();
       });
+    });
+
+    slider.addEventListener('mousedown', e=>{
+      isDragging = true; startX = e.clientX;
+      slides.style.transition = 'none'; stopAuto();
+    });
+
+    window.addEventListener('mousemove', e=>{
+      if(!isDragging) return;
+      const dx = e.clientX - startX; setPos(index, dx);
+    });
+
+    window.addEventListener('mouseup', e=>{
+      if(!isDragging) return;
+      isDragging = false; const dx = e.clientX - startX; const threshold = width * 0.2;
+      slides.style.transition = 'transform 400ms cubic-bezier(.25,1.25,.5,1)';
+      if(dx < -threshold) goTo(index + 1);
+      else if(dx > threshold) goTo(index - 1);
+      else {
+        slides.style.transition = 'transform 250ms cubic-bezier(.5,1.5,.5,1)';
+        setPos(index, dx / 3);
+        setTimeout(()=>{ slides.style.transition = 'transform 400ms ease-out'; setPos(index, 0); },150);
+      }
+      startAuto();
+    });
+
+    window.addEventListener('mouseleave', ()=>{
+      if(isDragging){
+        isDragging=false;
+        slides.style.transition = 'transform 300ms ease-out';
+        setPos(index);
+        startAuto();
+      }
+    });
+
+    slider.addEventListener('touchstart', e=>{
+      startX = e.touches[0].clientX; slides.style.transition = 'none'; stopAuto();
+    }, {passive:true});
+
+    slider.addEventListener('touchmove', e=>{
+      const dx = e.touches[0].clientX - startX; setPos(index, dx);
+    }, {passive:true});
+
+    slider.addEventListener('touchend', e=>{
+      const dx = e.changedTouches[0].clientX - startX;
+      const threshold = width * 0.2;
+      slides.style.transition = 'transform 400ms cubic-bezier(.25,1.25,.5,1)';
+      if(dx < -threshold) goTo(index + 1);
+      else if(dx > threshold) goTo(index - 1);
+      else {
+        slides.style.transition = 'transform 250ms cubic-bezier(.5,1.5,.5,1)';
+        setPos(index, dx / 3);
+        setTimeout(()=>{ slides.style.transition = 'transform 400ms ease-out'; setPos(index, 0); },150);
+      }
+      startAuto();
     });
 
     window.addEventListener('resize', ()=>{
