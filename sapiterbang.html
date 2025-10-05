@@ -369,7 +369,7 @@
     }
 
     function spawnPipe() {
-      const gap = Math.max(HEIGHT * 0.18, 80) * 2.1;
+      const gap = Math.max(HEIGHT * 0.18, 80) * 1.9;
       const top = Math.random() * (HEIGHT - gap - 60) + 30;
       pipes.push({ x: WIDTH + 10, y: top, gap });
       balloons.push({ x: WIDTH + 50, y: top + gap / 2, size: Math.max(20, Math.floor(24 * (WIDTH/600))), collected: false });
