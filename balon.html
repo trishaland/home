@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Trisha beli balon 🎈</title>
+
+  <!-- favicon + font (dari about12) -->
+  <link rel="icon" type="image/png" href="TrishaLand.webp">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================
+       Styles from about12 (HEADER)
+       ============================ */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      font-family: "Poppins", sans-serif;
+      color: #000;
+      background: #ffffff;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    main { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+    /* HEADER (exact copy from about12) */
+    header {
+      position: fixed; top: 0; left: 0;
+      width: 100%;
+      background: rgba(173, 216, 230, 0.8);
+      backdrop-filter: blur(8px);
+      padding: 15px 20px;
+      display: flex; justify-content: space-between; align-items: center;
+      z-index: 1000;
+      height: 60px;
+    }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo-img { width: 55px; height: auto; object-fit: contain; }
+    .logo-text { display: flex; flex-direction: column; line-height: 1.2; }
+    .logo-main { font-size: 22px; font-weight: 600; color: #004080; }
+    .logo-sub { font-size: 12px; color: #333; }
+    .mobile-logo {
+      display: none;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .mobile-logo img { width: 150px; height: auto; object-fit: contain; }
+    nav ul { list-style: none; display: flex; gap: 25px; }
+    nav ul li a {
+      text-decoration: none; color: #000; font-weight: 400; transition: 0.3s;
+    }
+    nav ul li a:hover { color: #004080; }
+    .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; transition: all 0.3s ease; }
+    .hamburger span { width: 25px; height: 3px; background: #000; border-radius: 5px; transition: all 0.3s ease; }
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translateY(8px);
+    }
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translateY(-8px);
+    }
+    @media (max-width: 768px) {
+      .logo { display: none; }
+      .mobile-logo { display: block; }
+      nav ul {
+        display: none;
+        position: absolute;
+        top: 60px; right: 20px;
+        background: #add8e6;
+        flex-direction: column; gap: 15px;
+        padding: 20px; border-radius: 10px;
+      }
+      nav ul.active { display: flex; }
+      .hamburger { display: flex; }
+    }
+
+    /* footer styles (copied from about12 in case you want the same feel) */
+    .footer {
+      background: #004080;
+      color: white;
+      padding: 50px 20px 20px;
+      margin-top: auto;
+    }
+    .footer-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 30px;
+    }
+    .footer-column { flex: 1; min-width: 200px; }
+    .footer-column h3 {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      color: #ffdd57;
+    }
+    .footer-column ul { list-style: none; padding: 0; }
+    .footer-column ul li { margin-bottom: 10px; }
+    .footer-column ul li a {
+      text-decoration: none; color: white; transition: color 0.3s;
+    }
+    .footer-column ul li a:hover { color: #ffdd57; }
+    .footer-bottom {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      padding-top: 15px;
+    }
+
+    /* ============================
+       Balon29 specific styles (scoped)
+       ============================ */
+    /* Put game layout in container to avoid interfering with header/footer */
+    .game-page {
+      margin-top: 90px; /* ensure below fixed header */
+      display: flex;
+      justify-content: center;
+      align-items: center; 
+      padding: 20px;
+    }
+    .game-box {
+      width: 620px;
+      max-width: 95%; /* biar responsif di layar kecil */
+      margin: 0 auto; /* pastikan tetap di tengah */
+      padding: 10px;
+      border: 3px solid #ff9933;
+      border-radius: 12px;
+      background: #fff8f0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    canvas {
+      border: 2px solid #ccc;
+      background: #fff;
+      display: block;
+      margin: 10px auto;
+    }
+    #btn-sell, #open-shop {
+      margin: 10px;
+      width: 180px;
+      height: 60px;
+      font-size: 20px;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      background: #ff9933;
+      color: white;
+      cursor: pointer;
+    }
+    .info {
+      margin: 10px;
+      font-size: 18px;
+    }
+    .upgrades {
+      margin-top: 10px;
+    }
+    .upgrade {
+      margin: 8px 0;
+    }
+    .upgrade button {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 6px;
+      background: #66bb6a;
+      color: #fff;
+      cursor: pointer;
+    }
+    .upgrade button:disabled {
+      background: #aaa;
+      cursor: not-allowed;
+    }
+    /* SHOP POPUP */
+    .popup {
+      display: none;
+      position: fixed;
+      z-index: 100;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+    }
+    .popup-content {
+      background: white;
+      margin: 5% auto;
+      padding: 15px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 800px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .close {
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #character-shop {
+      display: flex;
+      gap: 40px;
+      justify-content: center;
+      align-items: flex-start;
+      margin-top: 10px;
+    }
+    .char-card {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+      width: 120px;
+      background: #f9f9f9;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+    .char-card img {
+      width: 80px;
+      height: 80px;
+      border-radius: 6px;
+      margin-bottom: 6px;
+      object-fit: cover;
+    }
+    .char-card button {
+      margin-top: 6px;
+      font-size: 13px;
+      padding: 5px 8px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 700px){
+      .game-box { width: 92%; }
+    }
+  </style>
+
+  <!-- Hamburger script from about12 (for header) -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const hamburger = document.querySelector(".hamburger");
+      const navMenu = document.querySelector("nav ul");
+      if (hamburger && navMenu) {
+        hamburger.addEventListener("click", () => {
+          navMenu.classList.toggle("active");
+          hamburger.classList.toggle("active");
+        });
+      }
+    });
+  </script>
+</head>
+
+<body>
+  <!-- HEADER (exact from about12) -->
+  <header>
+    <div class="logo">
+      <img src="TrishaLand.webp" alt="Logo TrishaLand" class="logo-img">
+      <div class="logo-text">
+        <div class="logo-main">Trishaland</div>
+        <div class="logo-sub">Fansite Trisha JKT48</div>
+      </div>
+    </div>
+
+    <div class="mobile-logo">
+      <img src="TrishaLandMobile.webp" alt="Logo TrishaLand Mobile">
+    </div>
+
+    <nav>
+      <ul>
+        <li><a href="index.html">HOME</a></li>
+        <li><a href="about.html">ABOUT TRISHA</a></li>
+        <li><a href="corner.html">CORNER</a></li>
+      </ul>
+    </nav>
+
+    <div class="hamburger" aria-label="Toggle menu" role="button" tabindex="0">
+      <span></span><span></span><span></span>
+    </div>
+  </header>
+
+  <!-- MAIN (game content from balon29) -->
+  <main class="game-page">
+    <div class="game-box">
+      <h2>Trisha beli balon 🎈</h2>
+
+      <canvas id="gameCanvas" width="600" height="300"></canvas>
+
+      <!-- Panel Info -->
+      <div class="info">
+        💰 Total Uang: <span id="total-money">0</span> |
+        🎈 Harga Balon: <span id="balloon-price">2</span> |
+        ⏱️ Penjualan/menit: <span id="sales-per-minute">0</span>
+      </div>
+
+      <button id="btn-sell">Jual Balon</button>
+      <button id="open-shop">🛒 Shop</button>
+
+      <div class="upgrades">
+        <div class="upgrade">
+          🌟 Balon Premium (harga jual +5, max 10x)
+          <button id="buy-speaker">Beli Rp 100</button>
+          <span id="premium-count">0/10</span>
+        </div>
+        <div class="upgrade">
+          💎 Balon Limited Edition (harga jual +12, max 10x)
+          <button id="buy-resep">Beli Rp 250</button>
+          <span id="limited-count">0/10</span>
+        </div>
+        <div class="upgrade">
+          📢 Pasang Iklan (+1 pelanggan otomatis/detik, max 5x)
+          <button id="buy-tenda">Beli Rp 8000</button>
+          <span id="ads-count">0/5</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- SHOP POPUP (from balon29) -->
+  <div id="shop-popup" class="popup" aria-hidden="true">
+    <div class="popup-content">
+      <span id="close-shop" class="close" role="button" aria-label="Tutup">&times;</span>
+      <h2>Toko</h2>
+      <div id="character-shop">
+        <div>
+          <h3>Penjual Balon</h3>
+          <div class="char-card">
+            <img src="pedagang1.png" alt="pedagang1">
+            <div>Gerobak</div>
+            <button onclick="useSeller(0)">Pakai</button>
+          </div>
+          <div class="char-card">
+            <img src="pedagang2.png" alt="pedagang2">
+            <div>Gerobak Atap</div>
+            <button id="btn-seller2" onclick="buySeller(1,2000)">Beli Rp 2500</button>
+          </div>
+          <div class="char-card">
+            <img src="pedagang3.png" alt="pedagang3">
+            <div>Mobil</div>
+            <button id="btn-seller3" onclick="buySeller(2,5000)">Beli Rp 5000</button>
+          </div>
+          <div class="char-card">
+            <img src="pedagang4.png" alt="pedagang4">
+            <div>UFO</div>
+            <button id="btn-seller4" onclick="buySeller(3,8000)">Beli Rp 8000</button>
+          </div>
+        </div>
+        <div>
+          <h3>Trisha</h3>
+          <div id="buyer-shop"></div>
+        </div>
+        <div>
+          <h3>Tempat Jualan</h3>
+          <div id="bg-shop"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER (kept optional — same style as about12) -->
+  <footer class="footer" aria-label="Footer">
+    <div class="footer-container">
+      <div class="footer-column">
+        <h3>Halaman</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Trisha</a></li>
+          <li><a href="corner.html">Corner</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Sosial Media Trisha</h3>
+        <ul>
+          <li><a href="https://www.instagram.com/jkt48.trisha/" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://www.threads.com/@jkt48.trisha?xmt=AQF0-sEtwtdm2hYKSQltbYMsN6rjfFrYxUrnCwj_ybbCsJc" target="_blank" rel="noopener">Threads</a></li>
+          <li><a href="https://x.com/JTrisha_JKT48" target="_blank" rel="noopener">X / Twitter</a></li>
+          <li><a href="https://www.tiktok.com/@jkt48.trisha" target="_blank" rel="noopener">TikTok</a></li>
+          <li><a href="https://www.idn.app/jkt48_trisha" target="_blank" rel="noopener">IDN App</a></li>
+          <li><a href="https://www.showroom-live.com/r/JKT48_Trisha" target="_blank" rel="noopener">Showroom</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Hashtag</h3>
+        <ul>
+          <li>#TrishAfternoon</li>
+          <li>#TrishArt</li>
+          <li>#Trishartuday</li>
+          <li>#WannaSeeTrisha</li>
+          <li>#Trishaur</li>
+          <li>#Trishelca</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      © 2025 Trishaland. All rights reserved.
+    </div>
+  </footer>
+
+  <!-- ============================
+       Game script from balon29 (kept intact)
+       ============================ -->
+  <script>
+    // --- Game JS (from balon29) ---
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    let money = 0;
+    let price = 2;
+    let autoCustomers = 0;
+
+    // LIMIT & HARGA NAIK (upgrade)
+    let premiumCount = 0, limitedCount = 0, adsCount = 0;
+    let premiumPrice = 100, limitedPrice = 250, adsPrice = 8000;
+
+    let salesHistory = [];
+
+    const bgList = [
+      { file: "bgbalon.png",  price: 0,     name: "Gelora Bung Karno", sound: "bsbalon.mp3" },
+      { file: "bgbalon2.png", price: 7500,  name: "FX Sudirman",       sound: "bsbalon2.mp3" },
+      { file: "bgbalon3.png", price: 10000, name: "Jam Gadang",        sound: "bsbalon3.mp3" },
+      { file: "bgbalon4.png", price: 15000, name: "ISEKAI",            sound: "bsbalon4.mp3" },
+      { file: "bgbalon5.png", price: 20000, name: "Galaksi",           sound: "bsbalon5.mp3" }
+    ];
+    let currentBg = 0;
+    let ownedBg = [0];
+    const bgImg = new Image();
+    bgImg.src = bgList[currentBg].file;
+
+    let bgMusic = new Audio(bgList[currentBg].sound);
+    bgMusic.loop = true;
+    bgMusic.volume = 0.5;
+
+    // ✅ Mulai musik setelah klik pertama
+    document.body.addEventListener("click", function startMusic() {
+      if (bgMusic.paused) {
+        bgMusic.play();
+      }
+      document.body.removeEventListener("click", startMusic);
+    });
+
+    function changeBackground(index) {
+      currentBg = index;
+      bgImg.src = bgList[currentBg].file;
+
+      if (bgMusic) {
+        bgMusic.pause();
+        bgMusic.currentTime = 0;
+      }
+
+      bgMusic = new Audio(bgList[currentBg].sound);
+      bgMusic.loop = true;
+      bgMusic.volume = 0.5;
+      bgMusic.play();
+    }
+
+    // seller/buyer images
+    const sellerImgs = ["pedagang1.png","pedagang2.png","pedagang3.png","pedagang4.png"];
+    let currentSeller = 0;
+    const penjualImg = new Image();
+    penjualImg.src = sellerImgs[currentSeller];
+
+    const buyerImgs = [
+      "jalan1.png","jalan2.png","jalan3.png",
+      "jalan4.png","jalan5.png","jalan6.png"
+    ];
+    let buyersUnlocked = [0];
+
+    const buyerWithBalloonImgs = [
+      "beli1.png","beli2.png","beli3.png",
+      "beli4.png","beli5.png","beli6.png"
+    ];
+    const buyerWaitingImgs = [
+      "b1.png","b2.png","b3.png","b4.png","b5.png","b6.png"
+    ];
+
+    const pedagang = {
+      x: 90, y: 309,
+      frame: 0, frameCount: 4,
+      frameWidth: 128, frameHeight: 128,
+      tick: 0
+    };
+
+    const pelangganList = [];
+
+    const balloonPriceEl = document.getElementById("balloon-price");
+    const salesPMEl = document.getElementById("sales-per-minute");
+    const totalMoneyEl = document.getElementById("total-money");
+
+    document.getElementById("btn-sell").addEventListener("click", () => sellBalon());
+
+    function updateUpgradeUI() {
+      const btnPremium = document.getElementById("buy-speaker");
+      const btnLimited = document.getElementById("buy-resep");
+      const btnAds = document.getElementById("buy-tenda");
+
+      document.getElementById("premium-count").textContent = `${premiumCount}/10`;
+      if (!btnPremium.disabled) btnPremium.textContent = `Beli Rp ${premiumPrice}`;
+
+      document.getElementById("limited-count").textContent = `${limitedCount}/10`;
+      if (!btnLimited.disabled) btnLimited.textContent = `Beli Rp ${limitedPrice}`;
+
+      document.getElementById("ads-count").textContent = `${adsCount}/5`;
+      if (!btnAds.disabled) btnAds.textContent = `Beli Rp ${adsPrice}`;
+    }
+
+    document.getElementById("buy-speaker").addEventListener("click", () => {
+      const btn = document.getElementById("buy-speaker");
+      if (premiumCount < 10) {
+        if (money >= premiumPrice) {
+          money -= premiumPrice;
+          price += 5;
+          premiumCount++;
+          premiumPrice += 100;
+          document.getElementById("premium-count").textContent = `${premiumCount}/10`;
+          if (premiumCount >= 10) {
+            btn.disabled = true;
+            btn.textContent = "MAX";
+          } else {
+            btn.textContent = `Beli Rp ${premiumPrice}`;
+          }
+          updateUI();
+        } else {
+          alert("Uangmu tidak cukup untuk membeli Balon Premium!");
+        }
+      }
+    });
+
+    document.getElementById("buy-resep").addEventListener("click", () => {
+      const btn = document.getElementById("buy-resep");
+      if (limitedCount < 10) {
+        if (money >= limitedPrice) {
+          money -= limitedPrice;
+          price += 12;
+          limitedCount++;
+          limitedPrice += 250;
+          document.getElementById("limited-count").textContent = `${limitedCount}/10`;
+          if (limitedCount >= 10) {
+            btn.disabled = true;
+            btn.textContent = "MAX";
+          } else {
+            btn.textContent = `Beli Rp ${limitedPrice}`;
+          }
+          updateUI();
+        } else {
+          alert("Uangmu tidak cukup untuk membeli Balon Limited Edition!");
+        }
+      }
+    });
+
+    document.getElementById("buy-tenda").addEventListener("click", () => {
+      const btn = document.getElementById("buy-tenda");
+      if (adsCount < 5) {
+        if (money >= adsPrice) {
+          money -= adsPrice;
+          autoCustomers += 1;
+          adsCount++;
+          adsPrice += 4000;
+          document.getElementById("ads-count").textContent = `${adsCount}/5`;
+          if (adsCount >= 5) {
+            btn.disabled = true;
+            btn.textContent = "MAX";
+          } else {
+            btn.textContent = `Beli Rp ${adsPrice}`;
+          }
+          updateUI();
+        } else {
+          alert("Uangmu tidak cukup untuk Pasang Iklan!");
+        }
+      }
+    });
+
+    // SHOP POPUP
+    const shopPopup = document.getElementById("shop-popup");
+    document.getElementById("open-shop").addEventListener("click", ()=> { shopPopup.style.display="block"; shopPopup.setAttribute('aria-hidden','false'); });
+    document.getElementById("close-shop").addEventListener("click", ()=> { shopPopup.style.display="none"; shopPopup.setAttribute('aria-hidden','true'); });
+    window.addEventListener("click", (e)=>{ if(e.target===shopPopup) { shopPopup.style.display="none"; shopPopup.setAttribute('aria-hidden','true'); } });
+
+    function buySeller(index, cost){
+      cost = Math.floor(cost);
+      if(money>=cost && currentSeller!==index){
+        money -= cost;
+        currentSeller = index;
+        penjualImg.src = sellerImgs[currentSeller];
+        document.getElementById(`btn-seller${index+1}`).textContent="Pakai";
+        document.getElementById(`btn-seller${index+1}`).setAttribute("onclick",`useSeller(${index})`);
+        updateUI();
+        alert("Berhasil beli pedagang!");
+      } else if (currentSeller === index) {
+        alert("Kamu sudah menggunakan pedagang ini.");
+      } else {
+        alert("Uangmu tidak cukup untuk membeli pedagang ini!");
+      }
+    }
+    function useSeller(index){
+      currentSeller = index;
+      penjualImg.src = sellerImgs[currentSeller];
+      alert("Sekarang pakai pedagang " + (index+1));
+    }
+
+    // BUYER SHOP
+    const buyerShopDiv = document.getElementById("buyer-shop");
+    const buyerPrices = [];
+    const baseBuyerCost = 1000;
+
+    const buyerNames = [
+      "Shonichi",
+      "Seifuku Biru",
+      "Meet and Greet",
+      "Kumbang Putih",
+      "J-Trust",
+      "Tenshi no Shippo"
+    ];
+
+    buyerImgs.forEach((img, i)=>{
+      let priceForThis;
+      if (i === 0) priceForThis = 0;
+      else priceForThis = Math.floor(baseBuyerCost * Math.pow(2, i-1));
+
+      buyerPrices[i] = priceForThis;
+
+      const div = document.createElement("div");
+      div.className="char-card";
+
+      const buttonText = (i===0) ? "Pakai" : `Beli Rp ${priceForThis}`;
+      const btnId = `btn-buyer${i}`;
+      div.innerHTML = `
+        <img src="${img}" alt="pembeli${i}">
+        <div>${buyerNames[i]}</div>
+        <button id="${btnId}">${buttonText}</button>
+      `;
+      buyerShopDiv.appendChild(div);
+
+      document.getElementById(btnId).addEventListener("click",()=>{ 
+        if(i === 0){
+          useBuyer(0);
+          return;
+        }
+
+        if(!buyersUnlocked.includes(i)){
+          const harga = priceForThis;
+          if(money >= harga){
+            money -= harga;
+            buyersUnlocked.push(i);
+            const btn = document.getElementById(btnId);
+            btn.textContent = "Aktif";
+            btn.disabled = true;
+            updateUI();
+            alert(`Berhasil beli ${buyerNames[i]}!`);
+          } else {
+            alert("Uangmu tidak cukup untuk membeli pembeli ini!");
+          }
+        } else {
+          useBuyer(i);
+        }
+      });
+    });
+
+    function useBuyer(index){
+      if(buyersUnlocked.includes(index) || index === 0){
+        alert("Sekarang pakai pembeli " + (index+1));
+      } else {
+        alert("Kamu belum punya pembeli ini!");
+      }
+    }
+
+    // BG SHOP
+    const bgShopDiv = document.getElementById("bg-shop");
+    bgList.forEach((bg, i)=>{
+      const div = document.createElement("div");
+      div.className="char-card";
+      div.innerHTML = `
+        <img src="${bg.file}" style="width:80px; height:60px; object-fit:cover;" alt="bg${i}">
+        <div>${bg.name}</div>
+        <button id="btn-bg${i}">${i===0?"Pakai":"Beli Rp "+bg.price}</button>
+      `;
+      bgShopDiv.appendChild(div);
+
+      document.getElementById(`btn-bg${i}`).addEventListener("click", ()=>{ 
+        if(ownedBg.includes(i)){
+          changeBackground(i);
+          alert("Sekarang pakai background " + (i+1));
+        } else {
+          if(money>=bg.price){
+            money -= bg.price;
+            ownedBg.push(i);
+            changeBackground(i);
+            document.getElementById(`btn-bg${i}`).textContent="Pakai";
+            updateUI();
+            alert("Berhasil beli background!");
+          } else {
+            alert("Uangmu tidak cukup untuk membeli background ini!");
+          }
+        }
+        updateUI();
+      });
+    });
+
+    // SALE LOGIC
+    function sellBalon() {
+      money += price;
+      salesHistory.push(Date.now());
+      const randBuyer = buyersUnlocked[Math.floor(Math.random()*buyersUnlocked.length)];
+      const lanes = [305,295,285];
+      const laneY = lanes[Math.floor(Math.random()*lanes.length)];
+      pelangganList.push({
+        x: 550,
+        y: laneY,
+        img: buyerImgs[randBuyer],
+        buyerIndex: randBuyer,
+        hasBalloon: false,
+        waitTime: 0
+      });
+      updateUI();
+    }
+
+    function updateUI(){
+      balloonPriceEl.textContent = Math.floor(price);
+      totalMoneyEl.textContent = Math.floor(money);
+    }
+
+    function updateSalesPerMinute(){
+      const now = Date.now();
+      salesHistory = salesHistory.filter(t => now - t < 60000);
+      salesPMEl.textContent = Math.floor(salesHistory.length);
+    }
+
+    setInterval(()=>{ 
+      if(autoCustomers>0){ 
+        for(let i=0;i<autoCustomers;i++){ 
+          setTimeout(()=>{ sellBalon(); }, i * 300 + Math.random()*200); 
+        }
+      }
+    },1000);
+
+    function draw(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      if(bgImg.complete && bgImg.naturalWidth>0){
+        ctx.drawImage(bgImg,0,0,canvas.width,canvas.height);
+      } else {
+        ctx.fillStyle="#aee"; ctx.fillRect(0,0,canvas.width,canvas.height);
+      }
+      if(penjualImg.complete && penjualImg.naturalWidth>0){
+        const fw=pedagang.frameWidth, fh=pedagang.frameHeight;
+        ctx.drawImage(penjualImg,pedagang.frame*fw,0,fw,fh,pedagang.x,pedagang.y-fh,fw,fh);
+      }
+      pedagang.tick++;
+      if(pedagang.tick>10){ pedagang.frame=(pedagang.frame+1)%pedagang.frameCount; pedagang.tick=0; }
+      for(let i=pelangganList.length-1;i>=0;i--){
+        const p=pelangganList[i];
+        const img=new Image();
+        if(p.hasBalloon && p.waitTime<=0){ img.src=buyerWithBalloonImgs[p.buyerIndex]; }
+        else if(p.hasBalloon && p.waitTime>0){ img.src=buyerWaitingImgs[p.buyerIndex]; }
+        else { img.src=p.img; }
+        if(img.complete && img.naturalWidth>0){
+          ctx.drawImage(img,p.x,p.y-64,64,64);
+        } else {
+          ctx.fillStyle="green"; ctx.fillRect(p.x,p.y-64,64,64);
+        }
+        if(p.x > pedagang.x+40 && !p.hasBalloon){
+          p.x -= 2;
+        } else {
+          if(!p.hasBalloon){
+            p.hasBalloon=true;
+            p.waitTime=Math.floor(Math.random()*(120-60+1))+60;
+          }
+          if(p.waitTime>0){
+            p.waitTime--;
+          } else if(p.hasBalloon){
+            p.x -= 2;
+            if(p.x<-70) pelangganList.splice(i,1);
+          }
+        }
+      }
+      updateSalesPerMinute();
+    }
+
+    function gameLoop(){ draw(); requestAnimationFrame(gameLoop); }
+    gameLoop();
+
+    // inisialisasi UI awal
+    updateUI();
+    updateUpgradeUI();
+  </script>
+</body>
+</html>
