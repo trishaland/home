@@ -60,8 +60,19 @@
       text-decoration: none; color: #000; font-weight: 400; transition: 0.3s;
     }
     nav ul li a:hover { color: #004080; }
-    .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; }
-    .hamburger span { width: 25px; height: 3px; background: #000; border-radius: 5px; }
+    .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; transition: all 0.3s ease; }
+    .hamburger span { width: 25px; height: 3px; background: #000; border-radius: 5px; transition: all 0.3s ease; }
+
+    /* 🔥 ANIMASI HAMBURGER JADI X */
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translateY(8px);
+    }
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translateY(-8px);
+    }
 
     @media (max-width: 768px) {
       .logo { display: none; }
@@ -92,7 +103,6 @@
       display: flex;
       transition: transform 600ms cubic-bezier(.22,.9,.32,1);
       will-change: transform;
-      /* ensure no extra gap from default */
     }
     .slide {
       min-width: 100%;
@@ -270,13 +280,14 @@
   </style>
 
   <script>
-    // hamburger menu (unchanged)
+    // hamburger menu (DIPERBAIKI UNTUK ANIMASI)
     document.addEventListener("DOMContentLoaded", function () {
       const hamburger = document.querySelector(".hamburger");
       const navMenu = document.querySelector("nav ul");
       if (hamburger && navMenu) {
         hamburger.addEventListener("click", () => {
           navMenu.classList.toggle("active");
+          hamburger.classList.toggle("active"); // 🔥 animasi jadi "X"
         });
       }
     });
