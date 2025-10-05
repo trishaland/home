@@ -60,18 +60,37 @@
       text-decoration: none; color: #000; font-weight: 400; transition: 0.3s;
     }
     nav ul li a:hover { color: #004080; }
-    .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; transition: all 0.3s ease; }
-    .hamburger span { width: 25px; height: 3px; background: #000; border-radius: 5px; transition: all 0.3s ease; }
 
-    /* 🔥 ANIMASI HAMBURGER JADI X */
+    /* HAMBURGER (dengan animasi X) */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      gap: 6px;
+      width: 30px;
+      height: 25px;
+      transition: transform 0.3s ease;
+    }
+
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background: #000;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+      transform-origin: center;
+    }
+
     .hamburger.active span:nth-child(1) {
-      transform: rotate(45deg) translateY(8px);
+      transform: rotate(45deg) translate(5px, 5px);
     }
     .hamburger.active span:nth-child(2) {
       opacity: 0;
     }
     .hamburger.active span:nth-child(3) {
-      transform: rotate(-45deg) translateY(-8px);
+      transform: rotate(-45deg) translate(5px, -5px);
     }
 
     @media (max-width: 768px) {
@@ -174,9 +193,7 @@
       color: #333;
     }
 
-    .about-text b {
-      color: #004080;
-    }
+    .about-text b { color: #004080; }
 
     .about-image {
       flex: 1;
@@ -214,33 +231,14 @@
       transition: background 0.3s;
     }
 
-    .cta-button:hover {
-      background: #0d6efd;
-    }
+    .cta-button:hover { background: #0d6efd; }
 
-    /* RESPONSIVE ABOUT */
     @media (max-width: 768px) {
-      .about-container {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      .about-text {
-        order: 2;
-        font-size: 0.95rem;
-      }
-
-      .about-image {
-        order: 1;
-      }
-
-      .about-image img {
-        max-width: 80%;
-      }
-
-      .about-cta h2 {
-        font-size: 1rem;
-      }
+      .about-container { flex-direction: column; text-align: center; }
+      .about-text { order: 2; font-size: 0.95rem; }
+      .about-image { order: 1; }
+      .about-image img { max-width: 80%; }
+      .about-cta h2 { font-size: 1rem; }
     }
 
     /* FOOTER */
@@ -280,14 +278,13 @@
   </style>
 
   <script>
-    // hamburger menu (DIPERBAIKI UNTUK ANIMASI)
     document.addEventListener("DOMContentLoaded", function () {
       const hamburger = document.querySelector(".hamburger");
       const navMenu = document.querySelector("nav ul");
       if (hamburger && navMenu) {
         hamburger.addEventListener("click", () => {
           navMenu.classList.toggle("active");
-          hamburger.classList.toggle("active"); // 🔥 animasi jadi "X"
+          hamburger.classList.toggle("active"); // buat animasi X
         });
       }
     });
@@ -295,8 +292,6 @@
 </head>
 
 <body>
-
-  <!-- HEADER -->
   <header>
     <div class="logo">
       <img src="TrishaLand.png" alt="Logo TrishaLand" class="logo-img">
@@ -323,7 +318,6 @@
     </div>
   </header>
 
-  <!-- MAIN CONTENT -->
   <main>
     <div class="hero-wrap">
       <section class="hero-slider" id="slider">
@@ -372,7 +366,6 @@
       </section>
     </div>
 
-    <!-- ABOUT SECTION (ditambahkan seperti request) -->
     <section class="about-trisha" aria-label="About Trisha">
       <div class="about-container">
         <div class="about-text">
@@ -394,10 +387,8 @@
         </div>
       </div>
     </section>
-
   </main>
 
-  <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-column">
@@ -439,7 +430,6 @@
     </div>
   </footer>
 
-  <!-- SLIDER SCRIPT (fungsi slide/drag/touch/autoplay diperbaiki & dipertahankan) -->
   <script>
   (function(){
     const slider = document.getElementById('slider');
@@ -453,122 +443,57 @@
     let startX = 0;
     let width = slider.clientWidth;
 
-    function setPos(i, offset=0){
-      slides.style.transform = `translateX(${ -i * width + offset }px)`;
-    }
-
-    function updateDots(){
-      dots.forEach((d, i)=>d.classList.toggle('active', i===index));
+    function setPos(i, offset = 0){
+      slides.style.transform = `translateX(${-i * width + offset}px)`;
+      dots.forEach((d,j)=>d.classList.toggle('active',j===i));
     }
 
     function goTo(i){
       index = (i + total) % total;
-      slides.style.transition = 'transform 600ms cubic-bezier(.22,.9,.32,1)';
       setPos(index);
-      updateDots();
     }
-
-    function next(){ goTo(index + 1); }
 
     function startAuto(){
       stopAuto();
-      autoId = setInterval(next, 6000);
+      autoId = setInterval(()=>{ index++; goTo(index); }, 4000);
     }
 
-    function stopAuto(){
-      if(autoId) {
-        clearInterval(autoId);
-        autoId = null;
-      }
-    }
+    function stopAuto(){ clearInterval(autoId); }
 
-    // dots click
-    dots.forEach((d, i)=>{
-      d.addEventListener('click', ()=>{
-        stopAuto(); goTo(i); startAuto();
+    dots.forEach((dot,i)=>{
+      dot.addEventListener('click', ()=>{
+        index=i;
+        goTo(i);
+        startAuto();
       });
     });
 
-    // mouse drag
-    slider.addEventListener('mousedown', e=>{
+    slides.addEventListener('mousedown', e=>{
       isDragging = true;
-      startX = e.clientX;
+      startX = e.pageX;
+      width = slider.clientWidth;
       slides.style.transition = 'none';
       stopAuto();
-      // update width in case of layout shift
-      width = slider.clientWidth;
-    });
-
-    window.addEventListener('mousemove', e=>{
-      if(!isDragging) return;
-      const dx = e.clientX - startX;
-      setPos(index, dx);
     });
 
     window.addEventListener('mouseup', e=>{
       if(!isDragging) return;
       isDragging = false;
-      const dx = e.clientX - startX;
-      const threshold = width * 0.2;
-      slides.style.transition = 'transform 400ms cubic-bezier(.25,1.25,.5,1)';
-      if(dx < -threshold) goTo(index + 1);
-      else if(dx > threshold) goTo(index - 1);
-      else {
-        // small snap-back visual
-        slides.style.transition = 'transform 250ms cubic-bezier(.5,1.5,.5,1)';
-        setPos(index, dx / 3);
-        setTimeout(()=>{ slides.style.transition = 'transform 400ms ease-out'; setPos(index, 0); },150);
+      const diff = e.pageX - startX;
+      if(Math.abs(diff) > width/4){
+        if(diff < 0) index++; else index--;
       }
+      slides.style.transition = 'transform 600ms cubic-bezier(.22,.9,.32,1)';
+      goTo(index);
       startAuto();
     });
 
-    // handle mouse leaving window while dragging
-    window.addEventListener('mouseleave', ()=>{
-      if(isDragging){
-        isDragging=false;
-        slides.style.transition = 'transform 300ms ease-out';
-        setPos(index);
-        startAuto();
-      }
+    window.addEventListener('mousemove', e=>{
+      if(!isDragging) return;
+      const diff = e.pageX - startX;
+      setPos(index, diff);
     });
 
-    // touch events for mobile
-    slider.addEventListener('touchstart', e=>{
-      startX = e.touches[0].clientX;
-      slides.style.transition = 'none';
-      stopAuto();
-      width = slider.clientWidth;
-    }, {passive:true});
-
-    slider.addEventListener('touchmove', e=>{
-      const dx = e.touches[0].clientX - startX;
-      setPos(index, dx);
-    }, {passive:true});
-
-    slider.addEventListener('touchend', e=>{
-      const dx = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientX - startX : 0;
-      const threshold = width * 0.2;
-      slides.style.transition = 'transform 400ms cubic-bezier(.25,1.25,.5,1)';
-      if(dx < -threshold) goTo(index + 1);
-      else if(dx > threshold) goTo(index - 1);
-      else {
-        slides.style.transition = 'transform 250ms cubic-bezier(.5,1.5,.5,1)';
-        setPos(index, dx / 3);
-        setTimeout(()=>{ slides.style.transition = 'transform 400ms ease-out'; setPos(index, 0); },150);
-      }
-      startAuto();
-    });
-
-    // update width on resize
-    window.addEventListener('resize', ()=>{
-      width = slider.clientWidth;
-      slides.style.transition = 'none';
-      setPos(index);
-    });
-
-    // init
-    setPos(0);
-    updateDots();
     startAuto();
   })();
   </script>
