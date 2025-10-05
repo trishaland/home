@@ -137,6 +137,99 @@
       .slide-left h1 { font-size: 1.4rem; }
     }
 
+    /* ABOUT SECTION */
+    .about-trisha {
+      background: #fff;
+      padding: 80px 8%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .about-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      max-width: 1200px;
+      flex-wrap: wrap;
+    }
+
+    .about-text {
+      flex: 1;
+      min-width: 300px;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #333;
+    }
+
+    .about-text b {
+      color: #004080;
+    }
+
+    .about-image {
+      flex: 1;
+      min-width: 280px;
+      text-align: center;
+      position: relative;
+    }
+
+    .about-image img {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .about-cta {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .about-cta h2 {
+      font-size: 1.2rem;
+      color: #000;
+      margin-bottom: 10px;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: #2196f3;
+      color: #fff;
+      font-weight: 600;
+      padding: 10px 28px;
+      border-radius: 30px;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    .cta-button:hover {
+      background: #0d6efd;
+    }
+
+    @media (max-width: 768px) {
+      .about-container {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .about-text {
+        order: 2;
+        font-size: 0.95rem;
+      }
+
+      .about-image {
+        order: 1;
+      }
+
+      .about-image img {
+        max-width: 80%;
+      }
+
+      .about-cta h2 {
+        font-size: 1rem;
+      }
+    }
+
     /* FOOTER */
     .footer {
       background: #004080;
@@ -261,6 +354,29 @@
         </div>
       </section>
     </div>
+
+    <!-- ABOUT SECTION -->
+    <section class="about-trisha">
+      <div class="about-container">
+        <div class="about-text">
+          <p>
+            Hellooowww~ 🌻 Aku <b>Jazlynn Agatha Trisha</b>, tapi panggil aja aku Trisha biar lebih akrab yaa! 💫💖
+            Aku lahir tanggal 16 Februari 2011 di Jakarta, masih 14 tahun tapi udah siap banget buat ngejar mimpi aku di JKT48 sebagai trainee generasi 12!! YEAYYY 🎉💪<br><br>
+            Aku tuh anaknya ceria, rame, tapi juga lembut hati (ciee hehe). Aku suka banget melukis, baca buku sambil denger musik, dan pastinya dance — soalnya dari situ aku bisa nunjukin perasaan aku ke semua orang 🩰🎨📚<br><br>
+            Oh iyaaa, aku juga punya sisi unik nih! Aku suka sama ular, serigala, dan kucing 🐍🐺🐱 — mereka tuh keren banget, kuat tapi elegan, kayak semangat yang pengen aku bawa di JKT48! 💫💗<br><br>
+            Aku percaya kalau setiap langkah kecil bisa nganter kita makin deket ke mimpi! 🔍✨ Jadi, doain aku terus yaa supaya bisa kasih yang terbaik dan bikin kalian bangga! Love u all, my dreamers~ 💖
+          </p>
+        </div>
+
+        <div class="about-image">
+          <img src="trisha-balon.jpg" alt="Trisha jual balon">
+          <div class="about-cta">
+            <h2>Kakak mau balon dari aku?</h2>
+            <a href="#" class="cta-button">MAUUU!!!</a>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <!-- FOOTER -->
@@ -346,72 +462,39 @@
 
     dots.forEach((d, i)=>{
       d.addEventListener('click', ()=>{
-        stopAuto(); goTo(i); startAuto();
+        stopAuto();
+        goTo(i);
+        startAuto();
       });
     });
 
-    slider.addEventListener('mousedown', e=>{
-      isDragging = true; startX = e.clientX;
-      slides.style.transition = 'none'; stopAuto();
-    });
-
-    window.addEventListener('mousemove', e=>{
-      if(!isDragging) return;
-      const dx = e.clientX - startX; setPos(index, dx);
+    slides.addEventListener('mousedown', e=>{
+      isDragging = true;
+      startX = e.pageX;
+      width = slider.clientWidth;
+      slides.style.transition = 'none';
+      stopAuto();
     });
 
     window.addEventListener('mouseup', e=>{
       if(!isDragging) return;
-      isDragging = false; const dx = e.clientX - startX; const threshold = width * 0.2;
-      slides.style.transition = 'transform 400ms cubic-bezier(.25,1.25,.5,1)';
-      if(dx < -threshold) goTo(index + 1);
-      else if(dx > threshold) goTo(index - 1);
-      else {
-        slides.style.transition = 'transform 250ms cubic-bezier(.5,1.5,.5,1)';
-        setPos(index, dx / 3);
-        setTimeout(()=>{ slides.style.transition = 'transform 400ms ease-out'; setPos(index, 0); },150);
+      isDragging = false;
+      const diff = e.pageX - startX;
+      if(Math.abs(diff) > width/4){
+        if(diff < 0) index++; else index--;
       }
+      slides.style.transition = 'transform 600ms cubic-bezier(.22,.9,.32,1)';
+      goTo(index);
       startAuto();
     });
 
-    window.addEventListener('mouseleave', ()=>{
-      if(isDragging){
-        isDragging=false;
-        slides.style.transition = 'transform 300ms ease-out';
-        setPos(index);
-        startAuto();
-      }
+    window.addEventListener('mousemove', e=>{
+      if(!isDragging) return;
+      const diff = e.pageX - startX;
+      setPos(index, diff);
     });
 
-    slider.addEventListener('touchstart', e=>{
-      startX = e.touches[0].clientX; slides.style.transition = 'none'; stopAuto();
-    }, {passive:true});
-
-    slider.addEventListener('touchmove', e=>{
-      const dx = e.touches[0].clientX - startX; setPos(index, dx);
-    }, {passive:true});
-
-    slider.addEventListener('touchend', e=>{
-      const dx = e.changedTouches[0].clientX - startX;
-      const threshold = width * 0.2;
-      slides.style.transition = 'transform 400ms cubic-bezier(.25,1.25,.5,1)';
-      if(dx < -threshold) goTo(index + 1);
-      else if(dx > threshold) goTo(index - 1);
-      else {
-        slides.style.transition = 'transform 250ms cubic-bezier(.5,1.5,.5,1)';
-        setPos(index, dx / 3);
-        setTimeout(()=>{ slides.style.transition = 'transform 400ms ease-out'; setPos(index, 0); },150);
-      }
-      startAuto();
-    });
-
-    window.addEventListener('resize', ()=>{
-      width = slider.clientWidth;
-      slides.style.transition = 'none';
-      setPos(index);
-    });
-
-    setPos(0); updateDots(); startAuto();
+    startAuto();
   })();
   </script>
 </body>
