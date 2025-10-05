@@ -81,9 +81,21 @@
     nav ul li a:hover { color: #004080; }
 
     /* Hamburger */
-    .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; }
+    .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; transition: all 0.3s ease; }
     .hamburger span {
       width: 25px; height: 3px; background: #000; border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    /* 🔥 Animasi hamburger jadi X */
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translateY(8px);
+    }
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translateY(-8px);
     }
 
     /* Mobile responsive */
@@ -209,7 +221,7 @@
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(0, 64, 128, 0.5); /* overlay biru transparan */
+      background: rgba(0, 64, 128, 0.5);
       z-index: -1;
     }
 
@@ -243,9 +255,7 @@
       transition: transform 0.3s ease;
     }
 
-    .time-box:hover {
-      transform: translateY(-5px);
-    }
+    .time-box:hover { transform: translateY(-5px); }
 
     .time-box span {
       display: block;
@@ -264,9 +274,7 @@
         min-width: 70px;
         padding: 18px 10px;
       }
-      .time-box span {
-        font-size: 1.8rem;
-      }
+      .time-box span { font-size: 1.8rem; }
     }
 
     /* FOOTER */
@@ -297,17 +305,13 @@
       list-style: none;
       padding: 0;
     }
-    .footer-column ul li {
-      margin-bottom: 10px;
-    }
+    .footer-column ul li { margin-bottom: 10px; }
     .footer-column ul li a {
       text-decoration: none;
       color: white;
       transition: color 0.3s;
     }
-    .footer-column ul li a:hover {
-      color: #ffdd57;
-    }
+    .footer-column ul li a:hover { color: #ffdd57; }
     .footer-bottom {
       text-align: center;
       margin-top: 30px;
@@ -316,7 +320,6 @@
       padding-top: 15px;
     }
 
-    /* Hero responsive */
     @media (max-width: 768px) {
       .hero { height: 50vh; }
       .hero-gradient { height: 80px; margin-top: -80px; }
@@ -327,8 +330,10 @@
     document.addEventListener("DOMContentLoaded", function () {
       const hamburger = document.querySelector(".hamburger");
       const navMenu = document.querySelector("nav ul");
+
       hamburger.addEventListener("click", () => {
         navMenu.classList.toggle("active");
+        hamburger.classList.toggle("active"); // 🔥 Tambah animasi
       });
 
       // Countdown
@@ -381,13 +386,13 @@
       <img src="TrishaLandMobile.png" alt="Logo TrishaLand Mobile">
     </div>
 
-<nav>
-  <ul>
-    <li><a href="index.html" style="color:#ffffff;">HOME</a></li>
-    <li><a href="about.html">ABOUT TRISHA</a></li>
-    <li><a href="corner.html">CORNER</a></li>
-  </ul>
-</nav>
+    <nav>
+      <ul>
+        <li><a href="index.html" style="color:#ffffff;">HOME</a></li>
+        <li><a href="about.html">ABOUT TRISHA</a></li>
+        <li><a href="corner.html">CORNER</a></li>
+      </ul>
+    </nav>
 
     <div class="hamburger">
       <span></span><span></span><span></span>
