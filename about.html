@@ -125,17 +125,15 @@
     /* BIODATA SECTION */
     .biodata-section {
       display: flex;
-      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
+      gap: 40px;
       padding: 80px 10%;
       background: #f8fbff;
-      gap: 40px;
     }
 
     .biodata-left {
       flex: 1;
-      min-width: 280px;
       font-size: 1rem;
       line-height: 1.8;
       color: #333;
@@ -143,7 +141,6 @@
 
     .biodata-center {
       flex: 1;
-      min-width: 280px;
       text-align: center;
     }
 
@@ -162,7 +159,6 @@
 
     .biodata-right {
       flex: 1;
-      min-width: 280px;
       text-align: center;
     }
 
@@ -190,17 +186,30 @@
       transform: scale(1.05);
     }
 
+    /* RESPONSIVE FIX */
     @media (max-width: 768px) {
       .biodata-section {
         flex-direction: column;
+        align-items: center;
         text-align: center;
-        padding: 60px 6%;
+        padding: 50px 5%;
       }
-      .biodata-left, .biodata-center, .biodata-right {
-        flex: 1 1 100%;
+      .biodata-left {
+        order: 1;
+        font-size: 0.95rem;
+        width: 100%;
+      }
+      .biodata-center {
+        order: 2;
+        width: 100%;
       }
       .biodata-center img {
         max-width: 80%;
+        margin: 20px 0;
+      }
+      .biodata-right {
+        order: 3;
+        width: 100%;
       }
     }
 
@@ -233,12 +242,10 @@
 </head>
 
 <body>
-
-  <!-- HEADER -->
   <header>
     <div class="logo">
       <img src="TrishaLand.png" alt="Logo TrishaLand" class="logo-img">
-      <div class="logo-text">
+      <div>
         <div class="logo-main">Trishaland</div>
         <div class="logo-sub">Fansite Trisha JKT48</div>
       </div>
@@ -306,8 +313,8 @@
     <!-- SECTION ABOUT BALON -->
     <section class="biodata-section">
       <div class="biodata-left">
-        <p>Hellooow~ 🌟 Aku Jazzlyn Agatha Trisha, tapi panggil aja Trisha biar lebih akrab yaa! 😆💖 Aku lahir 16 Februari 2011 di Jakarta, dan sekarang aku trainee JKT48 generasi 12!! YEAYY 🥳✨ Aku anaknya ceria, suka ketawa, dan seneng banget explore hal baru. Hobiku tuh melukis, baca buku, dan dance—soalnya dari situ aku bisa bebas nunjukin perasaan aku 🎨💃🏻💫</p>
-        <p>Aku juga suka banget sama ular, serigala, dan kucing 🐍🐺🐱 karena mereka kuat tapi elegan, kayak semangat yang pengen aku bawa di JKT48! Aku percaya tiap langkah kecil bakal deketin aku ke mimpi, jadi doain terus yaa biar aku bisa kasih yang terbaik buat kalian semua! Love u, see you di panggung! 💖✨</p>
+        <p>Hellooowww~ 🌼 Aku <b>Jazzlyn Agatha Trisha</b>, tapi panggil aja aku Trisha biar lebih akrab yaa! 💖✨ Aku lahir tanggal 16 Februari 2011 di Jakarta, masih 14 tahun tapi udah siap banget buat ngejar mimpi aku di JKT48 sebagai trainee generasi 12!! YEAYYY 🩵</p>
+        <p>Aku tuh orangnya ceria, rame, tapi juga lembut hati (ciee hehe). Aku suka banget melukis, baca buku sambil denger musik, dan pastinya dance 💃 soalnya di situ aku bisa banget nunjukin perasaan aku lewat gerakan!</p>
       </div>
 
       <div class="biodata-center">
@@ -337,30 +344,17 @@
         <h3>Sosial Media Trisha</h3>
         <ul>
           <li><a href="https://www.instagram.com/jkt48.trisha/">Instagram</a></li>
-          <li><a href="https://www.threads.com/@jkt48.trisha?xmt=AQF0-sEtwtdm2hYKSQltbYMsN6rjfFrYxUrnCwj_ybbCsJc">Threads</a></li>
           <li><a href="https://x.com/JTrisha_JKT48">X / Twitter</a></li>
           <li><a href="https://www.tiktok.com/@jkt48.trisha">TikTok</a></li>
           <li><a href="https://www.showroom-live.com/r/JKT48_Trisha">Showroom</a></li>
           <li><a href="https://www.idn.app/jkt48_trisha">IDN App</a></li>
         </ul>
       </div>
-
-      <div class="footer-column">
-        <h3>Hashtag</h3>
-        <ul>
-          <li>#TrishAfternoon</li>
-          <li>#TrishArt</li>
-          <li>#Trishartuday</li>
-          <li>#WannaSeeTrisha</li>
-          <li>#Trishaur</li>
-          <li>#Trishelca</li>
-        </ul>
-      </div>
     </div>
     <div class="footer-bottom">© 2025 Trishaland. All rights reserved.</div>
   </footer>
 
-  <!-- JS SLIDER -->
+  <!-- SLIDER SCRIPT -->
   <script>
   (function(){
     const slider = document.getElementById('slider');
