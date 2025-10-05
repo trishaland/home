@@ -19,50 +19,89 @@
       overflow-x:hidden;
     }
 
-    /* HEADER */
+    /* HEADER (ambil dari About Trisha) */
     header {
-      position:fixed; top:0; left:0; width:100%;
-      background: rgba(173,216,230,0.85);
+      position: fixed; top: 0; left: 0;
+      width: 100%;
+      background: rgba(173, 216, 230, 0.8);
       backdrop-filter: blur(8px);
       padding: 15px 20px;
-      display:flex; justify-content:space-between; align-items:center;
-      z-index:1000; height:60px;
-    }
-    .logo { display:flex; align-items:center; gap:10px; }
-    .logo-img { width:55px; height:auto; object-fit:contain; }
-    .logo-main { font-size:22px; font-weight:600; color:#004080; }
-    .logo-sub { font-size:12px; color:#333; }
-
-    nav ul { list-style:none; display:flex; gap:18px; }
-    nav a { text-decoration:none; color:#000; }
-
-    .hamburger { display:none; }
-
-    @media(max-width:768px){
-      nav ul { display:none; }
-      .hamburger { display:block; cursor:pointer; }
+      display: flex; justify-content: space-between; align-items: center;
+      z-index: 1000;
+      height: 60px;
     }
 
-    /* MAIN */
-    main { flex:1; padding-top:70px; display:flex; align-items:flex-start; justify-content:center; gap:30px; padding-bottom:40px; }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo-img { width: 55px; height: auto; object-fit: contain; }
+    .logo-text { display: flex; flex-direction: column; line-height: 1.2; }
+    .logo-main { font-size: 22px; font-weight: 600; color: #004080; }
+    .logo-sub { font-size: 12px; color: #333; }
 
-    /* START SCREEN fills viewport (under header) */
+    .mobile-logo {
+      display: none;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .mobile-logo img { width: 150px; height: auto; object-fit: contain; }
+
+    nav ul { list-style: none; display: flex; gap: 25px; }
+    nav ul li a {
+      text-decoration: none; color: #000; font-weight: 400; transition: 0.3s;
+    }
+    nav ul li a:hover { color: #004080; }
+    .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; transition: all 0.3s ease; }
+    .hamburger span { width: 25px; height: 3px; background: #000; border-radius: 5px; transition: all 0.3s ease; }
+
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translateY(8px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translateY(-8px); }
+
+    @media (max-width: 768px) {
+      .logo { display: none; }
+      .mobile-logo { display: block; }
+      nav ul {
+        display: none;
+        position: absolute;
+        top: 60px; right: 20px;
+        background: #add8e6;
+        flex-direction: column; gap: 15px;
+        padding: 20px; border-radius: 10px;
+      }
+      nav ul.active { display: flex; }
+      .hamburger { display: flex; }
+    }
+
+    /* ==== MAIN (pusatkan game) ==== */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding-top: 80px;
+      padding-bottom: 60px;
+      background: linear-gradient(180deg,#e6f8ff 0%, #ffffff 100%);
+    }
+
     #startScreen {
       width:100%;
       max-width:1000px;
-      min-height: calc(100vh - 70px);
+      min-height: 70vh;
       display:flex;
       flex-direction:column;
       justify-content:center;
       align-items:center;
       text-align:center;
-      background: linear-gradient(180deg,#e6f8ff 0%, #ffffff 100%);
+      background:#ffffff;
       padding: 30px;
       border-radius: 12px;
+      margin: auto;
     }
-    #startScreen h1 { font-size:28px; color:#004080; margin-bottom:16px; }
-    .char-select { display:flex; gap:18px; flex-wrap:wrap; justify-content:center; }
 
+    #startScreen h1 { font-size:28px; color:#004080; margin-bottom:16px; }
+
+    .char-select { display:flex; gap:18px; flex-wrap:wrap; justify-content:center; }
     .char-select img {
       width:110px; height:110px; object-fit:cover; border-radius:12px;
       border:3px solid transparent; cursor:pointer;
@@ -70,47 +109,40 @@
     }
     .char-select img:hover { transform:scale(1.06); border-color:#004080; }
 
-    /* GAME CONTAINER (canvas + overlays) */
     .game-wrapper {
-      width:90vw;
-      max-width:900px;
-      /* maintain 3:2 aspect ratio visually; canvas size computed in JS */
+      width:90vw; max-width:900px;
       aspect-ratio: 3 / 2;
       border:2px solid #000;
       border-radius:10px;
       overflow:hidden;
       position:relative;
       background:#bfeeff;
-      display:none; /* shown when game starts */
+      display:none;
+      margin:auto;
     }
 
-    /* canvas fills wrapper */
-    #gameCanvas { width:100%; height:100%; display:block; }
+    @media (max-width:600px) {
+      #startScreen h1 { font-size:22px; }
+      .char-select img { width:90px; height:90px; }
+      main { padding-top: 70px; }
+    }
 
-    /* overlays (inside game-wrapper) */
+    #gameCanvas { width:100%; height:100%; display:block; }
     #gameOverGif, #deathMessage, #overlayRestart {
       position:absolute; left:50%; transform:translateX(-50%);
-      z-index:20; pointer-events:none;
+      z-index:20;
     }
-
     #gameOverGif { top:10%; width:90px; display:none; pointer-events:auto; }
     #deathMessage {
-      top:50%; transform:translate(-50%,-50%); display:none;
+      top:54%;
+      transform:translate(-50%,-50%);
+      display:none;
       font-size: clamp(16px, 2.4vw, 26px);
       color:#fff; font-weight:700; text-align:center;
       text-shadow: 0 2px 6px rgba(0,0,0,0.6);
-      pointer-events:none;
     }
-
-    /* restart button inside container */
-    #overlayRestart {
-      bottom:10%;
-      width:auto;
-      display:none;
-      pointer-events:auto;
-    }
+    #overlayRestart { bottom:10%; display:none; }
     #overlayRestart button {
-      pointer-events:auto;
       padding:10px 18px;
       font-size: clamp(14px, 1.6vw, 18px);
       background:#ff4444; color:#fff; border:none; border-radius:10px;
@@ -118,50 +150,93 @@
     }
     #overlayRestart button:hover { background:#cc0000; }
 
-    /* win modal (centered over page) */
     .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); align-items:center; justify-content:center; z-index:2000; }
     .modal .card { background:#111; color:#fff; padding:22px; border-radius:12px; text-align:center; width:90%; max-width:420px; }
 
     /* FOOTER */
-    footer { background:#004080; color:#fff; padding:28px 20px; }
-    .footer-container{ max-width:1200px; margin:0 auto; display:flex; gap:20px; flex-wrap:wrap; }
-    .footer-column{ flex:1; min-width:160px; }
-    .footer-column h3{ color:#ffdd57; margin-bottom:10px; }
-    .footer-bottom{ text-align:center; margin-top:14px; font-size:14px; opacity:0.9; }
-
-    /* small screens adjustments */
-    @media(max-width:520px){
-      .char-select img{ width:86px; height:86px; }
-      #gameOverGif{ width:70px; top:8%; }
+    .footer {
+      background: #004080;
+      color: white;
+      padding: 50px 20px 20px;
+      margin-top: auto;
+    }
+    .footer-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 30px;
+    }
+    .footer-column { flex: 1; min-width: 200px; }
+    .footer-column h3 {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      color: #ffdd57;
+    }
+    .footer-column ul { list-style: none; padding: 0; }
+    .footer-column ul li { margin-bottom: 10px; }
+    .footer-column ul li a {
+      text-decoration: none; color: white; transition: color 0.3s;
+    }
+    .footer-column ul li a:hover { color: #ffdd57; }
+    .footer-bottom {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      padding-top: 15px;
     }
   </style>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const hamburger = document.querySelector(".hamburger");
+      const navMenu = document.querySelector("nav ul");
+      if (hamburger && navMenu) {
+        hamburger.addEventListener("click", () => {
+          navMenu.classList.toggle("active");
+          hamburger.classList.toggle("active");
+        });
+      }
+    });
+  </script>
 </head>
+
 <body>
+
+  <!-- HEADER -->
   <header>
     <div class="logo">
-      <img class="logo-img" src="TrishaLand.webp" alt="TrishaLand">
-      <div>
-        <div class="logo-main">TrishaLand</div>
+      <img src="TrishaLand.webp" alt="Logo TrishaLand" class="logo-img">
+      <div class="logo-text">
+        <div class="logo-main">Trishaland</div>
         <div class="logo-sub">Fansite Trisha JKT48</div>
       </div>
     </div>
 
+    <div class="mobile-logo">
+      <img src="TrishaLandMobile.webp" alt="Logo TrishaLand Mobile">
+    </div>
+
     <nav>
       <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="corner.html">Corner</a></li>
+        <li><a href="index.html">HOME</a></li>
+        <li><a href="about.html">ABOUT TRISHA</a></li>
+        <li><a href="corner.html"style="color:#ffffff;">CORNER</a></li>
       </ul>
     </nav>
-    <div class="hamburger">☰</div>
+
+    <div class="hamburger">
+      <span></span><span></span><span></span>
+    </div>
   </header>
 
+  <!-- ==== MAIN CONTENT (Game) ==== -->
   <main>
-    <!-- Start / Character selection screen (fills available area under header) -->
     <section id="startScreen">
       <h1>Pilih Karakter Sapi 🐄✨</h1>
       <div class="char-select">
-        <!-- Make sure these image files exist -->
         <img src="cover_sapi1.jpg" data-sprite="sapi1.png" alt="sapi1">
         <img src="cover_sapi2.jpg" data-sprite="sapi2.png" alt="sapi2">
         <img src="cover_sapi3.jpg" data-sprite="sapi3.png" alt="sapi3">
@@ -170,21 +245,14 @@
       <p style="margin-top:18px; color:#333; font-size:14px;">Klik karakter untuk mulai — Tap layar untuk meloncat.</p>
     </section>
 
-    <!-- Game container: canvas + overlays all INSIDE -->
-    <div class="game-wrapper" id="gameWrapper" aria-hidden="true">
+    <div class="game-wrapper" id="gameWrapper">
       <canvas id="gameCanvas"></canvas>
-
-      <!-- overlays inside container (GIF top, message center, restart bottom) -->
       <img id="gameOverGif" src="over.gif" alt="Game Over GIF" />
-      <div id="deathMessage" aria-live="polite"></div>
-
-      <div id="overlayRestart">
-        <button id="restartBtn">🔄 Restart</button>
-      </div>
+      <div id="deathMessage"></div>
+      <div id="overlayRestart"><button id="restartBtn">🔄 Restart</button></div>
     </div>
 
-    <!-- Win modal (page overlay) -->
-    <div id="winModal" class="modal" role="dialog" aria-modal="true">
+    <div id="winModal" class="modal">
       <div class="card">
         <h2>🎉 Selamat! 🎉</h2>
         <p>Kamu berhasil nangkep 10 balon buat Trisha! 🎈🐄✨</p>
@@ -193,43 +261,60 @@
     </div>
   </main>
 
-  <footer>
+  <!-- FOOTER -->
+  <footer class="footer">
     <div class="footer-container">
       <div class="footer-column">
         <h3>Halaman</h3>
         <ul>
-          <li><a href="index.html" style="color:#fff;">Home</a></li>
-          <li><a href="about.html" style="color:#fff;">About Trisha</a></li>
-          <li><a href="corner.html" style="color:#fff;">Corner</a></li>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Trisha</a></li>
+          <li><a href="corner.html">Corner</a></li>
         </ul>
       </div>
+
       <div class="footer-column">
-        <h3>Sosial Media</h3>
+        <h3>Sosial Media Trisha</h3>
         <ul>
-          <li><a href="#" style="color:#fff;">Instagram</a></li>
-          <li><a href="#" style="color:#fff;">TikTok</a></li>
+          <li><a href="https://www.instagram.com/jkt48.trisha/" target="_blank">Instagram</a></li>
+          <li><a href="https://www.threads.com/@jkt48.trisha" target="_blank">Threads</a></li>
+          <li><a href="https://x.com/JTrisha_JKT48" target="_blank">X / Twitter</a></li>
+          <li><a href="https://www.tiktok.com/@jkt48.trisha" target="_blank">TikTok</a></li>
+          <li><a href="https://www.idn.app/jkt48_trisha" target="_blank">IDN App</a></li>
+          <li><a href="https://www.showroom-live.com/r/JKT48_Trisha" target="_blank">Showroom</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Hashtag</h3>
+        <ul>
+          <li>#TrishAfternoon</li>
+          <li>#TrishArt</li>
+          <li>#Trishartuday</li>
+          <li>#WannaSeeTrisha</li>
+          <li>#Trishaur</li>
+          <li>#Trishelca</li>
         </ul>
       </div>
     </div>
-    <div class="footer-bottom">© 2025 TrishaLand. All rights reserved.</div>
+
+    <div class="footer-bottom">
+      © 2025 Trishaland. All rights reserved.
+    </div>
   </footer>
 
   <script>
-    /* ---------- Elements ---------- */
     const startScreen = document.getElementById('startScreen');
     const gameWrapper = document.getElementById('gameWrapper');
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
-
     const gameOverGif = document.getElementById('gameOverGif');
     const deathMessage = document.getElementById('deathMessage');
     const overlayRestart = document.getElementById('overlayRestart');
     const restartBtn = document.getElementById('restartBtn');
-
     const winModal = document.getElementById('winModal');
     const closeWinBtn = document.getElementById('closeWinBtn');
 
-    /* ---------- Assets & sounds (optional) ---------- */
     const bgImg = new Image(); bgImg.src = 'background.png';
     const bgm = new Audio('backsound.mp3');
     const loseSfx = new Audio('lose.mp3');
@@ -237,52 +322,37 @@
     const cowSfx = new Audio('moo.mp3');
     bgm.loop = true; bgm.volume = 0.45; cowSfx.volume = 0.6;
 
-    /* ---------- Game state ---------- */
     let WIDTH = 600, HEIGHT = 400;
     let sprite = new Image();
     let frameW = 64, frameH = 64, currentFrame = 0;
-
     let cow, pipes, balloons, score, gameOver, finished, gameLoopId;
     let hasClickedOnce = false;
     const TARGET = 10;
     let cowSfxInterval = null;
     let deathReason = '';
 
-    /* ---------- Responsive sizing ---------- */
+    sprite.onload = () => {
+      frameW = sprite.width / 4; // 🟢 otomatis 4 frame horizontal
+      frameH = sprite.height;
+    };
+
     function resizeCanvasToWrapper() {
-      // Set canvas pixel size to wrapper computed size
       const style = getComputedStyle(gameWrapper);
       const w = parseFloat(style.width);
       const h = parseFloat(style.height);
-      // set device pixel ratio for crisper canvas
       const dpr = window.devicePixelRatio || 1;
       canvas.width = Math.round(w * dpr);
       canvas.height = Math.round(h * dpr);
       canvas.style.width = w + 'px';
       canvas.style.height = h + 'px';
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // scale drawing operations
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       WIDTH = w; HEIGHT = h;
     }
 
-    // Initialize wrapper aspect ratio visually (3:2)
-    function setWrapperSize() {
-      // gameWrapper CSS uses aspect-ratio — but on some browsers, ensure it has computed height
-      // nothing needed here unless you want to force specific size
-    }
-
-    window.addEventListener('resize', () => {
-      if (gameWrapper.style.display !== 'none') {
-        resizeCanvasToWrapper();
-        // redraw one frame to keep overlays aligned
-        draw();
-      }
-    });
-
-    /* ---------- Game functions ---------- */
     function resetGameState() {
       cancelAnimationFrame(gameLoopId);
       resizeCanvasToWrapper();
-      const scale = WIDTH / 600; // scale sprite & physics
+      const scale = WIDTH / 600;
       cow = { x: WIDTH * 0.18, y: HEIGHT / 2, w: frameW * scale, h: frameH * scale, vel: 0, gravity: 0.6 * scale, lift: -10 * scale, tick: 0 };
       pipes = [];
       balloons = [];
@@ -291,84 +361,69 @@
       finished = false;
       hasClickedOnce = false;
       deathReason = '';
-      // hide overlays
       gameOverGif.style.display = 'none';
       deathMessage.style.display = 'none';
       overlayRestart.style.display = 'none';
-      // sound interval
       if (cowSfxInterval) clearInterval(cowSfxInterval);
       cowSfxInterval = setInterval(()=> { try { cowSfx.cloneNode(true).play(); } catch(e){} }, 4000);
     }
 
     function spawnPipe() {
-      const gap = Math.max(HEIGHT * 0.18, 80);
+      const gap = Math.max(HEIGHT * 0.18, 80) * 2.7;
       const top = Math.random() * (HEIGHT - gap - 60) + 30;
       pipes.push({ x: WIDTH + 10, y: top, gap });
-      balloons.push({ x: WIDTH + 10 + 40, y: top + gap / 2, size: Math.max(20, Math.floor(24 * (WIDTH/600))), collected: false });
+      balloons.push({ x: WIDTH + 50, y: top + gap / 2, size: Math.max(20, Math.floor(24 * (WIDTH/600))), collected: false });
     }
 
     function update() {
       if (!hasClickedOnce || gameOver || finished) return;
-
-      // physics
       cow.vel += cow.gravity;
       cow.y += cow.vel;
       if (cow.y + cow.h >= HEIGHT) { deathReason = 'fall'; endGame(); }
       if (cow.y < 0) cow.y = 0;
 
-      // animate frame tick
-      cow.tick++; if (cow.tick % 8 === 0) currentFrame = (currentFrame + 1) % 4;
+      cow.tick++;
+      if (cow.tick % 6 === 0) currentFrame = (currentFrame + 1) % 4; // animasi halus
 
-      // move pipes & balloons
       const speed = 2.5 * (WIDTH / 600);
       pipes.forEach(p => p.x -= speed);
       balloons.forEach(b => b.x -= speed);
 
-      // collisions pipes
       for (let p of pipes) {
-        if (cow.x < p.x + 80 && cow.x + cow.w > p.x) {
+        if (cow.x < p.x + 100 && cow.x + cow.w > p.x) {
           if (cow.y < p.y || cow.y + cow.h > p.y + p.gap) {
             deathReason = 'hit'; endGame(); break;
           }
         }
       }
 
-      // balloon collection
       for (let b of balloons) {
         if (!b.collected) {
           const bx = b.x, by = b.y, bs = b.size;
           if (cow.x < bx + bs && cow.x + cow.w > bx - bs && cow.y < by + bs && cow.y + cow.h > by - bs) {
             b.collected = true; score++;
-            if (score >= TARGET) { finishGame(); }
+            if (score >= TARGET) finishGame();
           }
         }
       }
 
-      // cleanup & spawn
-      pipes = pipes.filter(p => p.x + 80 > -50);
+      pipes = pipes.filter(p => p.x + 100 > -50);
       balloons = balloons.filter(b => b.x + b.size > -50);
-      if (pipes.length === 0 || pipes[pipes.length - 1].x < WIDTH - 350) spawnPipe();
+
+      if (pipes.length === 0 || pipes[pipes.length - 1].x < WIDTH - 400) spawnPipe();
     }
 
     function draw() {
-      // Clear
       ctx.clearRect(0,0,WIDTH,HEIGHT);
-
-      // background
       if (bgImg.complete) ctx.drawImage(bgImg, 0, 0, WIDTH, HEIGHT);
-      else {
-        ctx.fillStyle = '#87CEEB';
-        ctx.fillRect(0,0,WIDTH,HEIGHT);
-      }
+      else { ctx.fillStyle = '#87CEEB'; ctx.fillRect(0,0,WIDTH,HEIGHT); }
 
-      // pipes
       ctx.fillStyle = 'green';
       pipes.forEach(p => {
-        ctx.fillRect(p.x, 0, 80, p.y);
-        ctx.fillRect(p.x, p.y + p.gap, 80, HEIGHT - (p.y + p.gap));
+        ctx.fillRect(p.x, 0, 100, p.y);
+        ctx.fillRect(p.x, p.y + p.gap, 100, HEIGHT - (p.y + p.gap));
       });
 
-      // balloons (draw emoji using canvas text)
       balloons.forEach(b => {
         if (!b.collected) {
           ctx.font = `${b.size}px serif`;
@@ -377,44 +432,34 @@
         }
       });
 
-      // cow sprite (if sprite available draw; else draw simple rect)
       if (sprite && sprite.src) {
-        // draw single frame (no sprite sheet clipping implemented here)
-        try {
-          ctx.drawImage(sprite, 0, 0, frameW, frameH, cow.x, cow.y, cow.w, cow.h);
-        } catch(e) {
-          ctx.fillStyle = '#fff';
-          ctx.fillRect(cow.x, cow.y, cow.w, cow.h);
-        }
+        ctx.drawImage(
+          sprite,
+          frameW * currentFrame, 0,
+          frameW, frameH,
+          cow.x, cow.y, cow.w, cow.h
+        );
       } else {
         ctx.fillStyle = '#fff';
         ctx.fillRect(cow.x, cow.y, cow.w, cow.h);
       }
 
-      // score
       ctx.fillStyle = '#000';
       ctx.font = `${Math.max(14, 18 * (WIDTH/600))}px Poppins, Arial`;
-      ctx.fillText('Score: ' + score, 12, 26);
+      ctx.fillText('Score: ' + score, 112, 26);
     }
 
     function gameLoop() {
       update();
       draw();
       if (!gameOver && !finished) gameLoopId = requestAnimationFrame(gameLoop);
-      else {
-        // show overlays if ended
-      }
     }
 
     function showGameOverOverlays() {
-      // GIF top
       gameOverGif.style.display = 'block';
-      // message center
       deathMessage.style.display = 'block';
       deathMessage.textContent = deathReason === 'fall' ? 'Dedek Trisha Jatuh 🥺' : 'Dedek Trisha Ketabrak 🥺';
-      // restart bottom
       overlayRestart.style.display = 'block';
-      // ensure pointer events enabled for restart button
       overlayRestart.querySelector('button').focus();
     }
 
@@ -432,48 +477,35 @@
       if (cowSfxInterval) clearInterval(cowSfxInterval);
       try { bgm.pause(); } catch(e){}
       try { winSfx.play(); } catch(e){}
-      // show modal
       winModal.style.display = 'flex';
     }
 
-    /* ---------- Controls & UI ---------- */
-    // Character selection start
     document.querySelectorAll('.char-select img').forEach(img => {
       img.addEventListener('click', () => {
-        const spr = img.getAttribute('data-sprite');
-        if (spr) { sprite.src = spr; }
-        // hide start, show game wrapper
+        sprite.src = img.getAttribute('data-sprite');
         startScreen.style.display = 'none';
         gameWrapper.style.display = 'block';
-        // ensure wrapper measured and canvas resized to match
         resizeCanvasToWrapper();
         resetGameState();
-        // start background music
         try { bgm.currentTime = 0; bgm.play(); } catch(e){}
-        // start loop
         gameLoop();
       });
     });
 
-    // tap/click to flap
     canvas.addEventListener('click', () => {
       if (gameOver || finished) return;
       hasClickedOnce = true;
       cow.vel = cow.lift;
     });
 
-    // keyboard space for flap
-    window.addEventListener('keydown', (e) => {
+    window.addEventListener('keydown', e => {
       if (e.code === 'Space') {
         e.preventDefault();
-        if (!gameWrapper.style.display || gameWrapper.style.display === 'none') return;
         if (!gameOver && !finished) { hasClickedOnce = true; cow.vel = cow.lift; }
       }
     });
 
-    // restart button inside container
     restartBtn.addEventListener('click', () => {
-      // hide overlays, reset and go back to start screen
       winModal.style.display = 'none';
       startScreen.style.display = 'flex';
       gameWrapper.style.display = 'none';
@@ -481,38 +513,15 @@
       gameOverGif.style.display = 'none';
       deathMessage.style.display = 'none';
       try { bgm.pause(); bgm.currentTime = 0; } catch(e){}
-      if (cowSfxInterval) clearInterval(cowSfxInterval);
-      cancelAnimationFrame(gameLoopId);
     });
 
-    // close win modal: go back to start
-    closeWinBtn && closeWinBtn.addEventListener('click', () => {
+    closeWinBtn.addEventListener('click', () => {
       winModal.style.display = 'none';
       startScreen.style.display = 'flex';
       gameWrapper.style.display = 'none';
-      try { bgm.pause(); bgm.currentTime = 0; } catch(e){}
-      if (cowSfxInterval) clearInterval(cowSfxInterval);
-      cancelAnimationFrame(gameLoopId);
     });
 
-    /* ---------- Init: compute sizes for wrapper & canvas ---------- */
-    // Ensure wrapper has correct computed height (aspect ratio) before measuring canvas
-    function initSizes() {
-      // If CSS aspect-ratio supported the wrapper will have correct height.
-      resizeCanvasToWrapper();
-    }
-
-    // Call init on load
-    window.addEventListener('load', () => {
-      initSizes();
-      // ensure start screen fills visible area (under header)
-      startScreen.style.minHeight = `calc(100vh - 80px)`;
-    });
-
-    // also on orientation change resize
-    window.addEventListener('orientationchange', () => {
-      setTimeout(()=> { resizeCanvasToWrapper(); draw(); }, 120);
-    });
+    window.addEventListener('resize', () => resizeCanvasToWrapper());
   </script>
 </body>
 </html>
