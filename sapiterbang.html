@@ -1,380 +1,517 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sapi Terbang</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sapi Terbang - TrishaLand</title>
   <link rel="icon" type="image/png" href="TrishaLand.webp">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
 
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * { margin:0; padding:0; box-sizing:border-box; }
     body {
       font-family: "Poppins", sans-serif;
-      background: #ffffff;
-      color: #000;
-      overflow-x: hidden;
+      background:#fff;
+      color:#000;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      overflow-x:hidden;
     }
 
+    /* HEADER */
     header {
-      position: fixed; top: 0; left: 0;
-      width: 100%;
-      background: rgba(173, 216, 230, 0.8);
+      position:fixed; top:0; left:0; width:100%;
+      background: rgba(173,216,230,0.85);
       backdrop-filter: blur(8px);
       padding: 15px 20px;
-      display: flex; justify-content: space-between; align-items: center;
-      z-index: 1000;
-      height: 60px;
+      display:flex; justify-content:space-between; align-items:center;
+      z-index:1000; height:60px;
+    }
+    .logo { display:flex; align-items:center; gap:10px; }
+    .logo-img { width:55px; height:auto; object-fit:contain; }
+    .logo-main { font-size:22px; font-weight:600; color:#004080; }
+    .logo-sub { font-size:12px; color:#333; }
+
+    nav ul { list-style:none; display:flex; gap:18px; }
+    nav a { text-decoration:none; color:#000; }
+
+    .hamburger { display:none; }
+
+    @media(max-width:768px){
+      nav ul { display:none; }
+      .hamburger { display:block; cursor:pointer; }
     }
 
-    .logo { display: flex; align-items: center; gap: 10px; }
-    .logo-img { width: 55px; height: auto; object-fit: contain; }
-    .logo-text { display: flex; flex-direction: column; line-height: 1.2; }
-    .logo-main { font-size: 22px; font-weight: 600; color: #004080; }
-    .logo-sub { font-size: 12px; color: #333; }
+    /* MAIN */
+    main { flex:1; padding-top:70px; display:flex; align-items:flex-start; justify-content:center; gap:30px; padding-bottom:40px; }
 
-    .mobile-logo { display: none; position: absolute; left: 50%; transform: translateX(-50%); }
-    .mobile-logo img { width: 150px; height: auto; object-fit: contain; }
-
-    nav ul { list-style: none; display: flex; gap: 25px; }
-    nav ul li a { text-decoration: none; color: #000; font-weight: 400; transition: 0.3s; }
-    nav ul li a:hover { color: #004080; }
-    nav ul li a.active { color: #ffffff; }
-
-    .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; transition: all 0.3s ease; }
-    .hamburger span { width: 25px; height: 3px; background: #000; border-radius: 5px; transition: all 0.3s ease; }
-    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translateY(8px); }
-    .hamburger.active span:nth-child(2) { opacity: 0; }
-    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translateY(-8px); }
-
-    @media (max-width: 768px) {
-      .logo { display: none; }
-      .mobile-logo { display: block; }
-      nav ul {
-        display: none;
-        position: absolute;
-        top: 60px; right: 20px;
-        background: #add8e6;
-        flex-direction: column; gap: 15px;
-        padding: 20px; border-radius: 10px;
-      }
-      nav ul.active { display: flex; }
-      .hamburger { display: flex; }
+    /* START SCREEN fills viewport (under header) */
+    #startScreen {
+      width:100%;
+      max-width:1000px;
+      min-height: calc(100vh - 70px);
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      background: linear-gradient(180deg,#e6f8ff 0%, #ffffff 100%);
+      padding: 30px;
+      border-radius: 12px;
     }
+    #startScreen h1 { font-size:28px; color:#004080; margin-bottom:16px; }
+    .char-select { display:flex; gap:18px; flex-wrap:wrap; justify-content:center; }
 
-    main {
-      padding-top: 100px;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      background: #ffffff;
-      position: relative;
-    }
-
-    canvas { display: none; border: 2px solid black; }
-    #restartBtn {
-      display: none; margin-top: 40px; padding: 10px 20px;
-      font-size: 18px; border: none; background: #ff4444; color: white;
-      border-radius: 8px; cursor: pointer; position: absolute; top: 70%;
-      left: 50%; transform: translateX(-50%);
-    }
-    #restartBtn:hover { background: #cc0000; }
-
-    #startScreen { color: #000; font-size: 24px; text-align: center; }
-    .char-select { display: flex; justify-content: center; gap: 20px; margin-top: 20px; }
     .char-select img {
-      width: 90px; height: 90px; cursor: pointer; border: 3px solid transparent;
-      border-radius: 10px; transition: 0.2s;
+      width:110px; height:110px; object-fit:cover; border-radius:12px;
+      border:3px solid transparent; cursor:pointer;
+      transition: transform .15s, border-color .15s;
     }
-    .char-select img:hover { border: 3px solid #004080; transform: scale(1.1); }
+    .char-select img:hover { transform:scale(1.06); border-color:#004080; }
 
-    #gameOverGif {
-      display: none; position: absolute;
-      top: 60%; left: 50%; transform: translate(-50%, -130%);
-      width: 100px; height: auto; z-index: 10;
+    /* GAME CONTAINER (canvas + overlays) */
+    .game-wrapper {
+      width:90vw;
+      max-width:900px;
+      /* maintain 3:2 aspect ratio visually; canvas size computed in JS */
+      aspect-ratio: 3 / 2;
+      border:2px solid #000;
+      border-radius:10px;
+      overflow:hidden;
+      position:relative;
+      background:#bfeeff;
+      display:none; /* shown when game starts */
     }
 
-    .modal {
-      display: none; position: fixed; z-index: 1000;
-      left: 0; top: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.7); justify-content: center; align-items: center;
-    }
-    .modal-content {
-      background: rgba(0,0,0,0.8); color: white;
-      padding: 30px; border-radius: 15px; text-align: center;
-      max-width: 400px; width: 80%;
-      box-shadow: 0px 5px 15px rgba(0,0,0,0.3);
-    }
-    .modal-content h2 { margin: 0 0 15px; font-size: 28px; color: #44dd44; }
-    .modal-content p { font-size: 18px; margin-bottom: 20px; }
-    .modal-content button {
-      padding: 10px 20px; font-size: 18px; background: #44aa44;
-      color: white; border: none; border-radius: 10px; cursor: pointer;
-    }
-    .modal-content button:hover { background: #228822; }
+    /* canvas fills wrapper */
+    #gameCanvas { width:100%; height:100%; display:block; }
 
-    .footer {
-      background: #004080;
-      color: white;
-      padding: 50px 20px 20px;
-      margin-top: 50px;
+    /* overlays (inside game-wrapper) */
+    #gameOverGif, #deathMessage, #overlayRestart {
+      position:absolute; left:50%; transform:translateX(-50%);
+      z-index:20; pointer-events:none;
     }
-    .footer-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      max-width: 1200px;
-      margin: 0 auto;
-      gap: 30px;
+
+    #gameOverGif { top:10%; width:90px; display:none; pointer-events:auto; }
+    #deathMessage {
+      top:50%; transform:translate(-50%,-50%); display:none;
+      font-size: clamp(16px, 2.4vw, 26px);
+      color:#fff; font-weight:700; text-align:center;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+      pointer-events:none;
     }
-    .footer-column { flex: 1; min-width: 200px; }
-    .footer-column h3 {
-      font-size: 1.2rem; margin-bottom: 15px; color: #ffdd57;
+
+    /* restart button inside container */
+    #overlayRestart {
+      bottom:10%;
+      width:auto;
+      display:none;
+      pointer-events:auto;
     }
-    .footer-column ul { list-style: none; padding: 0; }
-    .footer-column ul li { margin-bottom: 10px; }
-    .footer-column ul li a {
-      text-decoration: none; color: white; transition: color 0.3s;
+    #overlayRestart button {
+      pointer-events:auto;
+      padding:10px 18px;
+      font-size: clamp(14px, 1.6vw, 18px);
+      background:#ff4444; color:#fff; border:none; border-radius:10px;
+      cursor:pointer;
     }
-    .footer-column ul li a:hover { color: #ffdd57; }
-    .footer-bottom {
-      text-align: center; margin-top: 30px; font-size: 0.9rem;
-      border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px;
+    #overlayRestart button:hover { background:#cc0000; }
+
+    /* win modal (centered over page) */
+    .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); align-items:center; justify-content:center; z-index:2000; }
+    .modal .card { background:#111; color:#fff; padding:22px; border-radius:12px; text-align:center; width:90%; max-width:420px; }
+
+    /* FOOTER */
+    footer { background:#004080; color:#fff; padding:28px 20px; }
+    .footer-container{ max-width:1200px; margin:0 auto; display:flex; gap:20px; flex-wrap:wrap; }
+    .footer-column{ flex:1; min-width:160px; }
+    .footer-column h3{ color:#ffdd57; margin-bottom:10px; }
+    .footer-bottom{ text-align:center; margin-top:14px; font-size:14px; opacity:0.9; }
+
+    /* small screens adjustments */
+    @media(max-width:520px){
+      .char-select img{ width:86px; height:86px; }
+      #gameOverGif{ width:70px; top:8%; }
     }
   </style>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const hamburger = document.querySelector(".hamburger");
-      const navMenu = document.querySelector("nav ul");
-      hamburger.addEventListener("click", () => {
-        navMenu.classList.toggle("active");
-        hamburger.classList.toggle("active");
-      });
-    });
-  </script>
 </head>
-
 <body>
   <header>
     <div class="logo">
-      <img src="TrishaLand.webp" alt="Logo TrishaLand" class="logo-img">
-      <div class="logo-text">
-        <div class="logo-main">Trishaland</div>
+      <img class="logo-img" src="TrishaLand.webp" alt="TrishaLand">
+      <div>
+        <div class="logo-main">TrishaLand</div>
         <div class="logo-sub">Fansite Trisha JKT48</div>
       </div>
     </div>
-    <div class="mobile-logo">
-      <img src="TrishaLandMobile.webp" alt="Logo TrishaLand Mobile">
-    </div>
+
     <nav>
       <ul>
-        <li><a href="index.html">HOME</a></li>
-        <li><a href="about.html">ABOUT TRISHA</a></li>
-        <li><a href="corner.html" class="active">CORNER</a></li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="corner.html">Corner</a></li>
       </ul>
     </nav>
-    <div class="hamburger">
-      <span></span><span></span><span></span>
-    </div>
+    <div class="hamburger">☰</div>
   </header>
 
   <main>
-    <img id="gameOverGif" src="over.gif">
-    <div id="startScreen">
+    <!-- Start / Character selection screen (fills available area under header) -->
+    <section id="startScreen">
       <h1>Pilih Karakter Sapi 🐄✨</h1>
       <div class="char-select">
-        <img src="cover_sapi1.jpg" data-sprite="sapi1.png">
-        <img src="cover_sapi2.jpg" data-sprite="sapi2.png">
-        <img src="cover_sapi3.jpg" data-sprite="sapi3.png">
-        <img src="cover_sapi4.jpg" data-sprite="sapi4.png">
+        <!-- Make sure these image files exist -->
+        <img src="cover_sapi1.jpg" data-sprite="sapi1.png" alt="sapi1">
+        <img src="cover_sapi2.jpg" data-sprite="sapi2.png" alt="sapi2">
+        <img src="cover_sapi3.jpg" data-sprite="sapi3.png" alt="sapi3">
+        <img src="cover_sapi4.jpg" data-sprite="sapi4.png" alt="sapi4">
+      </div>
+      <p style="margin-top:18px; color:#333; font-size:14px;">Klik karakter untuk mulai — Tap layar untuk meloncat.</p>
+    </section>
+
+    <!-- Game container: canvas + overlays all INSIDE -->
+    <div class="game-wrapper" id="gameWrapper" aria-hidden="true">
+      <canvas id="gameCanvas"></canvas>
+
+      <!-- overlays inside container (GIF top, message center, restart bottom) -->
+      <img id="gameOverGif" src="over.gif" alt="Game Over GIF" />
+      <div id="deathMessage" aria-live="polite"></div>
+
+      <div id="overlayRestart">
+        <button id="restartBtn">🔄 Restart</button>
       </div>
     </div>
 
-    <canvas id="gameCanvas" width="600" height="400"></canvas>
-    <button id="restartBtn">🔄 Restart</button>
-
-    <div id="winModal" class="modal">
-      <div class="modal-content">
+    <!-- Win modal (page overlay) -->
+    <div id="winModal" class="modal" role="dialog" aria-modal="true">
+      <div class="card">
         <h2>🎉 Selamat! 🎉</h2>
         <p>Kamu berhasil nangkep 10 balon buat Trisha! 🎈🐄✨</p>
-        <button id="closeWinBtn">OK</button>
+        <button id="closeWinBtn" style="margin-top:12px;padding:10px 16px;border-radius:8px;border:none;background:#44aa44;color:#fff;cursor:pointer;">OK</button>
       </div>
     </div>
   </main>
 
-  <footer class="footer">
+  <footer>
     <div class="footer-container">
       <div class="footer-column">
         <h3>Halaman</h3>
         <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="about.html">About Trisha</a></li>
-          <li><a href="corner.html">Corner</a></li>
+          <li><a href="index.html" style="color:#fff;">Home</a></li>
+          <li><a href="about.html" style="color:#fff;">About Trisha</a></li>
+          <li><a href="corner.html" style="color:#fff;">Corner</a></li>
         </ul>
       </div>
       <div class="footer-column">
-        <h3>Sosial Media Trisha</h3>
+        <h3>Sosial Media</h3>
         <ul>
-          <li><a href="#">Instagram</a></li>
-          <li><a href="#">Threads</a></li>
-          <li><a href="#">X / Twitter</a></li>
-          <li><a href="#">TikTok</a></li>
-          <li><a href="#">IDN App</a></li>
-          <li><a href="#">Showroom</a></li>
-        </ul>
-      </div>
-      <div class="footer-column">
-        <h3>Hashtag</h3>
-        <ul>
-          <li>#TrishAfternoon</li>
-          <li>#TrishArt</li>
-          <li>#Trishartuday</li>
-          <li>#WannaSeeTrisha</li>
-          <li>#Trishaur</li>
-          <li>#Trishelca</li>
+          <li><a href="#" style="color:#fff;">Instagram</a></li>
+          <li><a href="#" style="color:#fff;">TikTok</a></li>
         </ul>
       </div>
     </div>
-    <div class="footer-bottom">© 2025 Trishaland. All rights reserved.</div>
+    <div class="footer-bottom">© 2025 TrishaLand. All rights reserved.</div>
   </footer>
 
-  <!-- ================= GAME SCRIPT ================= -->
   <script>
-    const canvas = document.getElementById("gameCanvas");
-    const ctx = canvas.getContext("2d");
-    const restartBtn = document.getElementById("restartBtn");
-    const startScreen = document.getElementById("startScreen");
-    const winModal = document.getElementById("winModal");
-    const gameOverGif = document.getElementById("gameOverGif");
+    /* ---------- Elements ---------- */
+    const startScreen = document.getElementById('startScreen');
+    const gameWrapper = document.getElementById('gameWrapper');
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
 
-    const WIDTH = canvas.width, HEIGHT = canvas.height;
-    let sprite = new Image(), bg = new Image();
-    bg.src = "background.png";
+    const gameOverGif = document.getElementById('gameOverGif');
+    const deathMessage = document.getElementById('deathMessage');
+    const overlayRestart = document.getElementById('overlayRestart');
+    const restartBtn = document.getElementById('restartBtn');
 
-    const bgm = new Audio("backsound.mp3"),
-          loseSfx = new Audio("lose.mp3"),
-          winSfx = new Audio("win.mp3"),
-          cowSfx = new Audio("moo.mp3");
-    bgm.loop = true; bgm.volume = 0.5; cowSfx.volume = 0.6;
+    const winModal = document.getElementById('winModal');
+    const closeWinBtn = document.getElementById('closeWinBtn');
 
-    const frameWidth = 64, frameHeight = 64;
-    let currentFrame = 0, cow, pipes, balloons, score, gameOver, finished;
-    let gameLoopId = null, targetScore = 10, cowSfxInterval, deathReason = "", gameStarted = false, hasClickedOnce = false;
+    /* ---------- Assets & sounds (optional) ---------- */
+    const bgImg = new Image(); bgImg.src = 'background.png';
+    const bgm = new Audio('backsound.mp3');
+    const loseSfx = new Audio('lose.mp3');
+    const winSfx = new Audio('win.mp3');
+    const cowSfx = new Audio('moo.mp3');
+    bgm.loop = true; bgm.volume = 0.45; cowSfx.volume = 0.6;
 
-    function resetGame() {
-      if (gameLoopId) cancelAnimationFrame(gameLoopId);
-      cow = { x: WIDTH / 6, y: HEIGHT / 2, width: frameWidth, height: frameHeight, gravity: 0.6, lift: -10, velocity: 0, tick: 0 };
-      pipes = []; balloons = []; score = 0; gameOver = false; finished = false; deathReason = "";
-      gameStarted = false; hasClickedOnce = false;
-      restartBtn.style.display = "none"; gameOverGif.style.display = "none";
+    /* ---------- Game state ---------- */
+    let WIDTH = 600, HEIGHT = 400;
+    let sprite = new Image();
+    let frameW = 64, frameH = 64, currentFrame = 0;
+
+    let cow, pipes, balloons, score, gameOver, finished, gameLoopId;
+    let hasClickedOnce = false;
+    const TARGET = 10;
+    let cowSfxInterval = null;
+    let deathReason = '';
+
+    /* ---------- Responsive sizing ---------- */
+    function resizeCanvasToWrapper() {
+      // Set canvas pixel size to wrapper computed size
+      const style = getComputedStyle(gameWrapper);
+      const w = parseFloat(style.width);
+      const h = parseFloat(style.height);
+      // set device pixel ratio for crisper canvas
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      canvas.style.width = w + 'px';
+      canvas.style.height = h + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // scale drawing operations
+      WIDTH = w; HEIGHT = h;
+    }
+
+    // Initialize wrapper aspect ratio visually (3:2)
+    function setWrapperSize() {
+      // gameWrapper CSS uses aspect-ratio — but on some browsers, ensure it has computed height
+      // nothing needed here unless you want to force specific size
+    }
+
+    window.addEventListener('resize', () => {
+      if (gameWrapper.style.display !== 'none') {
+        resizeCanvasToWrapper();
+        // redraw one frame to keep overlays aligned
+        draw();
+      }
+    });
+
+    /* ---------- Game functions ---------- */
+    function resetGameState() {
+      cancelAnimationFrame(gameLoopId);
+      resizeCanvasToWrapper();
+      const scale = WIDTH / 600; // scale sprite & physics
+      cow = { x: WIDTH * 0.18, y: HEIGHT / 2, w: frameW * scale, h: frameH * scale, vel: 0, gravity: 0.6 * scale, lift: -10 * scale, tick: 0 };
+      pipes = [];
+      balloons = [];
+      score = 0;
+      gameOver = false;
+      finished = false;
+      hasClickedOnce = false;
+      deathReason = '';
+      // hide overlays
+      gameOverGif.style.display = 'none';
+      deathMessage.style.display = 'none';
+      overlayRestart.style.display = 'none';
+      // sound interval
       if (cowSfxInterval) clearInterval(cowSfxInterval);
-      cowSfxInterval = setInterval(() => cowSfx.cloneNode(true).play(), 4000);
+      cowSfxInterval = setInterval(()=> { try { cowSfx.cloneNode(true).play(); } catch(e){} }, 4000);
+    }
+
+    function spawnPipe() {
+      const gap = Math.max(HEIGHT * 0.18, 80);
+      const top = Math.random() * (HEIGHT - gap - 60) + 30;
+      pipes.push({ x: WIDTH + 10, y: top, gap });
+      balloons.push({ x: WIDTH + 10 + 40, y: top + gap / 2, size: Math.max(20, Math.floor(24 * (WIDTH/600))), collected: false });
     }
 
     function update() {
       if (!hasClickedOnce || gameOver || finished) return;
-      cow.velocity += cow.gravity; cow.y += cow.velocity;
-      if (cow.y + cow.height >= HEIGHT) { deathReason = "fall"; endGame(); }
+
+      // physics
+      cow.vel += cow.gravity;
+      cow.y += cow.vel;
+      if (cow.y + cow.h >= HEIGHT) { deathReason = 'fall'; endGame(); }
       if (cow.y < 0) cow.y = 0;
 
+      // animate frame tick
       cow.tick++; if (cow.tick % 8 === 0) currentFrame = (currentFrame + 1) % 4;
-      pipes.forEach(p => p.x -= 2.5); balloons.forEach(b => b.x -= 2.5);
 
-      for (let p of pipes)
-        if (cow.x < p.x + 80 && cow.x + cow.width > p.x && (cow.y < p.y || cow.y + cow.height > p.y + 200)) { deathReason = "hit"; endGame(); }
+      // move pipes & balloons
+      const speed = 2.5 * (WIDTH / 600);
+      pipes.forEach(p => p.x -= speed);
+      balloons.forEach(b => b.x -= speed);
 
-      for (let b of balloons)
-        if (!b.collected && cow.x < b.x + b.size && cow.x + cow.width > b.x - b.size && cow.y < b.y + b.size && cow.y + cow.height > b.y - b.size) {
-          b.collected = true; score++; if (score >= targetScore) finishGame();
+      // collisions pipes
+      for (let p of pipes) {
+        if (cow.x < p.x + 80 && cow.x + cow.w > p.x) {
+          if (cow.y < p.y || cow.y + cow.h > p.y + p.gap) {
+            deathReason = 'hit'; endGame(); break;
+          }
         }
-
-      pipes = pipes.filter(p => p.x + 80 > 0);
-      balloons = balloons.filter(b => b.x + b.size > 0);
-
-      if (pipes.length === 0 || pipes[pipes.length - 1].x < WIDTH - 350) {
-        let y = Math.floor(Math.random() * (HEIGHT - 200 - 50)) + 25;
-        pipes.push({ x: WIDTH, y }); balloons.push({ x: WIDTH + 40, y: y + 100, size: 30, collected: false });
       }
+
+      // balloon collection
+      for (let b of balloons) {
+        if (!b.collected) {
+          const bx = b.x, by = b.y, bs = b.size;
+          if (cow.x < bx + bs && cow.x + cow.w > bx - bs && cow.y < by + bs && cow.y + cow.h > by - bs) {
+            b.collected = true; score++;
+            if (score >= TARGET) { finishGame(); }
+          }
+        }
+      }
+
+      // cleanup & spawn
+      pipes = pipes.filter(p => p.x + 80 > -50);
+      balloons = balloons.filter(b => b.x + b.size > -50);
+      if (pipes.length === 0 || pipes[pipes.length - 1].x < WIDTH - 350) spawnPipe();
+    }
+
+    function draw() {
+      // Clear
+      ctx.clearRect(0,0,WIDTH,HEIGHT);
+
+      // background
+      if (bgImg.complete) ctx.drawImage(bgImg, 0, 0, WIDTH, HEIGHT);
+      else {
+        ctx.fillStyle = '#87CEEB';
+        ctx.fillRect(0,0,WIDTH,HEIGHT);
+      }
+
+      // pipes
+      ctx.fillStyle = 'green';
+      pipes.forEach(p => {
+        ctx.fillRect(p.x, 0, 80, p.y);
+        ctx.fillRect(p.x, p.y + p.gap, 80, HEIGHT - (p.y + p.gap));
+      });
+
+      // balloons (draw emoji using canvas text)
+      balloons.forEach(b => {
+        if (!b.collected) {
+          ctx.font = `${b.size}px serif`;
+          ctx.textAlign = 'center';
+          ctx.fillText('🎈', b.x, b.y);
+        }
+      });
+
+      // cow sprite (if sprite available draw; else draw simple rect)
+      if (sprite && sprite.src) {
+        // draw single frame (no sprite sheet clipping implemented here)
+        try {
+          ctx.drawImage(sprite, 0, 0, frameW, frameH, cow.x, cow.y, cow.w, cow.h);
+        } catch(e) {
+          ctx.fillStyle = '#fff';
+          ctx.fillRect(cow.x, cow.y, cow.w, cow.h);
+        }
+      } else {
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(cow.x, cow.y, cow.w, cow.h);
+      }
+
+      // score
+      ctx.fillStyle = '#000';
+      ctx.font = `${Math.max(14, 18 * (WIDTH/600))}px Poppins, Arial`;
+      ctx.fillText('Score: ' + score, 12, 26);
+    }
+
+    function gameLoop() {
+      update();
+      draw();
+      if (!gameOver && !finished) gameLoopId = requestAnimationFrame(gameLoop);
+      else {
+        // show overlays if ended
+      }
+    }
+
+    function showGameOverOverlays() {
+      // GIF top
+      gameOverGif.style.display = 'block';
+      // message center
+      deathMessage.style.display = 'block';
+      deathMessage.textContent = deathReason === 'fall' ? 'Dedek Trisha Jatuh 🥺' : 'Dedek Trisha Ketabrak 🥺';
+      // restart bottom
+      overlayRestart.style.display = 'block';
+      // ensure pointer events enabled for restart button
+      overlayRestart.querySelector('button').focus();
     }
 
     function endGame() {
       if (gameOver) return;
       gameOver = true;
-      bgm.pause(); bgm.currentTime = 0; clearInterval(cowSfxInterval);
-      loseSfx.cloneNode(true).play(); restartBtn.style.display = "block"; gameOverGif.style.display = "block";
-      draw();
+      try { bgm.pause(); } catch(e){}
+      try { loseSfx.cloneNode(true).play(); } catch(e){}
+      if (cowSfxInterval) clearInterval(cowSfxInterval);
+      showGameOverOverlays();
     }
 
     function finishGame() {
-      finished = true; gameOver = true; clearInterval(cowSfxInterval);
-      restartBtn.style.display = "block"; restartBtn.innerText = "Main Lagi 🔄";
-      bgm.pause(); bgm.currentTime = 0; winSfx.play(); winModal.style.display = "flex"; draw();
+      finished = true; gameOver = true;
+      if (cowSfxInterval) clearInterval(cowSfxInterval);
+      try { bgm.pause(); } catch(e){}
+      try { winSfx.play(); } catch(e){}
+      // show modal
+      winModal.style.display = 'flex';
     }
 
-    function draw() {
-      ctx.clearRect(0, 0, WIDTH, HEIGHT);
-      ctx.drawImage(bg, 0, 0, WIDTH, HEIGHT);
-      ctx.drawImage(sprite, currentFrame * frameWidth, 0, frameWidth, frameHeight, cow.x, cow.y, cow.width, cow.height);
-
-      ctx.fillStyle = "green";
-      pipes.forEach(p => { ctx.fillRect(p.x, 0, 80, p.y); ctx.fillRect(p.x, p.y + 200, 80, HEIGHT); });
-      balloons.forEach(b => { if (!b.collected) { ctx.font = b.size + "px Arial"; ctx.textAlign = "center"; ctx.fillText("🎈", b.x, b.y); } });
-
-      ctx.fillStyle = "black"; ctx.font = "24px Arial"; ctx.fillText("Score: " + score, 55, 40);
-
-      if (!hasClickedOnce && !gameOver) {
-        ctx.fillStyle = "rgba(255,255,255,0.7)"; ctx.font = "22px Arial"; ctx.textAlign = "center";
-        ctx.fillText("Klik / Tap untuk mulai!", WIDTH / 2, HEIGHT / 2);
-      }
-
-      if (gameOver && !finished) {
-        ctx.fillStyle = "rgba(0,0,0,0.6)"; ctx.fillRect(0, 0, WIDTH, HEIGHT);
-        ctx.fillStyle = "red"; ctx.font = "40px Arial"; ctx.textAlign = "center";
-        ctx.fillText("Game Over", WIDTH / 2, HEIGHT / 2 + 30);
-        ctx.fillStyle = "white"; ctx.font = "22px Arial";
-        if (deathReason === "fall") ctx.fillText("Dedek Trisha Jatuh 🥺", WIDTH / 2, HEIGHT / 2 + 70);
-        else if (deathReason === "hit") ctx.fillText("Dedek Trisha Ketabrak 🥺", WIDTH / 2, HEIGHT / 2 + 70);
-      }
-    }
-
-    function gameLoop() {
-      update(); draw();
-      if (!gameOver || finished) gameLoopId = requestAnimationFrame(gameLoop);
-    }
-
-    document.querySelectorAll(".char-select img").forEach(img => {
-      img.addEventListener("click", () => {
-        sprite.src = img.dataset.sprite;
-        startScreen.style.display = "none";
-        canvas.style.display = "block";
-        resetGame(); bgm.play();
-        cancelAnimationFrame(gameLoopId);
+    /* ---------- Controls & UI ---------- */
+    // Character selection start
+    document.querySelectorAll('.char-select img').forEach(img => {
+      img.addEventListener('click', () => {
+        const spr = img.getAttribute('data-sprite');
+        if (spr) { sprite.src = spr; }
+        // hide start, show game wrapper
+        startScreen.style.display = 'none';
+        gameWrapper.style.display = 'block';
+        // ensure wrapper measured and canvas resized to match
+        resizeCanvasToWrapper();
+        resetGameState();
+        // start background music
+        try { bgm.currentTime = 0; bgm.play(); } catch(e){}
+        // start loop
         gameLoop();
       });
     });
 
-    canvas.addEventListener("click", () => {
-      if (!hasClickedOnce && !gameOver) { hasClickedOnce = true; cow.velocity = cow.lift; }
-      else if (hasClickedOnce && !gameOver) cow.velocity = cow.lift;
+    // tap/click to flap
+    canvas.addEventListener('click', () => {
+      if (gameOver || finished) return;
+      hasClickedOnce = true;
+      cow.vel = cow.lift;
     });
 
-    restartBtn.addEventListener("click", () => {
-      winModal.style.display = "none";
-      startScreen.style.display = "block";
-      canvas.style.display = "none";
-      restartBtn.style.display = "none";
-      gameOverGif.style.display = "none";
-      bgm.pause();
+    // keyboard space for flap
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Space') {
+        e.preventDefault();
+        if (!gameWrapper.style.display || gameWrapper.style.display === 'none') return;
+        if (!gameOver && !finished) { hasClickedOnce = true; cow.vel = cow.lift; }
+      }
     });
 
-    document.getElementById("closeWinBtn").addEventListener("click", () => {
-      winModal.style.display = "none";
-      startScreen.style.display = "block";
-      canvas.style.display = "none";
-      restartBtn.style.display = "none";
+    // restart button inside container
+    restartBtn.addEventListener('click', () => {
+      // hide overlays, reset and go back to start screen
+      winModal.style.display = 'none';
+      startScreen.style.display = 'flex';
+      gameWrapper.style.display = 'none';
+      overlayRestart.style.display = 'none';
+      gameOverGif.style.display = 'none';
+      deathMessage.style.display = 'none';
+      try { bgm.pause(); bgm.currentTime = 0; } catch(e){}
+      if (cowSfxInterval) clearInterval(cowSfxInterval);
+      cancelAnimationFrame(gameLoopId);
+    });
+
+    // close win modal: go back to start
+    closeWinBtn && closeWinBtn.addEventListener('click', () => {
+      winModal.style.display = 'none';
+      startScreen.style.display = 'flex';
+      gameWrapper.style.display = 'none';
+      try { bgm.pause(); bgm.currentTime = 0; } catch(e){}
+      if (cowSfxInterval) clearInterval(cowSfxInterval);
+      cancelAnimationFrame(gameLoopId);
+    });
+
+    /* ---------- Init: compute sizes for wrapper & canvas ---------- */
+    // Ensure wrapper has correct computed height (aspect ratio) before measuring canvas
+    function initSizes() {
+      // If CSS aspect-ratio supported the wrapper will have correct height.
+      resizeCanvasToWrapper();
+    }
+
+    // Call init on load
+    window.addEventListener('load', () => {
+      initSizes();
+      // ensure start screen fills visible area (under header)
+      startScreen.style.minHeight = `calc(100vh - 80px)`;
+    });
+
+    // also on orientation change resize
+    window.addEventListener('orientationchange', () => {
+      setTimeout(()=> { resizeCanvasToWrapper(); draw(); }, 120);
     });
   </script>
 </body>
