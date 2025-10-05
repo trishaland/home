@@ -56,8 +56,6 @@
       width: 25px; height: 3px; background: #000; border-radius: 5px;
       transition: all 0.3s ease;
     }
-
-    /* 🔥 Animasi hamburger jadi X */
     .hamburger.active span:nth-child(1) {
       transform: rotate(45deg) translateY(8px);
     }
@@ -83,62 +81,84 @@
       .hamburger { display: flex; }
     }
 
-    /* MAIN CONTENT */
-    .corner-main {
-      padding: 120px 20px 80px;
-      max-width: 1100px;
-      margin: 0 auto;
+    /* 🎮 GAME TRISHA SECTION */
+    .game-section {
       text-align: center;
+      margin: 100px auto 80px;
+      max-width: 1100px;
+      padding: 0 20px;
     }
 
-    .corner-main h1 {
-      font-size: 2.5rem;
+    .game-section h2 {
+      font-size: 2rem;
       color: #004080;
-      margin-bottom: 10px;
-    }
-
-    .corner-main p.subtitle {
-      font-size: 1.1rem;
-      color: #333;
       margin-bottom: 40px;
+      font-weight: 600;
     }
 
-    .corner-grid {
+    .game-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 25px;
+      gap: 30px;
+      justify-content: center;
     }
 
-    .corner-card {
-      background: #e6f4ff;
+    .game-card {
+      background: #ffffff;
       border-radius: 15px;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
       padding: 20px;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    .corner-card:hover {
+    .game-card:hover {
       transform: translateY(-6px);
       box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     }
 
-    .corner-card img {
+    .game-card img {
       width: 100%;
+      height: 200px;
+      object-fit: cover;
       border-radius: 10px;
       margin-bottom: 15px;
-      object-fit: cover;
-      height: 180px;
     }
 
-    .corner-card h3 {
+    .game-card h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
       color: #004080;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
     }
 
-    .corner-card p {
-      color: #444;
-      font-size: 0.95rem;
-      line-height: 1.5;
+    .play-btn {
+      background: #00aaff;
+      border: none;
+      color: white;
+      padding: 10px 25px;
+      border-radius: 25px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .play-btn:hover {
+      background: #007acc;
+    }
+
+    /* 📱 Responsif mobile */
+    @media (max-width: 768px) {
+      .game-grid {
+        grid-template-columns: 1fr;
+        gap: 50px;
+      }
+      .game-card {
+        width: 100%;
+        max-width: 350px;
+        margin: 0 auto;
+      }
     }
 
     /* FOOTER */
@@ -146,7 +166,7 @@
       background: #004080;
       color: white;
       padding: 50px 20px 20px;
-      margin-top: 50px;
+      margin-top: 60px;
     }
     .footer-container {
       display: flex;
@@ -195,7 +215,7 @@
       const navMenu = document.querySelector("nav ul");
       hamburger.addEventListener("click", () => {
         navMenu.classList.toggle("active");
-        hamburger.classList.toggle("active"); // 🔥 buat animasi jadi X
+        hamburger.classList.toggle("active");
       });
     });
   </script>
@@ -229,28 +249,26 @@
     </div>
   </header>
 
-  <!-- MAIN CONTENT -->
-  <section class="corner-main">
-    <h1>Trisha’s Corner 💙</h1>
-    <p class="subtitle">Tempat spesial untuk fanart, tulisan, dan dedikasi dari para penggemar!</p>
-
-    <div class="corner-grid">
-      <div class="corner-card">
-        <img src="fanart1.jpg" alt="Fanart 1">
-        <h3>🎨 Fanart of the Week</h3>
-        <p>Karya luar biasa dari @fantrish_art yang menggambarkan Trisha dalam suasana dreamy. Indah banget!</p>
+  <!-- 🎮 GAME TRISHA SECTION -->
+  <section class="game-section">
+    <h2>Game Trisha</h2>
+    <div class="game-grid">
+      <div class="game-card">
+        <h3>Sapi Terbang</h3>
+        <img src="trisha-game1.jpg" alt="Sapi Terbang">
+        <a href="sapiterbang.html"><button class="play-btn">🎮 Mainkan</button></a>
       </div>
 
-      <div class="corner-card">
-        <img src="quote1.jpg" alt="Quote">
-        <h3>💬 Quote of the Day</h3>
-        <p>“Selalu percaya pada prosesmu sendiri, karena setiap goresan punya makna.” — Trisha</p>
+      <div class="game-card">
+        <h3>Trisha Beli Balon</h3>
+        <img src="trisha-game2.jpg" alt="Trisha Beli Balon">
+        <a href="trishabelibalon.html"><button class="play-btn">🎮 Mainkan</button></a>
       </div>
 
-      <div class="corner-card">
-        <img src="fans1.jpg" alt="Fans Moment">
-        <h3>📸 Fans Moment</h3>
-        <p>Foto bareng Trisha saat event handshake terakhir. Senyumnya benar-benar menular!</p>
+      <div class="game-card">
+        <h3>Trisha Sorter</h3>
+        <img src="trisha-game3.jpg" alt="Trisha Sorter">
+        <a href="trishasorter.html"><button class="play-btn">🎮 Mainkan</button></a>
       </div>
     </div>
   </section>
