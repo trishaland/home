@@ -378,6 +378,38 @@
 #ranking-others {
   text-align: center;
 }
+
+/* ===== MOBILE ADJUSTMENTS ===== */
+@media (max-width: 768px) {
+  .sort-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .card {
+    width: 80vw; /* Perbesar foto biar dominan di layar */
+    max-width: 320px;
+  }
+
+  .card img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+
+  .or-text {
+    font-size: 1.5rem;
+  }
+
+  .tie-btn, .undo-btn {
+    font-size: 1rem;
+    padding: 12px 25px;
+  }
+
+  .progress-container {
+    width: 90%;
+  }
+}
   </style>
 
   <script>
