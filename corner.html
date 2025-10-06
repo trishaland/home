@@ -126,30 +126,54 @@
       border-color: rgba(255, 192, 203, 0.7);
     }
 
-    /* 📖 TRISHABOOK SECTION (dibesarkan dan fullscreen) */
+    /* 📖 TRISHABOOK SECTION (versi gambar) */
     .book-section {
-      background: linear-gradient(180deg, #b3e0ff 0%, #ffffff 100%);
+      background: #b3e0ff;
       text-align: center;
-      padding: 80px 0 100px;
+      padding: 80px 20px;
     }
+
     .book-section h2 {
-      font-size: 2.3rem;
+      font-size: 2rem;
       color: #004080;
-      margin-bottom: 60px;
+      margin-bottom: 40px;
       font-weight: 600;
-      text-shadow: 0 0 10px rgba(255,255,255,0.6);
+      text-shadow: 0 0 8px rgba(255,255,255,0.6);
     }
-    .book-embed {
-      margin: 0 auto 100px;
-      width: 92%;
-      max-width: 1100px;
+
+    .book-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 40px;
+      justify-items: center;
+      max-width: 1000px;
+      margin: 0 auto;
     }
-    .book-embed iframe {
+
+    .book-page img {
       width: 100%;
-      height: 95vh;
-      border: none;
-      border-radius: 20px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      max-width: 450px;
+      border-radius: 15px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .book-page img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    }
+
+    @media (max-width: 768px) {
+      .book-section {
+        padding: 60px 10px;
+      }
+      .book-section h2 {
+        font-size: 1.8rem;
+        margin-bottom: 30px;
+      }
+      .book-container {
+        gap: 30px;
+      }
     }
 
     /* FOOTER */
@@ -245,16 +269,20 @@
       </div>
     </section>
 
-    <!-- 📖 TRISHABOOK SECTION (fullscreen & besar) -->
+    <!-- 📖 TRISHABOOK SECTION (versi gambar) -->
     <section class="book-section">
       <h2>TrishaBook</h2>
-
-      <div class="book-embed">
-        <iframe src="https://online.fliphtml5.com/luospz/rphf/" allowfullscreen></iframe>
-      </div>
-
-      <div class="book-embed">
-        <iframe src="https://online.fliphtml5.com/luospz/bbqe/" allowfullscreen></iframe>
+      <div class="book-container">
+        <div class="book-page">
+          <a href="https://online.fliphtml5.com/luospz/bbqe/" target="_blank">
+            <img src="book1.jpg" alt="TrishaBook 1">
+          </a>
+        </div>
+        <div class="book-page">
+          <a href="https://online.fliphtml5.com/luospz/rphf/" target="_blank">
+            <img src="book2.jpg" alt="TrishaBook 2">
+          </a>
+        </div>
       </div>
     </section>
   </main>
