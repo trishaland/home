@@ -97,10 +97,10 @@
     /* 🎮 GAME TRISHA SECTION */
     .game-section {
       text-align: center;
-      margin-top: 80px; /* biar gak ketutup header */
+      margin-top: 80px;
       padding: 60px 20px 80px;
       width: 100%;
-      background: #add8e6; /* full biru */
+      background: #add8e6;
     }
 
     .game-section h2 {
@@ -164,7 +164,6 @@
       background: #007acc;
     }
 
-    /* 📱 Responsif mobile */
     @media (max-width: 768px) {
       .game-grid {
         grid-template-columns: 1fr;
@@ -174,6 +173,63 @@
         width: 100%;
         max-width: 350px;
         margin: 0 auto;
+      }
+    }
+
+    /* 🎥 TRISHATUBE SECTION (tanpa tombol, bisa geser) */
+    .youtube-section {
+      text-align: center;
+      background: linear-gradient(180deg, #add8e6 0%, #b3e0ff 100%);
+      padding: 60px 20px 80px;
+      overflow: hidden;
+    }
+
+    .youtube-section h2 {
+      font-size: 2rem;
+      color: #004080;
+      margin-bottom: 40px;
+      font-weight: 600;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+    }
+
+    .youtube-slider {
+      display: flex;
+      gap: 25px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      cursor: grab;
+      padding: 0 10px;
+    }
+
+    .youtube-slider:active {
+      cursor: grabbing;
+    }
+
+    .youtube-slider::-webkit-scrollbar {
+      display: none;
+    }
+
+    .video-card {
+      flex: 0 0 auto;
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 6px 20px rgba(0, 128, 255, 0.15);
+      padding: 10px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      border: 2px solid rgba(255, 182, 193, 0.4);
+    }
+
+    .video-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 25px rgba(0, 128, 255, 0.3);
+      border-color: rgba(255, 192, 203, 0.7);
+    }
+
+    @media (max-width: 768px) {
+      .video-card iframe {
+        width: 100%;
+        height: 200px;
       }
     }
 
@@ -290,6 +346,41 @@
         </div>
       </div>
     </section>
+
+    <!-- 🎥 TRISHATUBE SECTION -->
+    <section class="youtube-section">
+      <h2>TrishaTube</h2>
+      <div class="youtube-slider">
+        <div class="video-card">
+          <iframe width="360" height="203" src="https://www.youtube.com/embed/vBgoWEzdYQ0"
+            title="Trisha JKT48 video 1" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="video-card">
+          <iframe width="360" height="203" src="https://www.youtube.com/embed/FzEQFvYyQIs"
+            title="Trisha JKT48 video 2" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="video-card">
+          <iframe width="360" height="203" src="https://www.youtube.com/embed/BWYWAFG0kDs"
+            title="Trisha JKT48 video 3" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="video-card">
+          <iframe width="360" height="203" src="https://www.youtube.com/embed/KV7OJLiMu6g"
+            title="Trisha JKT48 video 4" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="video-card">
+          <iframe width="360" height="203" src="https://www.youtube.com/embed/yzfHyMB5nn4"
+            title="Trisha JKT48 video 5" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="video-card">
+          <iframe width="360" height="203" src="https://www.youtube.com/embed/t8E0ta8w49M"
+            title="Trisha JKT48 video 6" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="video-card">
+          <iframe width="360" height="203" src="https://www.youtube.com/embed/uyNL6bNVWzo"
+            title="Trisha JKT48 video 7" frameborder="0" allowfullscreen></iframe>
+        </div>
+      </div>
+    </section>
   </main>
 
   <!-- FOOTER -->
@@ -308,7 +399,7 @@
         <h3>Sosial Media Trisha</h3>
         <ul>
           <li><a href="https://www.instagram.com/jkt48.trisha/" target="_blank">Instagram</a></li>
-          <li><a href="https://www.threads.com/@jkt48.trisha?xmt=AQF0-sEtwtdm2hYKSQltbYMsN6rjfFrYxUrnCwj_ybbCsJc" target="_blank">Threads</a></li>
+          <li><a href="https://www.threads.com/@jkt48.trisha" target="_blank">Threads</a></li>
           <li><a href="https://x.com/JTrisha_JKT48" target="_blank">X / Twitter</a></li>
           <li><a href="https://www.tiktok.com/@jkt48.trisha" target="_blank">TikTok</a></li>
           <li><a href="https://www.idn.app/jkt48_trisha" target="_blank">IDN App</a></li>
@@ -334,5 +425,40 @@
     </div>
   </footer>
 
+  <!-- 🎬 Script TrishaTube geser -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const slider = document.querySelector(".youtube-slider");
+      let isDown = false;
+      let startX;
+      let scrollLeft;
+
+      slider.addEventListener("mousedown", (e) => {
+        isDown = true;
+        startX = e.pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
+      });
+      slider.addEventListener("mouseleave", () => { isDown = false; });
+      slider.addEventListener("mouseup", () => { isDown = false; });
+      slider.addEventListener("mousemove", (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - slider.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        slider.scrollLeft = scrollLeft - walk;
+      });
+
+      // Touchscreen (mobile)
+      let startTouch = 0;
+      slider.addEventListener("touchstart", (e) => {
+        startTouch = e.touches[0].pageX;
+      });
+      slider.addEventListener("touchmove", (e) => {
+        const moveX = e.touches[0].pageX;
+        slider.scrollLeft += (startTouch - moveX);
+        startTouch = moveX;
+      });
+    });
+  </script>
 </body>
 </html>
