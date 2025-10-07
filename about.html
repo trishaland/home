@@ -404,7 +404,7 @@
   line-height: 1.5;
 }
 
-/* Responsif */
+/* Responsif umum */
 @media (max-width: 600px) {
   .flip-card {
     width: 80%;
@@ -412,6 +412,7 @@
   }
 }
 
+/* Bagian Rekap Show */
 .rekap-wrapper {
   display: flex;
   align-items: center;
@@ -444,16 +445,55 @@
   height: 36px;
 }
 
+/* ======== PERBAIKAN MOBILE ======== */
 @media (max-width: 800px) {
   .rekap-wrapper {
     flex-direction: column;
+    align-items: center;
     text-align: center;
+    gap: 30px;
   }
+
   .rekap-info {
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    flex-wrap: wrap;
+    gap: 16px;
+    width: 85%;
+    padding: 20px;
+  }
+
+  .info-item {
+    gap: 8px;
+    font-size: 1rem;
+  }
+
+  .info-item img {
+    width: 28px;
+    height: 28px;
+  }
+
+  /* Flip cards tampil vertikal & tidak terpotong */
+  .flipcard-container {
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+    overflow-y: visible;
     gap: 25px;
+  }
+
+  .flip-card {
+    width: 80%;
+    max-width: 300px;
+    height: auto;
+  }
+
+  .flip-card-front img {
+    height: auto;
+  }
+
+  .flip-card-inner {
+    height: auto;
   }
 }
   </style>
