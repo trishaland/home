@@ -311,93 +311,119 @@
   transform: scale(1.15);
 }
 
-/* === Spotlight Section === */
-.spotlight-section {
+/* === Flipcard Section === */
+.flipcard-section {
   text-align: center;
-  padding: 60px 20px;
-  background-color: #ffffff;
+  padding: 80px 20px;
+  background: #f0f8ff; /* biru muda lembut */
 }
 
-.spotlight-section h2 {
-  color: #3478f6;
+.flipcard-section h2 {
   font-size: 2rem;
+  color: #1a5cff;
   margin-bottom: 40px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
-.spotlight-container {
+/* === Scroll Container === */
+.flipcard-container {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
   gap: 30px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 20px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
-.spotlight-card {
-  border-radius: 20px;
-  padding: 15px;
+.flipcard-container::-webkit-scrollbar {
+  display: none; /* sembunyikan scrollbar */
+}
+
+/* === Struktur Card === */
+.flip-card {
+  flex: 0 0 auto;
+  scroll-snap-align: center;
+  background: transparent;
   width: 250px;
-  text-align: center;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
-
-.spotlight-card img {
-  width: 100%;
-  border-radius: 15px;
-  margin-bottom: 10px;
-}
-
-.spotlight-card p {
-  font-weight: 600;
-  color: #fff;
-  margin: 0;
-  padding: 10px 0;
-  border-radius: 12px;
-}
-
-.spotlight-card.blue {
-  background-color: #1a5cff;
-}
-
-.spotlight-card.green {
-  background-color: #6edb5a;
-}
-
-.apresiasi-btn {
-  background-color: #1a5cff;
-  color: white;
-  border: none;
-  border-radius: 25px;
-  padding: 12px 30px;
-  font-size: 1rem;
-  font-weight: 600;
+  height: 330px;
+  perspective: 1000px;
   cursor: pointer;
-  transition: transform 0.2s, background-color 0.3s;
 }
 
-.apresiasi-btn:hover {
-  background-color: #0040cc;
-  transform: scale(1.05);
-}
-
-/* === Confetti Canvas === */
-#confetti-canvas {
-  position: fixed;
-  pointer-events: none;
-  top: 0;
-  left: 0;
+.flip-card-inner {
+  position: relative;
   width: 100%;
   height: 100%;
-  z-index: 9999;
+  transition: transform 0.8s ease;
+  transform-style: preserve-3d;
+  border-radius: 20px;
 }
 
-/* === Responsive === */
-@media (max-width: 768px) {
-  .spotlight-container {
-    flex-direction: column;
-  }
-  .spotlight-card {
-    width: 80%;
+.flip-card.flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+/* === Tampilan Depan === */
+.flip-card-front {
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.flip-card-front img {
+  width: 100%;
+  height: 75%;
+  object-fit: cover;
+}
+
+.flip-card-front .caption {
+  background: #1a5cff;
+  color: #fff;
+  height: 25%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.flip-card-front.green .caption {
+  background: #6edb5a;
+}
+
+/* === Tampilan Belakang === */
+.flip-card-back {
+  background: #add8e6; /* biru muda */
+  color: #003366; /* biru tua */
+  transform: rotateY(180deg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 25px;
+  text-align: center;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* Responsif */
+@media (max-width: 600px) {
+  .flip-card {
+    width: 85%;
+    height: 300px;
   }
 }
   </style>
@@ -559,29 +585,61 @@
       </iframe>
     </section>
 
-<!-- TRISHA'S SPOTLIGHT SECTION -->
-<section class="spotlight-section" aria-label="Trisha's Spotlight">
-  <h2>Trisha’s Spotlight</h2>
+<section class="flipcard-section">
+  <h2>Rekap Show Trisha</h2>
 
-  <div class="spotlight-container">
-    <div class="spotlight-card blue">
-      <img src="trisha1.webp" alt="Trisha Pajama Drive">
-      <p>Global Center<br>Pajama Drive</p>
+  <div class="flipcard-container">
+
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-card-front blue">
+          <img src="pajama.jpg" alt="Global Center Pajama Drive">
+          <div class="caption">
+            <p>Global Center</p>
+            <p>Pajama Drive</p>
+          </div>
+        </div>
+        <div class="flip-card-back">
+          <p>Trisha tampil ceria dalam Pajama Drive, menampilkan sisi hangat dan energik-nya.</p>
+        </div>
+      </div>
     </div>
 
-    <button class="apresiasi-btn" onclick="showConfetti()">Apresiasi</button>
-
-    <div class="spotlight-card green">
-      <img src="trisha2.webp" alt="Trisha Ingin Bertemu">
-      <p>Global Center<br>Ingin Bertemu</p>
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-card-front green">
+          <img src="inginbertemu.jpg" alt="Global Center Ingin Bertemu">
+          <div class="caption">
+            <p>Global Center</p>
+            <p>Ingin Bertemu</p>
+          </div>
+        </div>
+        <div class="flip-card-back">
+          <p>Trisha membawakan penampilan penuh emosi di panggung “Ingin Bertemu”.</p>
+        </div>
+      </div>
     </div>
+
+    <!-- Tambah lagi card lain -->
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-card-front blue">
+          <img src="lagu3.jpg" alt="Show 3">
+          <div class="caption">
+            <p>Global Center</p>
+            <p>Blue Sky</p>
+          </div>
+        </div>
+        <div class="flip-card-back">
+          <p>Trisha menampilkan sisi lembut dengan lagu Blue Sky yang menenangkan.</p>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
   </main>
-
-<!-- CONFETTI EFFECT -->
-<canvas id="confetti-canvas"></canvas>
 
   <!-- FOOTER -->
   <footer class="footer">
@@ -733,98 +791,12 @@
   })();
   </script>
 
-<!-- CONFETTI SCRIPT -->
 <script>
-  const confettiCanvas = document.getElementById("confetti-canvas");
-  const ctx = confettiCanvas.getContext("2d");
-
-  function resizeCanvas() {
-    confettiCanvas.width = window.innerWidth;
-    confettiCanvas.height = window.innerHeight;
-  }
-  resizeCanvas();
-  window.addEventListener("resize", resizeCanvas);
-
-  let confettis = [];
-  let opacity = 0;
-  let fadingOut = false;
-  let fadeTimer = null;
-  let canAddConfetti = true; // kontrol cooldown klik
-
-  function random(min, max) {
-    return Math.random() * (max - min) + min;
-  }
-
-  // Tambah confetti baru tanpa reset opacity
-  function addConfetti() {
-    for (let i = 0; i < 80; i++) {
-      confettis.push({
-        x: random(0, confettiCanvas.width),
-        y: random(-confettiCanvas.height, 0),
-        r: random(2, 6),
-        c: `hsl(${random(0, 360)}, 100%, 70%)`,
-        s: random(1, 3)
-      });
-    }
-
-    // Kalau belum mulai tampil, baru atur opacity
-    if (opacity <= 0) opacity = 1;
-
-    // Kalau belum mulai fade, kasih waktu tampil dulu
-    if (!fadingOut) {
-      if (fadeTimer) clearTimeout(fadeTimer);
-      fadeTimer = setTimeout(() => fadingOut = true, 4000);
-    }
-  }
-
-  function drawConfetti() {
-    ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-    ctx.globalAlpha = opacity;
-    confettis.forEach(p => {
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = p.c;
-      ctx.fill();
-    });
-    ctx.globalAlpha = 1;
-  }
-
-  function updateConfetti() {
-    confettis.forEach(p => {
-      p.y += p.s;
-      if (p.y > confettiCanvas.height) {
-        p.y = random(-20, 0);
-        p.x = random(0, confettiCanvas.width);
-      }
-    });
-
-    // Fade out perlahan 3 detik
-    if (fadingOut && opacity > 0) {
-      opacity -= 0.0055;
-      if (opacity <= 0) {
-        opacity = 0;
-        confettis = [];
-        fadingOut = false;
-      }
-    }
-  }
-
-  function animate() {
-    drawConfetti();
-    updateConfetti();
-    requestAnimationFrame(animate);
-  }
-  animate();
-
-  const btnApresiasi = document.querySelector(".apresiasi-btn");
-  if (btnApresiasi) {
-    btnApresiasi.addEventListener("click", () => {
-      if (!canAddConfetti) return;
-      addConfetti();
-      canAddConfetti = false;
-      setTimeout(() => { canAddConfetti = true; }, 2000); // cooldown 2 detik
-    });
-  }
+document.querySelectorAll('.flip-card').forEach(card => {
+  card.addEventListener('click', () => {
+    card.classList.toggle('flipped');
+  });
+});
 </script>
 </body>
 </html>
