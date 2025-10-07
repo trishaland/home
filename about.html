@@ -645,20 +645,23 @@
   <div class="rekap-wrapper">
     
     <!-- BAGIAN KIRI -->
-    <div class="rekap-info">
-      <div class="info-item">
-        <img src="icon1.png" alt="Show Icon">
-        <span><b>81</b> Show</span>
-      </div>
-      <div class="info-item">
-        <img src="icon2.png" alt="Setlist Icon">
-        <span><b>3</b> Setlist</span>
-      </div>
-      <div class="info-item">
-        <img src="icon3.png" alt="Unit Song Icon">
-        <span><b>8</b> Unit Songs</span>
-      </div>
-    </div>
+<div class="rekap-info">
+  <div class="info-item">
+    <img src="icon-show.png" alt="Show Icon">
+    <span><span class="count" data-target="81">0</span> Show</span>
+  </div>
+
+  <div class="info-item">
+    <img src="icon-setlist.png" alt="Setlist Icon">
+    <span><span class="count" data-target="3">0</span> Setlist</span>
+  </div>
+
+  <div class="info-item">
+    <img src="icon-unit.png" alt="Unit Icon">
+    <span><span class="count" data-target="8">0</span> Unit Songs</span>
+  </div>
+</div>
+
 
     <!-- BAGIAN KANAN (flip cards tetap seperti semula) -->
     <div class="flipcard-container">
@@ -898,6 +901,47 @@ document.querySelectorAll('.flip-card').forEach(card => {
   card.addEventListener('touchstart', start);
   card.addEventListener('touchmove', move);
   card.addEventListener('touchend', end);
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const counters = document.querySelectorAll(".count");
+  const speed = 170; // ubah sesuai kecepatan yang kamu mau (semakin besar = lebih lambat)
+
+  function animateCount(el) {
+    const target = +el.getAttribute("data-target");
+    let count = 0;
+    const step = Math.ceil(target / speed);
+
+    function update() {
+      count += step;
+      if (count < target) {
+        el.textContent = count;
+        requestAnimationFrame(update);
+      } else {
+        el.textContent = target;
+      }
+    }
+    update();
+  }
+
+  // Observer: memantau seluruh section rekap
+  const rekapSection = document.querySelector(".flipcard-section"); // bisa ganti dengan .rekap-section kalau section kamu beda nama
+
+  if (rekapSection) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          // Jalankan semua animasi hanya sekali
+          counters.forEach((counter) => animateCount(counter));
+          observer.unobserve(rekapSection);
+        }
+      });
+    }, { threshold: 0.5 }); // angka 0.3 artinya mulai saat 30% section kelihatan
+
+    observer.observe(rekapSection);
+  }
 });
 </script>
 </body>
