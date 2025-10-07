@@ -643,36 +643,43 @@
     </div>
   </footer>
 
+<form id="trishaForm" action="https://formspree.io/f/mvgwbanv" method="POST">
+  <label>Nama:</label>
+  <input type="text" name="nama" required>
+
+  <label>Pesan:</label>
+  <textarea name="pesan" required></textarea>
+
+  <button type="submit">Kirim Pesan</button>
+</form>
+
+<p id="statusPesan"></p>
+
 <script>
-  const sheetURL = "https://script.google.com/macros/s/AKfycbx8zQ9qXe4BWolwQ7Db8GvQU7exhBIT6i-7k3aaX7rKbZ0xeQO3iiSdXjkBr8ONkmg0tA/exec";
-  const proxyURL = "https://corsproxy.io/?"; // 🔁 pakai proxy yang sama
+  const form = document.getElementById("trishaForm");
+  const status = document.getElementById("statusPesan");
 
-  async function loadPesan() {
-    const daftarPesan = document.getElementById("daftarPesan");
-    daftarPesan.textContent = "Memuat pesan...";
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    status.textContent = "Mengirim pesan... 💬";
     try {
-      const response = await fetch(proxyURL + sheetURL);
-      const data = await response.json();
-
-      if (!data || data.length === 0) {
-        daftarPesan.textContent = "Belum ada pesan 😇";
-        return;
+      const data = new FormData(form);
+      const response = await fetch(form.action, {
+        method: "POST",
+        body: data,
+        headers: { Accept: "application/json" }
+      });
+      if (response.ok) {
+        status.textContent = "Pesan berhasil dikirim! 💖";
+        form.reset();
+      } else {
+        status.textContent = "Gagal mengirim pesan 😢";
       }
-
-      daftarPesan.innerHTML = data.reverse().map(item => `
-        <div class="pesan-card">
-          <strong>${item.nama}</strong>
-          <p>${item.pesan}</p>
-          <small>${new Date(item.timestamp).toLocaleString("id-ID")}</small>
-        </div>
-      `).join("");
     } catch (err) {
-      daftarPesan.textContent = "Gagal memuat pesan 😢";
+      status.textContent = "Terjadi error 😭";
       console.error(err);
     }
-  }
-
-  document.addEventListener("DOMContentLoaded", loadPesan);
+  });
 </script>
 </body>
 </html>
