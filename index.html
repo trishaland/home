@@ -277,127 +277,6 @@
       .time-box span { font-size: 1.8rem; }
     }
 
-    .dear-trisha {
-      background: linear-gradient(180deg, #e8f4ff, #ffffff);
-      padding: 80px 20px;
-      text-align: center;
-      color: #004080;
-    }
-
-    .dear-trisha h2 {
-      font-size: 2rem;
-      margin-bottom: 10px;
-      color: #004080;
-    }
-
-    .dear-trisha p {
-      margin-bottom: 25px;
-      font-size: 1rem;
-      color: #333;
-    }
-
-    form {
-      max-width: 500px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    input, textarea {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #b0c4de;
-      font-family: "Poppins", sans-serif;
-      resize: none;
-    }
-
-    textarea { min-height: 120px; }
-
-    button {
-      background: #1e90ff;
-      color: white;
-      border: none;
-      padding: 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: background 0.3s;
-    }
-
-    button:hover { background: #1875d1; }
-
-    #statusPesan {
-      margin-top: 15px;
-      font-size: 1rem;
-      color: #008000;
-    }
-
-    @media (max-width: 600px) {
-      .dear-trisha h2 { font-size: 1.6rem; }
-      form { width: 90%; }
-    }
-
-    .pesan-pengunjung {
-      background: #f9fbff;
-      padding: 60px 20px;
-      text-align: center;
-      color: #003366;
-    }
-
-    .pesan-pengunjung h3 {
-      font-size: 1.8rem;
-      margin-bottom: 25px;
-      color: #004080;
-    }
-
-    #daftarPesan {
-      max-width: 700px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      text-align: left;
-    }
-
-    .pesan-card {
-      background: #ffffff;
-      border-radius: 12px;
-      padding: 15px 20px;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-      border-left: 5px solid #1e90ff;
-      animation: fadeIn 0.5s ease;
-    }
-
-    .pesan-card strong {
-      color: #1e90ff;
-      font-size: 1.05rem;
-    }
-
-    .pesan-card p {
-      margin-top: 5px;
-      color: #333;
-      font-size: 0.95rem;
-      line-height: 1.5;
-    }
-
-    .pesan-card small {
-      display: block;
-      margin-top: 8px;
-      color: #777;
-      font-size: 0.8rem;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 600px) {
-      .pesan-pengunjung h3 { font-size: 1.4rem; }
-    }
-
     /* FOOTER */
     .footer {
       background: #004080;
@@ -580,27 +459,6 @@
             style="border:0" width="100%" height="600" frameborder="0" scrolling="no"></iframe>
   </section>
 
-  <!-- PESAN UNTUK TRISHA -->
-  <section class="dear-trisha">
-    <h2>💌 Kirim Pesan untuk Trisha</h2>
-    <p>Tulis pesanmu untuk Trisha di sini ya! Ceritakan dukungan, semangat, atau hal-hal baik yang ingin kamu sampaikan💌</p>
-    <p>Jangan lupa, kirim kata-kata yang sopan dan penuh semangat ya! biar pesannya membawa senyum🌷</p>
-
-    <form id="trishaForm">
-      <input type="text" id="nama" name="nama" placeholder="Nama kamu" required>
-      <textarea id="pesan" name="pesan" placeholder="Tulis pesan kamu di sini..." required></textarea>
-      <button type="submit">Kirim Pesan ✨</button>
-    </form>
-
-    <p id="statusPesan"></p>
-  </section>
-
-  <!-- PESAN DARI PENGUNJUNG -->
-  <section class="pesan-pengunjung">
-    <h3>💬 Pesan dari Kamu yang Sayang Trisha</h3>
-    <div id="daftarPesan">Memuat pesan...</div>
-  </section>
-
   <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-container">
@@ -643,44 +501,6 @@
     </div>
   </footer>
 
-<form id="trishaForm" action="https://formspree.io/f/mvgwbanv" method="POST">
-  <label>Nama:</label>
-  <input type="text" name="nama" required>
-
-  <label>Pesan:</label>
-  <textarea name="pesan" required></textarea>
-
-  <button type="submit">Kirim Pesan</button>
-</form>
-
-<p id="statusPesan"></p>
-
-<script>
-  const form = document.getElementById("trishaForm");
-  const status = document.getElementById("statusPesan");
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    status.textContent = "Mengirim pesan... 💬";
-    try {
-      const data = new FormData(form);
-      const response = await fetch(form.action, {
-        method: "POST",
-        body: data,
-        headers: { Accept: "application/json" }
-      });
-      if (response.ok) {
-        status.textContent = "Pesan berhasil dikirim! 💖";
-        form.reset();
-      } else {
-        status.textContent = "Gagal mengirim pesan 😢";
-      }
-    } catch (err) {
-      status.textContent = "Terjadi error 😭";
-      console.error(err);
-    }
-  });
-</script>
 </body>
 </html>
 
