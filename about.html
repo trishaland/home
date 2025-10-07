@@ -311,7 +311,7 @@
   transform: scale(1.15);
 }
 
-/* ======== FLIPCARD SECTION ======== */
+/* ====== REKAP + FLIPCARD SECTION FIXED ====== */
 .flipcard-section {
   text-align: center;
   padding: 70px 20px;
@@ -325,10 +325,46 @@
   font-weight: 700;
 }
 
-/* Container: geser horizontal tanpa scrollbar/tombol */
+/* Wrapper dua kolom (rekap kiri + flip kanan) */
+.rekap-wrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+/* Kiri: rekap info */
+.rekap-info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: #fff;
+  padding: 25px 35px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.1rem;
+  color: #003366;
+  font-weight: 600;
+}
+
+.info-item img {
+  width: 36px;
+  height: 36px;
+}
+
+/* Kanan: Flip Card Container */
 .flipcard-container {
   display: flex;
   gap: 25px;
+  justify-content: center;
+  align-items: stretch;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
@@ -337,7 +373,7 @@
 }
 .flipcard-container::-webkit-scrollbar { display: none; }
 
-/* Kartu */
+/* Individual Card */
 .flip-card {
   flex: 0 0 auto;
   scroll-snap-align: center;
@@ -405,46 +441,8 @@
   line-height: 1.5;
 }
 
-/* Hover flip effect (desktop) */
-.flip-card:hover .flip-card-inner {
-  transform: rotateY(180deg);
-}
-
-/* ======== REKAP SHOW SECTION ======== */
-.rekap-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 40px;
-  flex-wrap: wrap;
-}
-
-.rekap-info {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  background: #fff;
-  padding: 25px 35px;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.info-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 1.1rem;
-  color: #003366;
-  font-weight: 600;
-}
-
-.info-item img {
-  width: 36px;
-  height: 36px;
-}
-
-/* ======== PERBAIKAN MOBILE ======== */
-@media (max-width: 800px) {
+/* RESPONSIF */
+@media (max-width: 900px) {
   .rekap-wrapper {
     flex-direction: column;
     align-items: center;
@@ -453,36 +451,26 @@
   }
 
   .rekap-info {
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
     justify-content: center;
-    gap: 16px;
+    gap: 20px;
     width: 85%;
-    padding: 20px;
   }
 
-  .info-item {
-    gap: 8px;
-    font-size: 1rem;
-  }
-
-  .info-item img {
-    width: 28px;
-    height: 28px;
-  }
-
-  /* Flip cards tampil vertikal & tetap terlihat */
   .flipcard-container {
     flex-direction: column;
     align-items: center;
-    overflow-x: hidden;
+    overflow-x: visible;
+    overflow-y: visible;
+    width: 100%;
     gap: 25px;
   }
 
   .flip-card {
     width: 85%;
     max-width: 320px;
-    height: 340px; /* ← tinggi tetap agar tidak hilang */
+    height: 340px; /* tinggi tetap agar tak hilang */
   }
 
   .flip-card-inner {
