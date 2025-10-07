@@ -644,45 +644,14 @@
   </footer>
 
 <script>
-  const scriptURL = "https://script.google.com/macros/s/AKfycbx8zQ9qXe4BWolwQ7Db8GvQU7exhBIT6i-7k3aaX7rKbZ0xeQO3iiSdXjkBr8ONkmg0tA/exec";
-  const form = document.getElementById("trishaForm");
-  const statusPesan = document.getElementById("statusPesan");
-
-  form.addEventListener("submit", e => {
-    e.preventDefault();
-    statusPesan.textContent = "Mengirim pesan...";
-
-    fetch(scriptURL, {
-      method: "POST",
-      mode: "cors", // ✅ tambahkan ini
-      body: new FormData(form)
-    })
-    .then(response => response.json()) // ✅ dari .text() ke .json()
-    .then(data => {
-      if (data.success) {
-        statusPesan.textContent = "Pesan kamu berhasil dikirim! 💖";
-        form.reset();
-        loadPesan(); // ✅ otomatis refresh daftar pesan
-      } else {
-        statusPesan.textContent = "Gagal mengirim pesan 😢";
-        console.error("Error!", data.error);
-      }
-    })
-    .catch(error => {
-      statusPesan.textContent = "Gagal mengirim pesan 😢";
-      console.error("Error!", error.message);
-    });
-  });
-</script>
-
-<script>
   const sheetURL = "https://script.google.com/macros/s/AKfycbx8zQ9qXe4BWolwQ7Db8GvQU7exhBIT6i-7k3aaX7rKbZ0xeQO3iiSdXjkBr8ONkmg0tA/exec";
+  const proxyURL = "https://corsproxy.io/?"; // 🔁 pakai proxy yang sama
 
   async function loadPesan() {
     const daftarPesan = document.getElementById("daftarPesan");
     daftarPesan.textContent = "Memuat pesan...";
     try {
-      const response = await fetch(sheetURL, { mode: "cors" }); // ✅ tambahkan CORS
+      const response = await fetch(proxyURL + sheetURL);
       const data = await response.json();
 
       if (!data || data.length === 0) {
