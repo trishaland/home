@@ -411,6 +411,51 @@
     height: 320px;
   }
 }
+
+.rekap-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.rekap-info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: #fff;
+  padding: 25px 35px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.1rem;
+  color: #003366;
+  font-weight: 600;
+}
+
+.info-item img {
+  width: 36px;
+  height: 36px;
+}
+
+@media (max-width: 800px) {
+  .rekap-wrapper {
+    flex-direction: column;
+    text-align: center;
+  }
+  .rekap-info {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 25px;
+  }
+}
   </style>
 
   <script>
@@ -572,44 +617,62 @@
 
 <section class="flipcard-section">
   <h2>Rekap Show Trisha</h2>
-  <div class="flipcard-container">
-
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <img src="pajama.jpg" alt="Global Center Pajama Drive">
-          <div class="caption">Global Center<br>Pajama Drive</div>
-        </div>
-        <div class="flip-card-back">
-          Trisha tampil ceria dalam Pajama Drive, menampilkan sisi hangat dan energik-nya.
-        </div>
+  <div class="rekap-wrapper">
+    
+    <!-- BAGIAN KIRI -->
+    <div class="rekap-info">
+      <div class="info-item">
+        <img src="icon1.png" alt="Show Icon">
+        <span><b>81</b> Show</span>
+      </div>
+      <div class="info-item">
+        <img src="icon2.png" alt="Setlist Icon">
+        <span><b>3</b> Setlist</span>
+      </div>
+      <div class="info-item">
+        <img src="icon3.png" alt="Unit Song Icon">
+        <span><b>8</b> Unit Songs</span>
       </div>
     </div>
 
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <img src="inginbertemu.jpg" alt="Global Center Ingin Bertemu">
-          <div class="caption">Global Center<br>Ingin Bertemu</div>
+    <!-- BAGIAN KANAN (flip cards tetap seperti semula) -->
+    <div class="flipcard-container">
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="pajama.jpg" alt="Global Center Pajama Drive">
+            <div class="caption">Global Center<br>Pajama Drive</div>
+          </div>
+          <div class="flip-card-back">
+            Trisha tampil ceria dalam Pajama Drive, menampilkan sisi hangat dan energik-nya.
+          </div>
         </div>
-        <div class="flip-card-back">
-          Trisha membawakan penampilan penuh emosi di panggung “Ingin Bertemu”.
+      </div>
+
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="inginbertemu.jpg" alt="Global Center Ingin Bertemu">
+            <div class="caption">Global Center<br>Ingin Bertemu</div>
+          </div>
+          <div class="flip-card-back">
+            Trisha membawakan penampilan penuh emosi di panggung “Ingin Bertemu”.
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="show3.jpg" alt="Global Center Show 3">
+            <div class="caption">Global Center<br>Show 3</div>
+          </div>
+          <div class="flip-card-back">
+            Penampilan ketiga yang menawan dengan energi luar biasa.
+          </div>
         </div>
       </div>
     </div>
-
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <img src="show3.jpg" alt="Global Center Show 3">
-          <div class="caption">Global Center<br>Show 3</div>
-        </div>
-        <div class="flip-card-back">
-          Penampilan ketiga yang menawan dengan energi luar biasa.
-        </div>
-      </div>
-    </div>
-
   </div>
 </section>
 
