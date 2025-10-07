@@ -769,11 +769,12 @@
 document.querySelectorAll('.flip-card').forEach(card => {
   const inner = card.querySelector('.flip-card-inner');
   const container = card.closest('.flipcard-container');
+
   let isDragging = false;
   let startX = 0;
-  let currentRotation = 0;
+  let diffX = 0;
+  let mode = null; // 'flip' atau 'scroll'
   let flipped = false;
-  let draggingMode = null; // 'flip' atau 'scroll'
 
   function setRotation(deg) {
     inner.style.transform = `rotateY(${deg}deg)`;
@@ -781,7 +782,7 @@ document.querySelectorAll('.flip-card').forEach(card => {
 
   function start(e) {
     isDragging = true;
-    draggingMode = null;
+    mode = null;
     startX = e.touches ? e.touches[0].clientX : e.clientX;
     inner.style.transition = 'none';
   }
@@ -789,48 +790,53 @@ document.querySelectorAll('.flip-card').forEach(card => {
   function move(e) {
     if (!isDragging) return;
     const x = e.touches ? e.touches[0].clientX : e.clientX;
-    const diff = x - startX;
+    diffX = x - startX;
 
-    // kalau user baru mulai geser, deteksi maksudnya
-    if (!draggingMode) {
-      if (Math.abs(diff) < 10) return; // belum cukup gerak
-      draggingMode = Math.abs(diff) < 50 ? 'flip' : 'scroll';
-      if (draggingMode === 'flip') container.style.overflowX = 'hidden';
+    // Deteksi niat user
+    if (!mode) {
+      if (Math.abs(diffX) < 5) return;
+      // kalau gesernya kecil (pelan), berarti flip
+      if (Math.abs(diffX) < 85) {
+        mode = 'flip';
+        container.style.overflowX = 'hidden'; // matikan scroll saat flip
+      } else {
+        mode = 'scroll';
+        container.style.overflowX = 'auto'; // nyalain scroll saat geser
+      }
     }
 
-    // kalau scroll mode, biarin aja container geser
-    if (draggingMode === 'scroll') return;
+    if (mode === 'scroll') return;
 
-    // kalau flip mode, ikuti gerakan
-    let rotate = flipped ? 180 + (diff / 2) : diff / 2;
+    // Mode flip → ikut drag
+    const sensitivity = 1.3;
+    let rotate = flipped ? 180 + diffX * sensitivity : diffX * sensitivity;
     rotate = Math.max(0, Math.min(180, rotate));
     setRotation(rotate);
-    currentRotation = rotate;
   }
 
   function end() {
     if (!isDragging) return;
     isDragging = false;
-    container.style.overflowX = 'auto'; // aktifkan scroll lagi
-    inner.style.transition = 'transform 0.6s ease';
+    inner.style.transition = 'transform 0.6s cubic-bezier(.25,1.5,.5,1)';
+    container.style.overflowX = 'auto'; // balikin scroll normal
 
-    if (draggingMode === 'flip') {
-      if ((!flipped && currentRotation > 90) || (flipped && currentRotation < 90)) {
+    if (mode === 'flip') {
+      if ((!flipped && diffX > 100) || (flipped && diffX < -100)) {
         flipped = !flipped;
       }
       setRotation(flipped ? 180 : 0);
     }
 
-    draggingMode = null;
+    mode = null;
   }
 
-  // event listener desktop + mobile
   card.addEventListener('mousedown', start);
   card.addEventListener('mousemove', move);
   card.addEventListener('mouseup', end);
   card.addEventListener('mouseleave', end);
-  card.addEventListener('touchstart', start);
-  card.addEventListener('touchmove', move);
+
+  card.addEventListener('touchstart', start, { passive: true });
+  card.addEventListener('touchmove', move, { passive: true });
   card.addEventListener('touchend', end);
 });
 </script>
