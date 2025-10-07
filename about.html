@@ -311,6 +311,7 @@
   transform: scale(1.15);
 }
 
+/* ======== FLIPCARD SECTION ======== */
 .flipcard-section {
   text-align: center;
   padding: 70px 20px;
@@ -404,15 +405,12 @@
   line-height: 1.5;
 }
 
-/* Responsif umum */
-@media (max-width: 600px) {
-  .flip-card {
-    width: 80%;
-    height: 320px;
-  }
+/* Hover flip effect (desktop) */
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
 }
 
-/* Bagian Rekap Show */
+/* ======== REKAP SHOW SECTION ======== */
 .rekap-wrapper {
   display: flex;
   align-items: center;
@@ -473,27 +471,26 @@
     height: 28px;
   }
 
-  /* Flip cards tampil vertikal & tidak terpotong */
+  /* Flip cards tampil vertikal & tetap terlihat */
   .flipcard-container {
     flex-direction: column;
     align-items: center;
     overflow-x: hidden;
-    overflow-y: visible;
     gap: 25px;
   }
 
   .flip-card {
-    width: 80%;
-    max-width: 300px;
-    height: auto;
-  }
-
-  .flip-card-front img {
-    height: auto;
+    width: 85%;
+    max-width: 320px;
+    height: 340px; /* ← tinggi tetap agar tidak hilang */
   }
 
   .flip-card-inner {
-    height: auto;
+    height: 100%;
+  }
+
+  .flip-card-front img {
+    height: 75%;
   }
 }
   </style>
