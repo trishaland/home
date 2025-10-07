@@ -749,13 +749,12 @@
   let opacity = 0;
   let fadingOut = false;
   let fadeTimer = null;
-  let canAddConfetti = true; // kontrol cooldown klik
 
   function random(min, max) {
     return Math.random() * (max - min) + min;
   }
 
-  // Tambah confetti baru tanpa reset opacity
+  // Tambah batch confetti baru tanpa reset opacity
   function addConfetti() {
     for (let i = 0; i < 80; i++) {
       confettis.push({
@@ -767,13 +766,13 @@
       });
     }
 
-    // Kalau belum mulai tampil, baru atur opacity
+    // Kalau belum mulai tampil, set opacity ke 1
     if (opacity <= 0) opacity = 1;
 
     // Kalau belum mulai fade, kasih waktu tampil dulu
     if (!fadingOut) {
       if (fadeTimer) clearTimeout(fadeTimer);
-      fadeTimer = setTimeout(() => fadingOut = true, 4000);
+      fadeTimer = setTimeout(() => fadingOut = true, 4000); // tampil 4 detik
     }
   }
 
@@ -798,7 +797,7 @@
       }
     });
 
-    // Fade out perlahan 3 detik
+    // Fade out 3 detik
     if (fadingOut && opacity > 0) {
       opacity -= 0.0055;
       if (opacity <= 0) {
@@ -819,10 +818,10 @@
   const btnApresiasi = document.querySelector(".apresiasi-btn");
   if (btnApresiasi) {
     btnApresiasi.addEventListener("click", () => {
-      if (!canAddConfetti) return;
-      addConfetti();
-      canAddConfetti = false;
-      setTimeout(() => { canAddConfetti = true; }, 2000); // cooldown 2 detik
+      // bikin confetti keluar 2 detik setelah tombol diklik
+      setTimeout(() => {
+        addConfetti();
+      }, 2000);
     });
   }
 </script>
