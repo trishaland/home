@@ -749,12 +749,13 @@
   let opacity = 0;
   let fadingOut = false;
   let fadeTimer = null;
+  let canAddConfetti = true; // kontrol cooldown klik
 
   function random(min, max) {
     return Math.random() * (max - min) + min;
   }
 
-  // ⬇️ Tambahkan confetti baru tanpa hapus yang lama
+  // Tambah confetti baru tanpa reset opacity
   function addConfetti() {
     for (let i = 0; i < 80; i++) {
       confettis.push({
@@ -766,13 +767,14 @@
       });
     }
 
-    // Set opacity ke 1 lagi kalau udah mulai fade
-    opacity = 1;
-    fadingOut = false;
+    // Kalau belum mulai tampil, baru atur opacity
+    if (opacity <= 0) opacity = 1;
 
-    // Reset fade timer — tampil penuh 4 detik dulu sebelum mulai fade
-    if (fadeTimer) clearTimeout(fadeTimer);
-    fadeTimer = setTimeout(() => fadingOut = true, 4000);
+    // Kalau belum mulai fade, kasih waktu tampil dulu
+    if (!fadingOut) {
+      if (fadeTimer) clearTimeout(fadeTimer);
+      fadeTimer = setTimeout(() => fadingOut = true, 4000);
+    }
   }
 
   function drawConfetti() {
@@ -796,7 +798,7 @@
       }
     });
 
-    // fade-out selama 3 detik terakhir
+    // Fade out perlahan 3 detik
     if (fadingOut && opacity > 0) {
       opacity -= 0.0055;
       if (opacity <= 0) {
@@ -817,7 +819,10 @@
   const btnApresiasi = document.querySelector(".apresiasi-btn");
   if (btnApresiasi) {
     btnApresiasi.addEventListener("click", () => {
+      if (!canAddConfetti) return;
       addConfetti();
+      canAddConfetti = false;
+      setTimeout(() => { canAddConfetti = true; }, 2000); // cooldown 2 detik
     });
   }
 </script>
