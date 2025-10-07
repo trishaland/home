@@ -311,57 +311,51 @@
   transform: scale(1.15);
 }
 
-/* === Flipcard Section === */
 .flipcard-section {
   text-align: center;
-  padding: 80px 20px;
-  background: #f0f8ff; /* biru muda lembut */
+  padding: 70px 20px;
+  background: #f0f8ff;
 }
 
 .flipcard-section h2 {
   font-size: 2rem;
   color: #1a5cff;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   font-weight: 700;
 }
 
-/* === Scroll Container === */
+/* Container: geser horizontal tanpa scrollbar/tombol */
 .flipcard-container {
   display: flex;
-  gap: 30px;
+  gap: 25px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  padding-bottom: 20px;
   scroll-behavior: smooth;
+  padding: 10px;
   -webkit-overflow-scrolling: touch;
 }
+.flipcard-container::-webkit-scrollbar { display: none; }
 
-.flipcard-container::-webkit-scrollbar {
-  display: none; /* sembunyikan scrollbar */
-}
-
-/* === Struktur Card === */
+/* Kartu */
 .flip-card {
   flex: 0 0 auto;
   scroll-snap-align: center;
-  background: transparent;
-  width: 250px;
-  height: 330px;
+  width: 260px;
+  height: 360px;
   perspective: 1000px;
-  cursor: pointer;
+  cursor: grab;
+  border-radius: 20px;
 }
+.flip-card:active { cursor: grabbing; }
 
 .flip-card-inner {
   position: relative;
   width: 100%;
   height: 100%;
-  transition: transform 0.8s ease;
-  transform-style: preserve-3d;
   border-radius: 20px;
-}
-
-.flip-card.flipped .flip-card-inner {
-  transform: rotateY(180deg);
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 .flip-card-front,
@@ -371,59 +365,50 @@
   height: 100%;
   backface-visibility: hidden;
   border-radius: 20px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   overflow: hidden;
 }
 
-/* === Tampilan Depan === */
 .flip-card-front {
   background: #fff;
   display: flex;
   flex-direction: column;
 }
-
 .flip-card-front img {
   width: 100%;
   height: 75%;
   object-fit: cover;
 }
-
 .flip-card-front .caption {
   background: #1a5cff;
   color: #fff;
-  height: 25%;
+  flex: 1;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   font-weight: 600;
   font-size: 1rem;
+  text-align: center;
+  padding: 5px;
 }
 
-.flip-card-front.green .caption {
-  background: #6edb5a;
-}
-
-/* === Tampilan Belakang === */
 .flip-card-back {
-  background: #add8e6; /* biru muda */
-  color: #003366; /* biru tua */
+  background: #add8e6;
+  color: #003366;
   transform: rotateY(180deg);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   padding: 25px;
-  text-align: center;
-  line-height: 1.6;
   font-size: 0.95rem;
-  font-weight: 500;
+  text-align: center;
+  line-height: 1.5;
 }
 
 /* Responsif */
 @media (max-width: 600px) {
   .flip-card {
-    width: 85%;
-    height: 300px;
+    width: 80%;
+    height: 320px;
   }
 }
   </style>
@@ -587,51 +572,40 @@
 
 <section class="flipcard-section">
   <h2>Rekap Show Trisha</h2>
-
   <div class="flipcard-container">
 
     <div class="flip-card">
       <div class="flip-card-inner">
-        <div class="flip-card-front blue">
+        <div class="flip-card-front">
           <img src="pajama.jpg" alt="Global Center Pajama Drive">
-          <div class="caption">
-            <p>Global Center</p>
-            <p>Pajama Drive</p>
-          </div>
+          <div class="caption">Global Center<br>Pajama Drive</div>
         </div>
         <div class="flip-card-back">
-          <p>Trisha tampil ceria dalam Pajama Drive, menampilkan sisi hangat dan energik-nya.</p>
+          Trisha tampil ceria dalam Pajama Drive, menampilkan sisi hangat dan energik-nya.
         </div>
       </div>
     </div>
 
     <div class="flip-card">
       <div class="flip-card-inner">
-        <div class="flip-card-front green">
+        <div class="flip-card-front">
           <img src="inginbertemu.jpg" alt="Global Center Ingin Bertemu">
-          <div class="caption">
-            <p>Global Center</p>
-            <p>Ingin Bertemu</p>
-          </div>
+          <div class="caption">Global Center<br>Ingin Bertemu</div>
         </div>
         <div class="flip-card-back">
-          <p>Trisha membawakan penampilan penuh emosi di panggung “Ingin Bertemu”.</p>
+          Trisha membawakan penampilan penuh emosi di panggung “Ingin Bertemu”.
         </div>
       </div>
     </div>
 
-    <!-- Tambah lagi card lain -->
     <div class="flip-card">
       <div class="flip-card-inner">
-        <div class="flip-card-front blue">
-          <img src="lagu3.jpg" alt="Show 3">
-          <div class="caption">
-            <p>Global Center</p>
-            <p>Blue Sky</p>
-          </div>
+        <div class="flip-card-front">
+          <img src="show3.jpg" alt="Global Center Show 3">
+          <div class="caption">Global Center<br>Show 3</div>
         </div>
         <div class="flip-card-back">
-          <p>Trisha menampilkan sisi lembut dengan lagu Blue Sky yang menenangkan.</p>
+          Penampilan ketiga yang menawan dengan energi luar biasa.
         </div>
       </div>
     </div>
@@ -793,9 +767,49 @@
 
 <script>
 document.querySelectorAll('.flip-card').forEach(card => {
-  card.addEventListener('click', () => {
-    card.classList.toggle('flipped');
-  });
+  const inner = card.querySelector('.flip-card-inner');
+  let isDragging = false;
+  let startX = 0;
+  let currentRotation = 0;
+  let flipped = false;
+
+  function setRotation(deg) {
+    inner.style.transform = `rotateY(${deg}deg)`;
+  }
+
+  function start(e) {
+    isDragging = true;
+    startX = e.touches ? e.touches[0].clientX : e.clientX;
+    inner.style.transition = 'none';
+  }
+
+  function move(e) {
+    if (!isDragging) return;
+    const x = e.touches ? e.touches[0].clientX : e.clientX;
+    const diff = x - startX;
+    let rotate = flipped ? 180 + (diff / 2) : diff / 2;
+    rotate = Math.max(0, Math.min(180, rotate));
+    setRotation(rotate);
+    currentRotation = rotate;
+  }
+
+  function end() {
+    if (!isDragging) return;
+    isDragging = false;
+    inner.style.transition = 'transform 0.6s ease';
+    if ((!flipped && currentRotation > 90) || (flipped && currentRotation < 90)) {
+      flipped = !flipped;
+    }
+    setRotation(flipped ? 180 : 0);
+  }
+
+  card.addEventListener('mousedown', start);
+  card.addEventListener('mousemove', move);
+  card.addEventListener('mouseup', end);
+  card.addEventListener('mouseleave', end);
+  card.addEventListener('touchstart', start);
+  card.addEventListener('touchmove', move);
+  card.addEventListener('touchend', end);
 });
 </script>
 </body>
