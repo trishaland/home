@@ -481,6 +481,45 @@
     height: 75%;
   }
 }
+
+/* ======== RAPIHKAN TEKS DI BELAKANG FLIP CARD ======== */
+.flip-card-back {
+  background: #add8e6;
+  color: #003366;
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 18px;
+  font-size: 0.95rem;
+  text-align: left;
+  line-height: 1.6;
+  border-radius: 20px;
+  white-space: pre-line; /* biar line break di HTML kebaca */
+}
+
+.flip-card-back strong {
+  color: #002244;
+  font-weight: 700;
+}
+
+.flip-card-back .back-title {
+  font-weight: 700;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.flip-card-back ul {
+  list-style: none;
+  padding: 0;
+  margin: 6px 0 0 0;
+}
+
+.flip-card-back ul li::before {
+  content: "🎵 ";
+  font-size: 0.9rem;
+}
   </style>
 
   <script>
@@ -648,7 +687,7 @@
 <div class="rekap-info">
   <div class="info-item">
     <img src="icon-show.png" alt="Show Icon">
-    <span><span class="count" data-target="81">0</span> Show</span>
+    <span><span class="count" data-target="85">0</span> Show</span>
   </div>
 
   <div class="info-item">
@@ -658,50 +697,59 @@
 
   <div class="info-item">
     <img src="icon-unit.png" alt="Unit Icon">
-    <span><span class="count" data-target="8">0</span> Unit Songs</span>
+    <span><span class="count" data-target="11">0</span> Unit Songs</span>
   </div>
 </div>
 
 
-    <!-- BAGIAN KANAN (flip cards tetap seperti semula) -->
-    <div class="flipcard-container">
-      <div class="flip-card">
-        <div class="flip-card-inner">
-          <div class="flip-card-front">
-            <img src="pajama.jpg" alt="Global Center Pajama Drive">
-            <div class="caption">Global Center<br>Pajama Drive</div>
-          </div>
-          <div class="flip-card-back">
-            Trisha tampil ceria dalam Pajama Drive, menampilkan sisi hangat dan energik-nya.
-          </div>
-        </div>
-      </div>
+<!-- BAGIAN KANAN (flip cards tetap seperti semula) -->
+<div class="flipcard-container">
 
-      <div class="flip-card">
-        <div class="flip-card-inner">
-          <div class="flip-card-front">
-            <img src="inginbertemu.jpg" alt="Global Center Ingin Bertemu">
-            <div class="caption">Global Center<br>Ingin Bertemu</div>
-          </div>
-          <div class="flip-card-back">
-            Trisha membawakan penampilan penuh emosi di panggung “Ingin Bertemu”.
-          </div>
-        </div>
+  <div class="flip-card">
+    <div class="flip-card-inner">
+      <div class="flip-card-front">
+        <img src="pajama.png" alt="50 kali Pajama Drive">
+        <div class="caption">50 kali<br>Pajama Drive</div>
       </div>
-
-      <div class="flip-card">
-        <div class="flip-card-inner">
-          <div class="flip-card-front">
-            <img src="show3.jpg" alt="Global Center Show 3">
-            <div class="caption">Global Center<br>Show 3</div>
-          </div>
-          <div class="flip-card-back">
-            Penampilan ketiga yang menawan dengan energi luar biasa.
-          </div>
-        </div>
+      <div class="flip-card-back">
+        <div class="back-title">Pajama Drive</div>
+        <strong>Shonichi:</strong> 30 Mei 2024<br>
+        <strong>Global Center:</strong> 3 Mei 2025<br>
+        <strong>Unit Song:</strong> Tenshi no Shippo<br><br>
       </div>
     </div>
   </div>
+
+  <div class="flip-card">
+    <div class="flip-card-inner">
+      <div class="flip-card-front">
+        <img src="aitakatta.png" alt="33 kali Aitakatta">
+        <div class="caption">33 kali<br>Aitakatta</div>
+      </div>
+      <div class="flip-card-back">
+        <div class="back-title">Aitakatta</div>
+        <strong>Shonichi:</strong> 16 Februari 2024<br>
+        <strong>Global Center:</strong> 10 Mei 2025<br>
+        <strong>Unit Songs:</strong> Koi No Plan, Revolusi Rio, Nageki no Figure, dan Nagisa no Cherry<br><br>
+      </div>
+    </div>
+  </div>
+
+  <div class="flip-card">
+    <div class="flip-card-inner">
+      <div class="flip-card-front">
+        <img src="ramune.png" alt="2 kali Cara Meminum Ramune">
+        <div class="caption">2 kali<br>Cara Meminum Ramune</div>
+      </div>
+      <div class="flip-card-back">
+        <div class="back-title">Cara Meminum Ramune</div>
+        <strong>Shonichi:</strong> 17 Juli 2025<br>
+        <strong>Unit Song:</strong> Finland Miracle<br><br>
+      </div>
+    </div>
+  </div>
+
+</div>
 </section>
 
   </main>
