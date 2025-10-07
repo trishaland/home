@@ -748,14 +748,15 @@
   let confettis = [];
   let opacity = 0;
   let fadingOut = false;
+  let fadeTimer = null;
 
   function random(min, max) {
     return Math.random() * (max - min) + min;
   }
 
-  function createConfetti() {
-    confettis = [];
-    for (let i = 0; i < 150; i++) {
+  // ⬇️ Tambahkan confetti baru tanpa hapus yang lama
+  function addConfetti() {
+    for (let i = 0; i < 80; i++) {
       confettis.push({
         x: random(0, confettiCanvas.width),
         y: random(-confettiCanvas.height, 0),
@@ -764,11 +765,14 @@
         s: random(1, 3)
       });
     }
+
+    // Set opacity ke 1 lagi kalau udah mulai fade
     opacity = 1;
     fadingOut = false;
 
-    // tampil penuh dulu selama 4 detik
-    setTimeout(() => fadingOut = true, 4000);
+    // Reset fade timer — tampil penuh 4 detik dulu sebelum mulai fade
+    if (fadeTimer) clearTimeout(fadeTimer);
+    fadeTimer = setTimeout(() => fadingOut = true, 4000);
   }
 
   function drawConfetti() {
@@ -792,9 +796,9 @@
       }
     });
 
-    // fade-out halus selama ~3 detik
+    // fade-out selama 3 detik terakhir
     if (fadingOut && opacity > 0) {
-      opacity -= 0.0055; // 1 / 0.0055 ≈ 182 frame ≈ 3 detik (60 fps)
+      opacity -= 0.0055;
       if (opacity <= 0) {
         opacity = 0;
         confettis = [];
@@ -813,7 +817,7 @@
   const btnApresiasi = document.querySelector(".apresiasi-btn");
   if (btnApresiasi) {
     btnApresiasi.addEventListener("click", () => {
-      createConfetti();
+      addConfetti();
     });
   }
 </script>
