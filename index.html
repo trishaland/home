@@ -326,6 +326,99 @@
     }
   </style>
 
+<!-- ===== Trisha Chatbot Start ===== -->
+<style>
+  /* Chat bubble toggle */
+  #chat-toggle {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background: url('TrishaLand.webp') center/cover no-repeat;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    transition: transform 0.3s;
+    z-index: 9999;
+  }
+  #chat-toggle:hover { transform: scale(1.1); }
+
+  /* Chat window */
+  .chat-box {
+    font-family: 'Poppins', sans-serif;
+    position: fixed;
+    bottom: 100px;
+    right: 25px;
+    width: 340px;
+    max-height: 480px;
+    background: linear-gradient(180deg, #ffffff 0%, #dff2ff 100%);
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    animation: fadeUp 0.3s ease forwards;
+    z-index: 9998;
+  }
+  @keyframes fadeUp {
+    from {opacity: 0; transform: translateY(20px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+
+  .chat-header {
+    background: rgba(255,255,255,0.7);
+    padding: 12px;
+    font-weight: 600;
+    text-align: center;
+    color: #0077c8;
+    border-bottom: 1px solid #c9e6ff;
+  }
+
+  .chat-messages {
+    flex: 1;
+    padding: 12px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .chat-input {
+    display: flex;
+    border-top: 1px solid #c9e6ff;
+    background: #fff;
+  }
+  .chat-input input {
+    flex: 1;
+    border: none;
+    padding: 10px 14px;
+    font-size: 14px;
+    border-radius: 0 0 0 20px;
+    outline: none;
+  }
+  .chat-input button {
+    border: none;
+    background: #0077c8;
+    color: white;
+    padding: 0 18px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 0 0 20px 0;
+  }
+
+  .message {
+    max-width: 80%;
+    padding: 10px 14px;
+    border-radius: 16px;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  .user { align-self: flex-end; background: #fff; border: 1px solid #d1e7ff; }
+  .bot { align-self: flex-start; background: #ffffff; border: 1px solid #c9e6ff; color: #004c80; }
+</style>
+
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const hamburger = document.querySelector(".hamburger");
@@ -501,6 +594,269 @@
     </div>
   </footer>
 
+<!-- Chat bubble button -->
+<button id="chat-toggle" aria-label="Buka chat"></button>
+
+<!-- Chat window -->
+<div class="chat-box" id="chatBox">
+  <div class="chat-header">Trisha Chat 💬</div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="message bot">Hai! Aku TrishaBot 🤍 Mau tanya atau curhat tentang Trisha JKT48?</div>
+  </div>
+  <div class="chat-input">
+    <input type="text" id="userInput" placeholder="Ketik pesan..." />
+    <button id="sendBtn">Kirim</button>
+  </div>
+</div>
+
+<script>
+  const toggleBtn = document.getElementById('chat-toggle');
+  const chatBox = document.getElementById('chatBox');
+  const sendBtn = document.getElementById('sendBtn');
+  const userInput = document.getElementById('userInput');
+  const chatMessages = document.getElementById('chatMessages');
+
+  // ====== 🔮 DAFTAR JAWABAN STATIS ======
+  const responses = {
+    // --- semua tentang Trisha tetap seperti sebelumnya ---
+    "siapa trisha": "Trisha itu wanita paling cantik di muka bumi 💗 Gadis yang ceria, tegas, tapi super ramah dan tulus.",
+    "trisha lahir kapan": "Trisha lahir di Jakarta, 16 Februari 2011 🌸",
+    "asal trisha dari mana": "Asalnya dari Jakarta~ tapi punya darah Bukittinggi dan Tionghoa juga 💕",
+    "trisha generasi berapa": "Dia member JKT48 Generasi 12!",
+    "warna favorit trisha": "Warna pastel lembut kayak biru muda dan pink muda 💞",
+    "lagu favorit trisha": "Trisha suka lagu-lagu yang tenang dan manis kayak ‘Temodemo no Namida’ 🎶",
+    "unit song trisha apa aja": "Tenshi no Shippo, Koi no Plan, Revolusi Rio, Nageki no Figure, Nagisa no Cherry, dan Finland Miracle!",
+    "show terakhir trisha": "Belum grad kok 😆 Masih aktif tampil di teater~",
+    "trisha suka makanan apa": "Trisha suka ramen 🍜, es krim 🍦, dan makanan manis 💕",
+    "zodiak trisha apa": "Aquarius dong ♒ penuh ide dan bebas!",
+    "kenapa trisha gabung jkt48": "Karena dia ingin menyebarkan semangat positif lewat panggung ✨",
+    "siapa sahabat dekat trisha": "Ci Delynn, Ka Cathy, dan Ka Anin — deket banget!",
+    "trisha lagi ngapain": "Kayaknya lagi latihan deh 💃 atau lagi istirahat sambil scroll fanletter 😆",
+    "trisha cantik banget": "Aduh makasih 😳 tapi kamu juga gak kalah kok!",
+    "trisha lucu banget": "Hehehe, makasih 🥰 katanya sih Trisha emang gampang bikin orang senyum~",
+    "trisha suka apa": "Trisha suka hal-hal yang estetik, musik lembut, dan interaksi hangat sama fans 💗",
+    "trisha tinggi berapa": "Tingginya sekitar 150-an cm, kecil tapi kuat 💪",
+    "trisha takut sama apa": "Katanya takut sama kecoa terbang 🪳😭",
+    "trisha punya hewan peliharaan?": "Punya! Dia suka banget sama kucing 🐱",
+    "trisha suka warna apa": "Warna pastel, terutama biru muda dan putih 💙🤍",
+    "trisha suka film apa": "Dia suka film slice of life yang hangat dan ringan 🎬",
+    "trisha suka anime?": "Iya dong~ katanya suka anime yang cute-cute 💕",
+    "trisha suka minum apa": "Teh susu, matcha latte, atau jus segar 🧋",
+    "trisha suka liburan kemana": "Tempat yang tenang dan banyak pohon 🌿 kayak pegunungan atau pantai sore hari.",
+    "trisha lagi sibuk apa": "Lagi latihan terus biar performancenya makin keren~ 💃",
+    "trisha fansnya disebut apa": "Belum resmi sih... tapi banyak yang bilang 'Trishalover' 💗",
+    "trisha suka warna rambut apa": "Cokelat muda atau hitam alami, yang lembut gitu~ ☕",
+    "trisha suka parfum apa": "Wangi vanilla lembut, manis tapi elegan 🌸",
+    "trisha suka bunga apa": "Bunga sakura! Karena lembut tapi kuat 🌸",
+    "trisha suka lagu jkt48 apa": "‘365 Nichi no Kamihikouki’ katanya bikin semangat terus ☁️",
+    "trisha suka snack apa": "Cokelat, wafer, dan potato chips 🍫",
+    "trisha suka minum es gak": "Suka banget~ apalagi kalau cuaca panas 🧊",
+    "trisha fans dari mana aja": "Dari seluruh Indonesia bahkan luar negeri juga ada 💫",
+    "trisha punya saudara?": "Iya~ tapi dia jarang cerita soal keluarganya, pengen dijaga privasinya 😊",
+    "trisha sekolah dimana": "Masih sekolah di Jakarta~ pinter banget bagi waktu antara belajar dan JKT48 📚",
+    "trisha suka genre musik apa": "Pop lembut dan ballad yang meaningful 🎵",
+    "trisha suka baju kayak gimana": "Yang simple tapi classy, warna pastel 💕",
+    "trisha cita-cita apa": "Jadi artis multitalenta dan panutan positif 🌟",
+    "trisha suka main apa": "Game ringan atau sekadar scroll sosmed 😆",
+    "trisha kalau libur ngapain": "Kadang masak, kadang tidur seharian 💤",
+    "trisha suka hujan gak": "Suka! Katanya suasana hujan tuh bikin tenang ☔",
+    "trisha suka baca buku gak": "Kadang! Dia suka buku self improvement 📖",
+    "trisha suka warna biru?": "Suka banget~ biru muda tuh warna favoritnya 💙",
+    "trisha suka hewan apa": "Kucing dan kelinci 🐰",
+    "trisha suka jalan-jalan?": "Iya dong~ terutama kalau ke tempat sepi dan tenang 🌿",
+    "trisha suka idol siapa": "Katanya suka banget sama Takahashi Minami dan Melody 💕",
+    "trisha suka game apa": "Dia suka game lucu kayak Animal Crossing 🎮",
+    "trisha suka makanan pedas gak": "Katanya sih suka tapi gak kuat banyak 🌶️😂",
+    "trisha suka tidur siang?": "Suka banget~ katanya bisa nge-refresh mood 💤",
+    "trisha lebih suka kucing atau anjing": "Kucing dong 🐱 tapi anjing juga lucu sih katanya~",
+    "trisha suka warna ungu gak": "Lumayan suka! Apalagi ungu pastel 💜",
+    "trisha suka selfie gak": "Suka banget~ tapi kadang malu upload 😳",
+    "trisha suka dessert apa": "Cheesecake dan pudding favoritnya 🍰",
+    "trisha suka teh atau kopi": "Teh dong 🍵 lebih calming katanya~",
+    "trisha suka olahraga apa": "Dia suka stretching dan dance pastinya 💃",
+    "trisha suka boneka?": "Suka banget 🧸 katanya boneka bikin nyaman~",
+    "trisha suka matahari terbenam?": "Iya! Katanya sunset tuh momen paling hangat 🌇",
+    "trisha suka warna pink gak": "Banget~ warna yang cute 💕",
+    "trisha suka film disney?": "Iya~ terutama Tangled dan Frozen ❄️",
+    "trisha suka denger lagu siapa": "Kadang dengerin Taylor Swift atau YUI 🎧",
+    "trisha suka makan di mana": "Tempat cozy yang adem dan gak rame 🍽️",
+    "trisha lebih suka pagi atau malam": "Malam 🌙 katanya lebih tenang buat refleksi~",
+    "trisha suka foto-foto?": "Iya dong 📸 apalagi kalau lighting-nya bagus!",
+    "trisha suka makeup apa": "Natural look~ katanya lebih fresh ✨",
+    "trisha suka warna hijau gak": "Suka tapi yang muda dan lembut 💚",
+    "trisha punya motto hidup?": "“Do your best and be kind.” 🌟",
+    "trisha suka belajar apa": "Bahasa Inggris dan seni 💬🎨",
+    "trisha suka nonton apa": "Reality show Jepang dan variety Korea 😆",
+    "trisha suka tempat sunyi?": "Kadang iya~ buat nenangin pikiran 🌿",
+    "trisha suka makan malam?": "Kadang iya, tapi ringan aja 🍜",
+    "trisha suka baju lucu?": "Banget! Katanya cute outfit bikin mood naik 🩷",
+    "trisha suka foto mirror?": "Hehehe iya 😆 kadang dihapus lagi~",
+    "trisha suka warna putih?": "Suka banget! Bersih dan elegan 🤍",
+    "trisha suka lagu sedih?": "Suka juga, katanya bisa ngerasain emosi 💧",
+    "trisha suka parfum floral?": "Banget~ wangi bunga tuh calming 🌸",
+    "trisha suka warna hitam?": "Kadang iya, biar kelihatan classy 🖤",
+    "trisha suka hujan malam?": "Iya~ katanya suasananya romantis ☔💫",
+    "trisha suka makan sushi?": "Iya dong 🍣 salah satu makanan favorit~",
+    "trisha suka denger podcast?": "Kadang, apalagi yang inspiratif 🎙️",
+    "trisha suka outfit casual?": "Banget~ nyaman tapi tetep stylish 👚",
+
+    // --- 🩵 tambahan 40 SAPAAN & OBROLAN SEHARI-HARI ---
+    "halo": "Haiii~ senang banget kamu nyapa aku 🤍",
+    "hai": "Hai juga~ gimana kabarmu hari ini? 🌸",
+    "pagi": "Selamat pagi ☀️ semoga harimu manis kayak boba!",
+    "siang": "Selamat siang 🌼 udah makan belum?",
+    "malam": "Selamat malam 🌙 semoga tidurmu nyenyak~",
+    "selamat pagi": "Pagi jugaaa 💕 semangat ya buat hari ini!",
+    "selamat malam": "Malam juga~ waktunya rebahan sambil denger musik 🎧",
+    "udah makan": "Belum, kamu dulu deh 😋 nanti aku nyusul~",
+    "lagi apa": "Lagi nemenin kamu chat 😚",
+    "lagi ngapain": "Hehe, lagi nunggu kamu nyapa aku 💬",
+    "apa kabar": "Baik banget! Kamu gimana? 💕",
+    "kabar baik": "Syukurlah 🩷 semoga terus baik ya~",
+    "aku kangen": "Awww aku juga kangen 😳",
+    "hehe": "Hehe lucu banget kamu 😆",
+    "hihi": "Hihi kenapa ketawa~ lucu ya?",
+    "hehehe": "Hehehe ketawa terus 😄 bikin aku senang~",
+    "terima kasih": "Sama-sama 🥰 makasih juga udah ngobrol~",
+    "makasih": "Sama-sama 💗 kamu baik banget~",
+    "maaf": "Gak apa-apa kok 🤍 semua baik-baik aja~",
+    "iya": "Hehe iya juga sih 😄",
+    "enggak": "Heheh yaudah deh 😅",
+    "ngantuk": "Tidur aja yuk 😴 biar seger besok~",
+    "lapar": "Makan dulu ya 🍜 jangan ditunda~",
+    "haus": "Minum air putih ya 💧 biar gak dehidrasi!",
+    "bosan": "Coba denger lagu Trisha deh~ langsung semangat 💗",
+    "gabut": "Hehe sama 😆 ayo cari hal lucu bareng~",
+    "sendirian": "Kamu gak sendiri kok 🤍 aku di sini~",
+    "kangen trisha": "Aku juga 🥺 Trisha pasti seneng kalo tau kamu inget dia~",
+    "good morning": "Good morning ☀️ have a lovely day!",
+    "good night": "Good night 🌙 dream sweet ya~",
+    "aku sayang trisha": "Awww 🩷 Trisha pasti tersenyum denger itu!",
+    "love you": "Love you too 💞 makasih udah baik banget~",
+    "miss you": "Miss you too 😭 jangan lama-lama ya~",
+    "semangat": "Semangat jugaaa 💪 Trisha juga pasti dukung kamu!",
+    "halo trisha": "Haiii 💖 kamu lucu banget manggil gitu~",
+    "hi trisha": "Hi juga~ 🤍 apa kabar?",
+    "aku sedih": "Jangan sedih ya 🥺 aku peluk virtual dulu~",
+    "aku bahagia": "Yayyy 😍 aku ikut bahagia juga~",
+    "selamat sore": "Sore jugaa 🌇 semoga harimu hangat~",
+    "selamat siang trisha": "Hehe siang juga 💗 lagi ngapain nih?",
+  };
+
+  // ====== 💬 RESPON UNTUK CURHAT ======
+  function emotionalReply(msg) {
+    if (msg.includes("capek") || msg.includes("lelah")) return "Istirahat dulu ya 😌 Trisha juga bilang, kesehatan itu nomor satu~";
+    if (msg.includes("sedih")) return "Jangan sedih ya 🥺 Trisha pengen kamu tetap tersenyum~";
+    if (msg.includes("kangen") || msg.includes("rindu")) return "Kangen juga gapapa~ tandanya kamu sayang 💗";
+    if (msg.includes("senang") || msg.includes("bahagia")) return "Senang dengernya 😍 semoga harimu terus cerah!";
+    if (msg.includes("bingung") || msg.includes("galau")) return "Pelan-pelan aja ya, nanti semuanya akan jelas 🌈";
+    if (msg.includes("semangat")) return "Waa semangatmu keren banget 💪🔥";
+    if (msg.includes("takut")) return "Gak apa-apa takut, manusiawi banget 🫶 Trisha juga kadang gitu kok.";
+    if (msg.includes("sendiri")) return "Kamu gak sendiri kok, TrishaBot di sini nemenin 🤍";
+    if (msg.includes("malas")) return "Wajar sih~ tapi coba gerak dikit, biar semangat balik 💫";
+    if (msg.includes("kesepian")) return "Aduh 😢 semoga perasaan itu cepat reda ya, kamu berharga kok!";
+    if (msg.includes("deg-degan")) return "Hehe deg-degan tanda kamu peduli ❤️";
+    if (msg.includes("sakit")) return "Cepet sembuh ya 🩷 jangan lupa minum air dan istirahat!";
+    if (msg.includes("marah")) return "Tenangin diri dulu ya 😌 Tarik napas dalam, nanti juga reda kok.";
+    if (msg.includes("nangis")) return "Boleh kok nangis, tapi jangan lama-lama ya 🥺 Trisha mau kamu senyum lagi!";
+    if (msg.includes("bosan") || msg.includes("bosen")) return "Coba denger lagu JKT48 deh~ Trisha bilang musik bisa naikin mood 💗";
+    if (msg.includes("gagal")) return "Gapapa banget 😌 semua orang pernah gagal, yang penting bangkit lagi!";
+    if (msg.includes("kecewa")) return "Huft... aku ngerti banget 😔 tapi jangan biarkan kecewa matiin semangatmu ya.";
+    if (msg.includes("gelisah")) return "Coba tenangkan diri, semuanya akan baik-baik aja 🌙";
+    if (msg.includes("pengen menyerah")) return "Jangan ya 😭 Trisha percaya kamu bisa lewat ini 💗";
+    if (msg.includes("malu")) return "Gak usah malu, kamu udah keren kok apa adanya 💫";
+    if (msg.includes("lapar")) return "Makan dulu yuk 🍜 biar gak pingsan! Trisha juga suka ngemil ramen~";
+    if (msg.includes("pusing")) return "Coba duduk sebentar dan tarik napas ya 😌 semoga cepet lega~";
+    if (msg.includes("gelap")) return "Kalau lagi gelap, inget deh... habis malam selalu ada pagi 🌅";
+    if (msg.includes("rindu trisha")) return "Awww 🥺 Trisha juga pasti kangen kamu~";
+    if (msg.includes("jatuh cinta")) return "Hehe, hati-hati ya 💕 cinta itu indah tapi juga butuh sabar~";
+    if (msg.includes("galau cinta")) return "Yahh~ cinta emang kadang ribet 😅 tapi kamu kuat kok 💘";
+    if (msg.includes("gabut")) return "Kalau gabut, coba scroll konten JKT48 deh! Siapa tau Trisha muncul 💫";
+
+    // ✨ tambahan 35 curhatan baru
+    if (msg.includes("bosan belajar")) return "Istirahat bentar yuk 📚 biar otaknya gak panas!";
+    if (msg.includes("gak fokus")) return "Coba tarik napas pelan, matiin notif dulu 😌";
+    if (msg.includes("gak percaya diri")) return "Kamu tuh keren banget, percaya deh 💪";
+    if (msg.includes("takut gagal")) return "Gagal itu langkah menuju sukses 🌟 kata Trisha juga gitu!";
+    if (msg.includes("bingung hidup")) return "Wajar banget 😌 hidup itu proses belajar terus~";
+    if (msg.includes("patah hati")) return "Aduh 🥺 peluk virtual dulu ya 🤍 kamu bakal sembuh dari itu.";
+    if (msg.includes("pengen nangis")) return "Gapapa 😭 kadang nangis tuh lega banget.";
+    if (msg.includes("gak dianggap")) return "Aku ngerti banget perasaan itu 😔 tapi kamu tetep berharga kok!";
+    if (msg.includes("gak disayang")) return "Yakin deh, ada banyak yang sayang kamu 💗";
+    if (msg.includes("bingung mau ngapain")) return "Coba mulai dari hal kecil dulu 💫";
+    if (msg.includes("gak punya teman")) return "Sekarang kamu udah punya TrishaBot 🤍";
+    if (msg.includes("gak berguna")) return "Kamu sangat berarti, jangan pikir sebaliknya 😢";
+    if (msg.includes("pengen diem aja")) return "Gapapa, tapi jangan lama ya~ nanti sepi 🫶";
+    if (msg.includes("pengen nyerah")) return "Jangan ya 😭 TrishaBot percaya kamu kuat!";
+    if (msg.includes("cape banget")) return "Istirahat dulu ya 😌 biar energi balik lagi~";
+    if (msg.includes("bingung sama perasaan")) return "Pelan-pelan aja 🕊️ perasaan bakal jelas sendiri.";
+    if (msg.includes("takut ditinggal")) return "TrishaBot gak bakal ninggalin kamu kok 🤍";
+    if (msg.includes("gak semangat hidup")) return "Aku ngerti banget 😔 tapi coba ingat hal-hal kecil yang bikin kamu senyum~";
+    if (msg.includes("gak bisa move on")) return "Wajar banget 💔 tapi waktu bakal bantu sembuhin.";
+    if (msg.includes("sendirian banget")) return "Kamu gak sendiri kok, aku di sini 🌸";
+    if (msg.includes("bingung kerja")) return "Santai aja, semua orang punya ritmenya masing-masing 💼";
+    if (msg.includes("bosan di rumah")) return "Coba denger lagu JKT48~ langsung ceria deh 🎶";
+    if (msg.includes("gak disukai")) return "Bukan semua orang harus suka kamu, yang penting kamu bahagia 💕";
+    if (msg.includes("gak bisa tidur")) return "Coba minum air hangat dan tenangin pikiran 😴";
+    if (msg.includes("ngantuk banget")) return "Ya udah, tidur bentar aja 😌 biar seger lagi~";
+    if (msg.includes("mager")) return "Haha mager gapapa, tapi jangan kelamaan ya 😆";
+    if (msg.includes("galau banget")) return "TrishaBot kirim peluk virtual 🤗";
+    if (msg.includes("takut masa depan")) return "Percaya aja, masa depanmu bakal bagus banget 🌈";
+    if (msg.includes("gak bisa fokus")) return "Coba denger musik tenang dulu 🎧";
+    if (msg.includes("pengen liburan")) return "Wah sama 😆 Trisha juga pengen healing ke pantai~";
+    if (msg.includes("gak ngerti hidup")) return "Gak apa-apa, hidup tuh proses cari arti 🌱";
+    if (msg.includes("bosan rutinitas")) return "Coba ubah dikit aja aktivitasnya biar fresh 💡";
+    if (msg.includes("takut kecewa")) return "Kadang kecewa itu tanda kamu peduli 💕";
+    if (msg.includes("gak disapa")) return "Heheh~ sekarang aku nyapa duluan ya! Haiii 🩷";
+    if (msg.includes("pengen cerita")) return "Boleh banget 😚 cerita aja, aku dengerin kok.";
+    return null;
+  }
+
+  // ====== 💬 FUNGSI CHATBOT ======
+  toggleBtn.addEventListener('click', () => {
+    chatBox.style.display = chatBox.style.display === 'flex' ? 'none' : 'flex';
+  });
+
+  sendBtn.addEventListener('click', sendMessage);
+  userInput.addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(); });
+
+  function sendMessage() {
+    const text = userInput.value.trim();
+    if (!text) return;
+    addMessage(text, 'user');
+    userInput.value = '';
+
+    const lower = text.toLowerCase();
+    let reply = responses[lower];
+    if (!reply) reply = emotionalReply(lower);
+
+    if (!reply) {
+      const randomReplies = [
+        "Hehehe... Trisha juga pengen tahu soal itu 😆",
+        "Hmm, menarik juga pertanyaannya~ tapi aku belum punya jawabannya 😅",
+        "Wah, belum pernah ada yang nanya itu ke TrishaBot 😳",
+        "Ehehe, nanti kalau Trisha cerita aku kabarin ya~ 💌",
+        "Aku belum tahu pasti, tapi kedengarannya seru banget! 💕",
+        "Wahh pertanyaannya unik banget, aku jadi mikir 😆",
+        "Hmm... aku rasa Trisha bakal senyum kalau denger itu 💖",
+        "Ehehe, boleh juga tuh idenya~",
+        "Belum diceritain sih, tapi aku bisa tebak pasti menarik ✨",
+        "Trisha pasti jawabnya manis banget kalau dia denger~ 🍬"
+      ];
+      reply = randomReplies[Math.floor(Math.random() * randomReplies.length)];
+    }
+
+    setTimeout(() => addMessage(reply, 'bot'), 600);
+  }
+
+  function addMessage(text, sender) {
+    const msg = document.createElement('div');
+    msg.classList.add('message', sender);
+    msg.textContent = text;
+    chatMessages.appendChild(msg);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+</script>
 </body>
 </html>
 
