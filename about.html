@@ -378,11 +378,13 @@
   flex: 0 0 auto;
   scroll-snap-align: center;
   width: 260px;
-  height: 360px;
+  aspect-ratio: 3 / 4;       /* ✅ biar proporsional di semua device */
   perspective: 1000px;
   cursor: grab;
   border-radius: 20px;
+  position: relative;
 }
+
 .flip-card:active { cursor: grabbing; }
 
 .flip-card-inner {
@@ -468,9 +470,10 @@
   }
 
   .flip-card {
-    width: 85%;
-    max-width: 320px;
-    height: 340px; /* tinggi tetap agar tak hilang */
+    width: 95%;          /* sebelumnya 85%, biar lebih lebar */
+    max-width: 380px;    /* sebelumnya 320px, biar proporsional */
+    height: auto;        /* sebelumnya 340px, biar fleksibel */
+    aspect-ratio: 3 / 4; /* biar bentuknya tetap seimbang */
   }
 
   .flip-card-inner {
@@ -478,25 +481,38 @@
   }
 
   .flip-card-front img {
-    height: 75%;
+    height: 100%;        /* sebelumnya 75%, biar isi penuh */
+    object-fit: cover;   /* biar gambar gak gepeng */
   }
 }
 
 /* ======== RAPIHKAN TEKS DI BELAKANG FLIP CARD ======== */
 .flip-card-back {
-  background: #add8e6;
+  background: #ffffff;
   color: #003366;
   transform: rotateY(180deg);
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;   /* 🔁 biar teks mulai dari atas */
+  align-items: flex-start;
   padding: 20px 18px;
   font-size: 0.95rem;
   text-align: left;
   line-height: 1.6;
   border-radius: 20px;
-  white-space: pre-line; /* biar line break di HTML kebaca */
+  white-space: normal;           /* 🧩 biar teks wrap otomatis */
+  overflow-y: auto;              /* ✅ kalau teks panjang bisa discroll */
+  max-height: 100%;              /* biar ga keluar dari kartu */
+  box-sizing: border-box;
+  scrollbar-width: thin;         /* untuk Firefox */
+}
+
+.flip-card-back::-webkit-scrollbar {
+  width: 6px;
+}
+.flip-card-back::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.15);
+  border-radius: 3px;
 }
 
 .flip-card-back strong {
@@ -520,7 +536,597 @@
   content: "🎵 ";
   font-size: 0.9rem;
 }
-  </style>
+
+@media (max-width: 900px) {
+  .flip-card {
+    width: 90%;
+    max-width: 360px;
+    aspect-ratio: 3 / 4;
+  }
+
+  .flip-card-back {
+    font-size: 0.85rem;
+    padding: 16px;
+  }
+}
+
+/* 🎡 TIMELINE TRISHA */
+.timeline-trisha {
+  background: #f0f8ff;
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.timeline-trisha h2 {
+  font-size: 2rem;
+  color: #1a5cff;
+  margin-bottom: 40px;
+  font-weight: 700;
+}
+
+/* Wrapper kiri-kanan */
+.timeline-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  flex-wrap: wrap;
+}
+
+/* Roda */
+.wheel-wrapper {
+  position: relative;
+  width: 500px;
+  height: 500px;
+}
+
+#wheelCanvas {
+  border-radius: 50%;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+  box-shadow: 0 0 8px rgba(0,0,0,0.15);
+}
+
+/* 🎯 PANAH PUTIH — SELALU ARAH KE RODA */
+.arrow {
+  position: absolute;
+  right: -14px; /* pas di tepi roda */
+  top: 50%;
+  transform: translateY(-50%) rotate(180deg); /* arahkan ke roda */
+  width: 0;
+  height: 0;
+  border-top: 14px solid transparent;
+  border-bottom: 14px solid transparent;
+  border-right: 22px solid #fff; /* lancip ke arah roda */
+  filter: drop-shadow(0 0 3px rgba(0,0,0,0.25));
+  z-index: 5;
+}
+
+/* Titik tengah roda */
+.wheel-center {
+  position: absolute;
+  width: 45px;
+  height: 45px;
+  background: #fff;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.1), 0 0 5px rgba(0,0,0,0.1);
+  pointer-events: none;
+}
+
+/* Info kanan */
+.event-info {
+  max-width: 400px;
+  text-align: left;
+  background: #ffffff;
+  padding: 25px 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.event-info h3 {
+  font-size: 1.3rem;
+  color: #003366;
+  margin-bottom: 10px;
+}
+
+.event-info p {
+  font-size: 0.95rem;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* 📱 RESPONSIF UNTUK MOBILE */
+@media (max-width: 768px) {
+  .timeline-wrapper {
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+  }
+
+  /* 🔵 Ukuran roda diatur supaya pas di box */
+  .wheel-wrapper {
+    width: 230px;
+    height: 230px;
+    position: relative;
+    overflow: hidden; /* biar panah gak keluar */
+  }
+
+  #wheelCanvas {
+    width: 230px;
+    height: 230px;
+  }
+
+  /* 🔽 Panah putih versi mobile — tetap arah ke roda */
+  .arrow {
+    right: -10px; /* agak mendekat ke roda */
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    border-right: 18px solid #fff;
+    transform: translateY(-50%) rotate(180deg);
+    border-left: none !important; /* pastikan panah lama dihapus */
+  }
+
+  .wheel-center {
+    width: 45px;
+    height: 45px;
+  }
+
+  /* 🗨️ Pesan di tengah tapi ada jarak aman dari pinggir */
+  .event-info {
+    text-align: left;
+    padding: 20px;
+    margin: 0 20px;
+    border-radius: 16px;
+  }
+
+  .timeline-trisha h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+}
+
+/* 🔵 Garis Timeline Horizontal di bawah wheel */
+.timeline-horizontal {
+  width: 100%;
+  overflow-x: auto;
+  padding: 30px 0;
+  background: #eaf4ff;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch; /* biar scroll di HP super halus */
+}
+
+.timeline-horizontal::-webkit-scrollbar {
+  display: none;
+}
+
+.timeline-scroll {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 60px;
+  padding: 0 8%;
+  position: relative;
+
+  /* 🌈 Scroll Snap = berhenti pas di tengah event */
+  scroll-snap-type: x mandatory;
+}
+
+.timeline-event {
+  scroll-snap-align: center;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.timeline-event:hover {
+  transform: translateY(-8px);
+}
+
+.timeline-event img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border: 3px solid #1a5cff;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  margin-bottom: 10px;
+}
+
+.timeline-event p {
+  font-size: 0.9rem;
+  color: #003366;
+  font-weight: 600;
+  text-align: center;
+  width: 100px;
+}
+
+/* 📱 Responsif */
+@media (max-width: 768px) {
+  .timeline-scroll {
+    gap: 35px;
+    padding: 0 20px;
+  }
+  .timeline-event img {
+    width: 60px;
+    height: 60px;
+  }
+  .timeline-event p {
+    font-size: 0.75rem;
+    width: 80px;
+  }
+}
+
+.timeline-event.active img {
+  border-color: #ff85a1;
+  box-shadow: 0 0 12px rgba(255,133,161,0.6);
+  transform: scale(1.1);
+}
+.timeline-event.active p {
+  color: #ff85a1;
+}
+
+/* 🎠 TRISHA ACTIVITIES SECTION */
+.trisha-activities {
+  background: #f6f8ff;
+  text-align: center;
+  padding: 80px 20px 60px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.trisha-activities h2 {
+  font-size: 3rem;        /* 🔥 ubah dari 2.3rem → 3rem biar lebih besar di desktop */
+  color: #2a2a7f;
+  margin-bottom: 15px;    /* sedikit lebih lega di bawahnya */
+  font-weight: 800;       /* biar teksnya lebih tegas */
+}
+
+.trisha-activities h2 span {
+  color: #6a7cff;
+}
+
+.trisha-activities .desc {
+  color: #666;
+  max-width: 600px;
+  margin: 0 auto 35px;
+  font-size: 1rem;
+  text-align: center;
+  padding: 0 25px;
+  line-height: 1.6;
+  transform: translateX(-5px);
+}
+
+/* 📱 Mobile */
+@media (max-width: 768px) {
+  .trisha-activities h2 {
+    font-size: 2rem;       /* 📱 ubah dari 1.4rem → 2rem supaya tetap kelihatan besar */
+  }
+  .trisha-activities .desc {
+    font-size: 0.85rem;
+    padding: 0 20px;
+    margin-bottom: 25px;
+    transform: translateX(-8px);
+  }
+}
+
+/* 🎯 CONTAINER KONTEN AKTIFITAS */
+.activity-content {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  padding: 50px 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: left;
+  min-height: 500px;
+  box-sizing: border-box;
+}
+
+.content-section {
+  display: none;
+  animation: fadeIn 0.4s ease;
+}
+
+.content-section.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .activity-content {
+    padding: 40px 20px;
+    min-height: 600px;
+  }
+}
+
+/* 🌈 BUTTONS WRAPPER */
+.activity-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  margin-top: 40px;
+}
+
+/* 🌟 TOMBOL EMOJI */
+.activity-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+  border-radius: 22px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-weight: 700;
+  font-family: "Poppins", sans-serif;
+  transition: all 0.25s ease;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.activity-btn .emoji {
+  font-size: 2.4rem;
+  margin-bottom: 8px;
+}
+
+.activity-btn .label {
+  font-size: 0.95rem;
+}
+
+/* 🎨 Warna dasar (pastel Trishaland) */
+.activity-btn.rekapshow { background-color: #66C3FF; }  /* biru muda */
+.activity-btn.timeline  { background-color: #FFD56B; }  /* kuning muda */
+.activity-btn.hashtag   { background-color: #B084F6; }  /* ungu muda */
+.activity-btn.pesan     { background-color: #FF85A1; }  /* pink muda */
+
+/* 💫 Warna aktif (lebih kontras + glow) */
+.activity-btn.active.rekapshow {
+  background-color: #007BFF;
+  box-shadow: 0 0 20px rgba(0,123,255,0.6);
+}
+
+.activity-btn.active.timeline {
+  background-color: #FFB300;
+  box-shadow: 0 0 20px rgba(255,179,0,0.6);
+}
+
+.activity-btn.active.hashtag {
+  background-color: #7A3EF5;
+  box-shadow: 0 0 20px rgba(122,62,245,0.6);
+}
+
+.activity-btn.active.pesan {
+  background-color: #FF3E6C;
+  box-shadow: 0 0 20px rgba(255,62,108,0.6);
+}
+
+/* ✨ Efek tombol aktif */
+.activity-btn.active {
+  position: relative;
+  transform: translateY(-3px);
+  outline: 3px solid rgba(255,255,255,0.4);
+  transition: all 0.3s ease;
+}
+
+/* 🌟 Indikator titik bawah aktif */
+.activity-btn.active::after {
+  content: "";
+  position: absolute;
+  bottom: 8px;
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(255,255,255,0.9);
+  animation: pulseDot 1.2s infinite ease-in-out;
+}
+
+/* ✨ Animasi titik aktif */
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.6; }
+}
+
+/* 📱 RESPONSIF MOBILE */
+@media (max-width: 768px) {
+  .activity-buttons {
+    justify-content: space-between; /* biar pas 4 sejajar */
+    gap: 6px;
+    margin-top: 25px;
+    padding: 0 8px;
+  }
+
+  .activity-btn {
+    width: 68px;          /* kecilin dikit biar muat semua */
+    height: 68px;
+    border-radius: 16px;
+    flex-shrink: 0;
+  }
+
+  .activity-btn .emoji {
+    font-size: 2.6rem;    /* proporsional sama ukuran tombol */
+    margin-bottom: 0;
+  }
+
+  .activity-btn .label {
+    display: none;        /* tetap hilang di mobile */
+  }
+
+  /* 🔵 Titik indikator aktif */
+  .activity-btn.active::after {
+    bottom: 4px;
+    width: 7px;
+    height: 7px;
+  }
+
+  /* ✨ Tambah jarak antara tombol & konten */
+  .activity-content {
+    margin-top: 35px;     /* beri spasi biar tidak nempel */
+  }
+}
+
+.activity-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  margin-bottom: 60px; /* 🆕 jarak lebih lega di desktop */
+}
+
+/* 📱 Mobile: tetap rapat supaya pas di layar */
+@media (max-width: 768px) {
+  .activity-grid {
+    margin-bottom: 35px; /* 🧩 lebih kecil biar pas di mobile */
+  }
+}
+
+/* 🎯 HASHTAG SECTION */
+.trisha-hashtag {
+  background: #f0f6ff;
+  text-align: center;
+  padding: 80px 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.trisha-hashtag h2 {
+  font-size: 2.4rem;
+  color: #2a2a7f;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.trisha-hashtag h2 span {
+  color: #6a7cff;
+}
+
+.trisha-hashtag .desc {
+  color: #666;
+  max-width: 600px;
+  margin: 0 auto 40px;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* GRID */
+.hashtag-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+  justify-content: center;
+  align-items: start;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* CARD */
+.hashtag-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 25px 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+}
+
+.hashtag-card span {
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.hashtag-card:hover {
+  transform: scale(1.04);
+  background: #6a7cff;
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+/* DESKRIPSI */
+.desc-box {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+.hashtag-card:hover .desc-box,
+.hashtag-card.active .desc-box {
+  max-height: 180px;
+  opacity: 1;
+  margin-top: 10px;
+}
+
+.desc-box p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #fefefe;
+  margin-bottom: 12px;
+}
+
+.desc-box a {
+  display: inline-block;
+  padding: 8px 16px;
+  background: #fff;
+  color: #6a7cff;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: 0.25s;
+}
+
+.desc-box a:hover {
+  background: #e8ebff;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .hashtag-grid {
+    grid-template-columns: 1fr;   /* dari 2 kolom → 1 kolom */
+    gap: 18px;                     /* bisa agak longgar sedikit */
+  }
+
+  .hashtag-card {
+    font-size: 1rem;              /* supaya tetap terbaca jelas */
+    padding: 20px 12px;           /* lebarkan sedikit supaya aman */
+  }
+}
+
+  .desc-box p {
+    font-size: 0.8rem;
+  }
+
+  .hashtag-card:hover {
+    transform: none;
+  }
+
+  .trisha-hashtag h2 {
+    font-size: 1.8rem;
+  }
+
+  .trisha-hashtag .desc {
+    font-size: 0.85rem;
+  }
+}
+</style>
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -679,77 +1285,235 @@
       </iframe>
     </section>
 
-<section class="flipcard-section">
-  <h2>Rekap Show Trisha</h2>
-  <div class="rekap-wrapper">
-    
-    <!-- BAGIAN KIRI -->
-<div class="rekap-info">
-  <div class="info-item">
-    <img src="icon-show.png" alt="Show Icon">
-    <span><span class="count" data-target="84">0</span> Show</span>
-  </div>
+<section class="trisha-activities">
+  <div class="container">
+    <h2><span>Trisha</span> Activities</h2>
+    <p class="desc">Pilih salah satu aktivitas di bawah ini:</p>
 
-  <div class="info-item">
-    <img src="icon-setlist.png" alt="Setlist Icon">
-    <span><span class="count" data-target="3">0</span> Setlist</span>
-  </div>
+    <!-- 🌈 GANTI BAGIAN INI -->
+    <div class="activity-grid">
+      <div class="activity-buttons">
+        <button class="activity-btn rekapshow active" data-target="rekap">
+          <span class="emoji">📊</span>
+          <span class="label">Rekap Show</span>
+        </button>
+        <button class="activity-btn timeline" data-target="timeline">
+          <span class="emoji">🕒</span>
+          <span class="label">Timeline</span>
+        </button>
+        <button class="activity-btn hashtag" data-target="hashtag">
+          <span class="emoji">#️⃣</span>
+          <span class="label">Hashtag</span>
+        </button>
+      </div>
+    </div>
+    <!-- 🌈 SAMPAI SINI -->
 
-  <div class="info-item">
-    <img src="icon-unit.png" alt="Unit Icon">
-    <span><span class="count" data-target="7">0</span> Unit Songs</span>
-  </div>
+    <div class="activity-content">
+      <!-- 📊 REKAP SHOW -->
+      <div id="rekap" class="content-section active">
+        <section class="flipcard-section">
+          <h2>Rekap Show Trisha</h2>
+          <div class="rekap-wrapper">
+            
+            <!-- BAGIAN KIRI -->
+            <div class="rekap-info">
+              <div class="info-item">
+                <img src="icon-show.png" alt="Show Icon">
+                <span><span class="count" data-target="86">0</span> Show</span>
+              </div>
+
+              <div class="info-item">
+                <img src="icon-setlist.png" alt="Setlist Icon">
+                <span><span class="count" data-target="3">0</span> Setlist</span>
+              </div>
+
+              <div class="info-item">
+                <img src="icon-unit.png" alt="Unit Icon">
+                <span><span class="count" data-target="7">0</span> Unit Songs</span>
+              </div>
+            </div>
+
+            <!-- BAGIAN KANAN (flip cards tetap seperti semula) -->
+            <div class="flipcard-container">
+              <div class="flip-card">
+                <div class="flip-card-inner">
+                  <div class="flip-card-front">
+                    <img src="pajama.png" alt="51 kali Pajama Drive">
+                    <div class="caption">51 kali<br>Pajama Drive</div>
+                  </div>
+                  <div class="flip-card-back">
+                    <div class="back-title">Pajama Drive</div>
+                    <strong>Shonichi:</strong> 30 Mei 2024<br>
+                    <strong>Global Center:</strong> 3 Mei 2025<br>
+                    <strong>Unit Song:</strong> Tenshi no Shippo<br><br>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flip-card">
+                <div class="flip-card-inner">
+                  <div class="flip-card-front">
+                    <img src="aitakatta.png" alt="33 kali Aitakatta">
+                    <div class="caption">33 kali<br>Aitakatta</div>
+                  </div>
+                  <div class="flip-card-back">
+                    <div class="back-title">Aitakatta</div>
+                    <strong>Shonichi:</strong> 16 Februari 2024<br>
+                    <strong>Global Center:</strong> 10 Mei 2025<br>
+                    <strong>Unit Songs:</strong> Koi No Plan, Revolusi Rio, Senaka Kara Dakishimete, Nageki no Figure, dan Nagisa no Cherry<br><br>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flip-card">
+                <div class="flip-card-inner">
+                  <div class="flip-card-front">
+                    <img src="ramune.png" alt="2 kali Cara Meminum Ramune">
+                    <div class="caption">2 kali<br>Cara Meminum Ramune</div>
+                  </div>
+                  <div class="flip-card-back">
+                    <div class="back-title">Cara Meminum Ramune</div>
+                    <strong>Shonichi:</strong> 17 Juli 2025<br>
+                    <strong>Unit Song:</strong> Finland Miracle<br><br>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+ <!-- 🕒 TIMELINE -->
+<div id="timeline" class="content-section">
+  <section class="timeline-trisha">
+    <h2>Timeline Trisha</h2>
+
+    <!-- 🎡 BAGIAN ATAS: SPIN WHEEL + INFO -->
+    <div class="timeline-wrapper">
+      <div class="wheel-wrapper">
+        <div class="arrow"></div>
+        <canvas id="wheelCanvas" width="500" height="500"></canvas>
+        <div class="wheel-center"></div>
+      </div>
+
+      <div class="event-info">
+        <h3 id="event-title">Debut Trainee</h3>
+        <p id="event-desc">
+          Trisha tampil pertama kali sebagai trainee generasi 12 di JKT48 Academy! 💫
+        </p>
+        <img 
+          id="event-img" 
+          src="debut.jpg" 
+          alt="Event Image" 
+          style="width: 100%; border-radius: 12px; margin-top: 12px;"
+        >
+      </div>
+    </div>
+
+    <!-- 📜 BAGIAN BAWAH: TIMELINE HORIZONTAL -->
+    <div class="timeline-horizontal">
+      <div class="timeline-scroll">
+        <div class="timeline-event"><img src="tlgen12.jpg" alt=""><p>Gen12 Announcement</p></div>
+        <div class="timeline-event"><img src="tlanniv12.jpg" alt=""><p>Concert Anniv 12th</p></div>
+        <div class="timeline-event"><img src="tlshonichiteater.jpg" alt=""><p>Shonichi Theater</p></div>
+        <div class="timeline-event"><img src="tlshonichioffair.jpg" alt=""><p>Shonichi Off Air</p></div>
+        <div class="timeline-event"><img src="tlfirstmng.jpg" alt=""><p>First MNG</p></div>
+        <div class="timeline-event"><img src="tlshonichipajama.jpg" alt=""><p>Shonichi Pajama</p></div>
+        <div class="timeline-event"><img src="tlfirstmv.jpg" alt=""><p>First MV</p></div>
+        <div class="timeline-event"><img src="tlsecondmng.jpg" alt=""><p>Second MNG</p></div>
+        <div class="timeline-event"><img src="tlfirstofc.jpg" alt=""><p>First OFC Event</p></div>
+        <div class="timeline-event"><img src="tlthirdmng.jpg" alt=""><p>Third MNG</p></div>
+        <div class="timeline-event"><img src="tlsecondbd.jpg" alt=""><p>Second Birthday</p></div>
+        <div class="timeline-event"><img src="tlcenterpajama.jpg" alt=""><p>Center Pajama</p></div>
+        <div class="timeline-event"><img src="tlcenteraitakatta.jpg" alt=""><p>Center Aitakatta</p></div>
+        <div class="timeline-event"><img src="tlshonichiramune.jpg" alt=""><p>Shonichi Ramune</p></div>
+      </div>
+    </div>
+  </section>
 </div>
 
+      <!-- #️⃣ HASHTAG -->
+      <div id="hashtag" class="content-section">
+<section class="trisha-hashtag">
+  <h2><span>Trisha</span> Hashtag</h2>
+  <p class="desc">Kumpulan tagar untuk momen-momen seru bersama Trisha!</p>
 
-<!-- BAGIAN KANAN (flip cards tetap seperti semula) -->
-<div class="flipcard-container">
-
-  <div class="flip-card">
-    <div class="flip-card-inner">
-      <div class="flip-card-front">
-        <img src="pajama.png" alt="50 kali Pajama Drive">
-        <div class="caption">50 kali<br>Pajama Drive</div>
+  <div class="hashtag-grid">
+    <div class="hashtag-card">
+      <span>#TrishAfternoon</span>
+      <div class="desc-box">
+        <p>Hashtag yang digunakan setiap sore hari untuk berbagi kehangatan bersama Trisha.</p>
+        <a href="https://x.com/search?q=%23TrishAfternoon&src=typed_query&f=top" target="_blank">Selengkapnya</a>
       </div>
-      <div class="flip-card-back">
-        <div class="back-title">Pajama Drive</div>
-        <strong>Shonichi:</strong> 30 Mei 2024<br>
-        <strong>Global Center:</strong> 3 Mei 2025<br>
-        <strong>Unit Song:</strong> Tenshi no Shippo<br><br>
+    </div>
+
+    <div class="hashtag-card">
+      <span>#TrishArt</span>
+      <div class="desc-box">
+        <p>Digunakan untuk mengumpulkan berbagai karya dan kreativitas dari Trisha.</p>
+        <a href="https://x.com/search?q=%23TrishArt&src=typed_query&f=top" target="_blank">Selengkapnya</a>
+      </div>
+    </div>
+
+    <div class="hashtag-card">
+      <span>#Trishartuday</span>
+      <div class="desc-box">
+        <p>Dipakai setiap hari Sabtu untuk posting keseruan weekend bersama Trisha!</p>
+        <a href="https://x.com/search?q=%23Trishaturday&src=typed_query&f=top" target="_blank">Selengkapnya</a>
+      </div>
+    </div>
+
+    <div class="hashtag-card">
+      <span>#WannaSeeTrisha</span>
+      <div class="desc-box">
+        <p>Untuk momen video call bareng Trisha — Wanna See Trisha!</p>
+        <a href="https://x.com/search?q=%23WannaSeeTrisha&src=typed_query&f=top" target="_blank">Selengkapnya</a>
+      </div>
+    </div>
+
+    <div class="hashtag-card">
+      <span>#Trishaur</span>
+      <div class="desc-box">
+        <p>Untuk berbagi momen sahur bersama Trisha di bulan Ramadhan.</p>
+        <a href="https://x.com/search?q=%23Trishaur&src=typed_query&f=top" target="_blank">Selengkapnya</a>
+      </div>
+    </div>
+
+    <div class="hashtag-card">
+      <span>#Trishelca</span>
+      <div class="desc-box">
+        <p>Tempat Trisha membagikan foto-foto selfienya yang menggemaskan!</p>
+        <a href="https://x.com/search?q=%23Trishelca&src=typed_query&f=top" target="_blank">Selengkapnya</a>
+      </div>
+    </div>
+
+    <div class="hashtag-card">
+      <span>#CallTrisha</span>
+      <div class="desc-box">
+        <p>Untuk momen video call bareng Trisha — Call Trisha!</p>
+        <a href="https://x.com/search?q=%23CallTrisha&src=typed_query&f=top" target="_blank">Selengkapnya</a>
+      </div>
+    </div>
+
+    <div class="hashtag-card">
+      <span>#RuangBermain</span>
+      <div class="desc-box">
+        <p>Untuk memberikan semangat dan dukungan kepada Trisha, seperti ruang bermain bersama!</p>
+        <a href="https://x.com/search?q=%23RuangBermain&src=typed_query&f=top" target="_blank">Selengkapnya</a>
+      </div>
+    </div>
+
+    <div class="hashtag-card">
+      <span>#Inshastory</span>
+      <div class="desc-box">
+        <p>Untuk membalas atau membagikan pesan spesial dari Trisha pada private message!</p>
+        <a href="https://x.com/search?q=%23Inshastory&src=typed_query&f=top" target="_blank">Selengkapnya</a>
       </div>
     </div>
   </div>
-
-  <div class="flip-card">
-    <div class="flip-card-inner">
-      <div class="flip-card-front">
-        <img src="aitakatta.png" alt="32 kali Aitakatta">
-        <div class="caption">32 kali<br>Aitakatta</div>
+</section>
       </div>
-      <div class="flip-card-back">
-        <div class="back-title">Aitakatta</div>
-        <strong>Shonichi:</strong> 16 Februari 2024<br>
-        <strong>Global Center:</strong> 10 Mei 2025<br>
-        <strong>Unit Songs:</strong> Koi No Plan, Revolusi Rio, Nageki no Figure, dan Nagisa no Cherry<br><br>
-      </div>
-    </div>
-  </div>
-
-  <div class="flip-card">
-    <div class="flip-card-inner">
-      <div class="flip-card-front">
-        <img src="ramune.png" alt="2 kali Cara Meminum Ramune">
-        <div class="caption">2 kali<br>Cara Meminum Ramune</div>
-      </div>
-      <div class="flip-card-back">
-        <div class="back-title">Cara Meminum Ramune</div>
-        <strong>Shonichi:</strong> 17 Juli 2025<br>
-        <strong>Unit Song:</strong> Finland Miracle<br><br>
-      </div>
-    </div>
-  </div>
-
-</div>
 </section>
 
   </main>
@@ -787,6 +1551,9 @@
           <li>#WannaSeeTrisha</li>
           <li>#Trishaur</li>
           <li>#Trishelca</li>
+          <li>#CallTrisha</li>
+          <li>#RuangBermain</li>
+          <li>#Inshastory</li>
         </ul>
       </div>
     </div>
@@ -992,7 +1759,399 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 </script>
+
+<script>
+const canvas = document.getElementById('wheelCanvas');
+const ctx = canvas.getContext('2d');
+const wheelRadius = canvas.width / 2;
+const slices = [
+  "Gen12 Announcement",
+  "Concert Anniv 12th",
+  "Shonichi Theater",
+  "Shonichi Off air",
+  "First MNG",
+  "Shonichi Pajama",
+  "First MV",
+  "Second MNG",
+  "First OFC Event",
+  "Third MNG",
+  "Second Birthday",
+  "Center Pajama",
+  "Center Aitakatta",
+  "Shonichi Ramune"
+];
+const colors = [
+  "#FF85A1", "#66C3FF", "#B084F6", "#FFD56B", "#7EE8B5",
+  "#FF85A1", "#66C3FF", "#B084F6", "#FFD56B", "#7EE8B5",
+  "#FF85A1", "#66C3FF", "#B084F6", "#FFD56B"
+];
+
+let rotation = 0;
+let isDragging = false;
+let startAngle = 0;
+let lastAngle = 0;
+let velocity = 0;
+let lastTime = 0;
+let animating = false;
+
+function drawWheel() {
+  const sliceAngle = (2 * Math.PI) / slices.length;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  for (let i = 0; i < slices.length; i++) {
+    const angle = i * sliceAngle + (rotation * Math.PI / 180);
+    ctx.beginPath();
+    ctx.moveTo(wheelRadius, wheelRadius);
+    ctx.arc(wheelRadius, wheelRadius, wheelRadius, angle, angle + sliceAngle);
+    ctx.fillStyle = colors[i % colors.length];
+    ctx.fill();
+    ctx.closePath();
+
+    // text
+    ctx.save();
+    ctx.translate(wheelRadius, wheelRadius);
+    ctx.rotate(angle + sliceAngle / 2);
+    ctx.textAlign = "right";
+    ctx.fillStyle = "#fff";
+    ctx.font = "bold 17px Poppins, sans-serif";
+    ctx.fillText(slices[i], wheelRadius - 10, 5);
+    ctx.restore();
+  }
+}
+
+drawWheel();
+
+/* 📏 Fungsi bantu */
+function getAngle(x, y) {
+  const rect = canvas.getBoundingClientRect();
+  const dx = x - (rect.left + rect.width / 2);
+  const dy = y - (rect.top + rect.height / 2);
+  return Math.atan2(dy, dx) * (180 / Math.PI);
+}
+
+/* 🎡 Event Listener */
+canvas.addEventListener('mousedown', startDrag);
+canvas.addEventListener('touchstart', startDrag, {passive: true});
+window.addEventListener('mousemove', rotateWheel);
+window.addEventListener('touchmove', rotateWheel, {passive: true});
+window.addEventListener('mouseup', endDrag);
+window.addEventListener('touchend', endDrag);
+
+function startDrag(e) {
+  isDragging = true;
+  velocity = 0;
+  lastTime = performance.now();
+  const x = e.touches ? e.touches[0].clientX : e.clientX;
+  const y = e.touches ? e.touches[0].clientY : e.clientY;
+  startAngle = getAngle(x, y) - rotation;
+}
+
+function rotateWheel(e) {
+  if (!isDragging) return;
+  const x = e.touches ? e.touches[0].clientX : e.clientX;
+  const y = e.touches ? e.touches[0].clientY : e.clientY;
+  const angle = getAngle(x, y);
+  const newRotation = angle - startAngle;
+  const now = performance.now();
+  const delta = now - lastTime;
+  velocity = (newRotation - rotation) / delta * 16; // kecepatan per frame
+  rotation = newRotation;
+  lastTime = now;
+  drawWheel();
+}
+
+function endDrag() {
+  isDragging = false;
+  if (Math.abs(velocity) > 0.2) {
+    animateSpin();
+  } else {
+    updateActiveEvent();
+  }
+}
+
+/* 🌀 Momentum animasi */
+function animateSpin() {
+  if (animating) return;
+  animating = true;
+  function step() {
+    if (Math.abs(velocity) < 0.05) {
+      animating = false;
+      updateActiveEvent();
+      return;
+    }
+    rotation += velocity;
+    velocity *= 0.98; // perlambatan
+    drawWheel();
+    requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+/* 🎯 Update event aktif */
+const events = [
+  {title: "Gen12 Announcement", desc: "<b>18 November 2023</b> - Trisha pertama kali diperkenalkan di Event Jak Japan Matsuri 2023! 💫", img: "tlgen12.jpg"},
+  {title: "Concert Anniv 12th", desc: "<b>17 Desember 2023</b> - Trisha tampil dalam konser ulang tahun JKT48 ke-12! 🎉", img: "tlanniv12.jpg"},
+  {title: "Shonichi Theater", desc: "<b>16 Februari 2024</b> - Trisha tampil pertama kali di teater JKT48 sekaligus merayakan Ulang Tahun ke-13 Trisha! #MalarzaWithTrisha #TrishaGrows13 🌟", img: "tlshonichiteater.jpg"},
+  {title: "Shonichi Off air", desc: "<b>4 Mei 2024</b> - Penampilan off air pertama Trisha di Event Panggung Panas Pekanbaru. 🎤", img: "tlshonichioffair.jpg"},
+  {title: "First MNG", desc: "<b>11 Mei 2024</b> - Meet and Greet pertama Trisha dengan fans di Event Spring Has Come! 💬", img: "tlfirstmng.jpg"},
+  {title: "Shonichi Pajama", desc: "<b>30 Mei 2024</b> - Debut Trisha dalam setlist Pajama Drive. 💃", img: "tlshonichipajama.jpg"},
+  {title: "First MV", desc: "<b>20 Agustus 2024</b> - Trisha tampil di MV pertamanya bersama JKT48! MV Belalang yang Membangkang 🎬", img: "tlfirstmv.jpg"},
+  {title: "Second MNG", desc: "<b>28 September 2024</b> - Meet and Greet kedua Trisha dengan suasana hangat. Road to Sousenkyo 💖", img: "tlsecondmng.jpg"},
+  {title: "First OFC Event", desc: "<b>30 September 2024</b> - Trisha hadir di event OFC pertamanya! Sudden Versus 💫", img: "tlfirstofc.jpg"},
+  {title: "Third MNG", desc: "<b>8 Februari 2025</b> - Trisha kembali menyapa fans di MNG ketiga! #KuSangatSuka 😊", img: "tlthirdmng.jpg"},
+  {title: "Second Birthday", desc: "<b>23 Februari 2025</b> - Show ulang tahun ke-2  Trisha yang penuh kejutan! #DreamsToDest1n4tion #MagicAcademy 🎂", img: "tlsecondbd.jpg"},
+  {title: "Center Pajama", desc: "<b>3 Mei 2025</b> - Trisha tampil sebagai Global Center di Pajama Drive! 🌟", img: "tlcenterpajama.jpg"},
+  {title: "Center Aitakatta", desc: "<b>10 Mei 2025</b> - Trisha jadi Global center untuk Aitakatta! 💥", img: "tlcenteraitakatta.jpg"},
+  {title: "Shonichi Ramune", desc: "<b>17 Juli 2025</b> - Trisha tampil perdana di setlist Cara Meminum Ramune #TrishaYatraKatha😊", img: "tlshonichiramune.jpg"}
+];
+
+/* 🎯 Update event aktif + Hubungkan Wheel ↔ Timeline */
+const timelineEvents = document.querySelectorAll(".timeline-event");
+const sliceAngle = 360 / slices.length;
+
+/* 📱 Deteksi apakah user sedang scroll manual timeline */
+let userScrolling = false;
+let scrollTimeout;
+const timelineContainer = document.querySelector(".timeline-horizontal");
+
+if (timelineContainer) {
+  timelineContainer.addEventListener("scroll", () => {
+    userScrolling = true;
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      userScrolling = false;
+    }, 800); // waktu bebas geser manual (ms)
+  });
+}
+
+/* 🔁 Saat WHEEL berhenti → aktifkan timeline bawah */
+function updateActiveEvent() {
+  const normalized = ((rotation % 360) + 360) % 360;
+  const index = Math.floor(((360 - normalized) % 360) / sliceAngle);
+  const event = events[index];
+
+  // update info kanan
+  document.getElementById("event-title").textContent = event.title;
+  document.getElementById("event-desc").innerHTML = event.desc;
+  document.getElementById("event-img").src = event.img;
+
+  // aktifkan event bawah
+  timelineEvents.forEach((el, i) => {
+    el.classList.toggle("active", i === index);
+  });
+
+  // ✅ Scroll otomatis hanya kalau user tidak sedang geser manual
+  if (!userScrolling && timelineContainer) {
+    const activeEl = timelineEvents[index];
+    const elLeft = activeEl.offsetLeft - timelineContainer.offsetLeft;
+    const elCenter =
+      elLeft - timelineContainer.clientWidth / 2 + activeEl.clientWidth / 2;
+    timelineContainer.scrollTo({ left: elCenter, behavior: "smooth" });
+  }
+}
+
+/* 🖱️ Saat TIMELINE diklik → putar roda ke event itu */
+timelineEvents.forEach((el, i) => {
+  el.addEventListener("click", () => {
+    spinToIndex(i);
+  });
+});
+
+/* 🎡 Fungsi muter ke posisi index tertentu (biar sinkron ke event bawah) */
+function spinToIndex(i) {
+  if (animating) return;
+  animating = true;
+
+  const targetAngle = 360 - (i * sliceAngle + sliceAngle / 2);
+  const diff = ((targetAngle - rotation + 540) % 360) - 180; // arah terdekat
+  const frames = 60;
+  let frame = 0;
+
+  function animateToTarget() {
+    if (frame >= frames) {
+      rotation = targetAngle;
+      drawWheel();
+      animating = false;
+      updateActiveEvent();
+      return;
+    }
+    rotation += diff / frames;
+    drawWheel();
+    frame++;
+    requestAnimationFrame(animateToTarget);
+  }
+
+  animateToTarget();
+}
+</script>
+
+<script src="https://kit.fontawesome.com/a2d9a5f8c7.js" crossorigin="anonymous"></script>
+<script>
+const buttons = document.querySelectorAll('.activity-card');
+const sections = document.querySelectorAll('.content-section');
+
+buttons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    // Hapus active dari semua
+    buttons.forEach(b => b.classList.remove('active'));
+    sections.forEach(s => s.classList.remove('active'));
+
+    // Tambahkan active di tombol dan section yang diklik
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.target).classList.add('active');
+  });
+});
+</script>
+
+<script>
+// 🎬 Ganti konten saat tombol diklik
+document.addEventListener("DOMContentLoaded", () => {
+  const buttons = document.querySelectorAll(".activity-btn");
+  const sections = document.querySelectorAll(".content-section");
+
+  buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const target = btn.getAttribute("data-target");
+
+      // hapus status aktif dari semua tombol dan section
+      buttons.forEach(b => b.classList.remove("active"));
+      sections.forEach(s => s.classList.remove("active"));
+
+      // aktifkan tombol yang diklik dan section target-nya
+      btn.classList.add("active");
+      document.getElementById(target).classList.add("active");
+    });
+  });
+});
+</script>
+
+<script>
+const cards = document.querySelectorAll('.hashtag-card');
+
+function enableMobileClick() {
+  const newCards = document.querySelectorAll('.hashtag-card');
+
+  // Hapus event lama
+  newCards.forEach(card => {
+    const clone = card.cloneNode(true);
+    card.parentNode.replaceChild(clone, card);
+  });
+
+  const updatedCards = document.querySelectorAll('.hashtag-card');
+
+  if (window.innerWidth <= 768) {
+    updatedCards.forEach(card => {
+      card.addEventListener('click', e => {
+        e.stopPropagation();
+        const isActive = card.classList.contains('active');
+
+        // Kalau yang diklik lagi → tutup
+        if (isActive) {
+          card.classList.remove('active');
+        } else {
+          // Tutup yang lain dulu
+          updatedCards.forEach(c => c.classList.remove('active'));
+          card.classList.add('active');
+        }
+      });
+    });
+
+    // Klik di luar → tutup semua
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.hashtag-card')) {
+        updatedCards.forEach(c => c.classList.remove('active'));
+      }
+    });
+  }
+}
+
+enableMobileClick();
+window.addEventListener('resize', enableMobileClick);
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // Ambil data event yang sama seperti di spinwheel
+  const events = [
+    {title: "Gen12 Announcement", desc: "<b>18 November 2023</b> - Trisha pertama kali diperkenalkan di Event Jak Japan Matsuri 2023! 💫", img: "tlgen12.jpg"},
+    {title: "Concert Anniv 12th", desc: "<b>17 Desember 2023</b> - Trisha tampil dalam konser ulang tahun JKT48 ke-12! 🎉", img: "tlanniv12.jpg"},
+    {title: "Shonichi Theater", desc: "<b>16 Februari 2024</b> - Trisha tampil pertama kali di teater JKT48 sekaligus merayakan Ulang Tahun ke-13 Trisha! 🌟", img: "tlshonichiteater.jpg"},
+    {title: "Shonichi Off air", desc: "<b>4 Mei 2024</b> - Penampilan off air pertama Trisha di Event Panggung Panas Pekanbaru. 🎤", img: "tlshonichioffair.jpg"},
+    {title: "First MNG", desc: "<b>11 Mei 2024</b> - Meet and Greet pertama Trisha dengan fans di Event Spring Has Come! 💬", img: "tlfirstmng.jpg"},
+    {title: "Shonichi Pajama", desc: "<b>30 Mei 2024</b> - Debut Trisha dalam setlist Pajama Drive. 💃", img: "tlshonichipajama.jpg"},
+    {title: "First MV", desc: "<b>20 Agustus 2024</b> - Trisha tampil di MV pertamanya bersama JKT48! 🎬", img: "tlfirstmv.jpg"},
+    {title: "Second MNG", desc: "<b>28 September 2024</b> - Meet and Greet kedua Trisha dengan suasana hangat. 💖", img: "tlsecondmng.jpg"},
+    {title: "First OFC Event", desc: "<b>30 September 2024</b> - Trisha hadir di event OFC pertamanya! 💫", img: "tlfirstofc.jpg"},
+    {title: "Third MNG", desc: "<b>8 Februari 2025</b> - Trisha kembali menyapa fans di MNG ketiga! 😊", img: "tlthirdmng.jpg"},
+    {title: "Second Birthday", desc: "<b>23 Februari 2025</b> - Show ulang tahun ke-2 Trisha yang penuh kejutan! 🎂", img: "tlsecondbd.jpg"},
+    {title: "Center Pajama", desc: "<b>3 Mei 2025</b> - Trisha tampil sebagai Global Center di Pajama Drive! 🌟", img: "tlcenterpajama.jpg"},
+    {title: "Center Aitakatta", desc: "<b>10 Mei 2025</b> - Trisha jadi Global center untuk Aitakatta! 💥", img: "tlcenteraitakatta.jpg"},
+    {title: "Shonichi Ramune", desc: "<b>17 Juli 2025</b> - Trisha tampil perdana di setlist Cara Meminum Ramune 😊", img: "tlshonichiramune.jpg"}
+  ];
+
+  // Ambil semua elemen event di garis bawah
+  const timelineEvents = document.querySelectorAll(".timeline-event");
+
+  timelineEvents.forEach((el, i) => {
+    el.addEventListener("click", () => {
+      const ev = events[i];
+      document.getElementById("event-title").textContent = ev.title;
+      document.getElementById("event-desc").innerHTML = ev.desc;
+      document.getElementById("event-img").src = ev.img;
+
+      // Tambah efek aktif visual
+      timelineEvents.forEach(e => e.classList.remove("active"));
+      el.classList.add("active");
+    });
+  });
+});
+</script>
+
+<script>
+const timeline = document.querySelector('.timeline-horizontal');
+
+// 🖱️ Drag hanya di desktop (biar gak bentrok dengan swipe HP)
+if (!('ontouchstart' in window)) {
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  timeline.addEventListener('mousedown', (e) => {
+    isDown = true;
+    timeline.style.cursor = 'grabbing';
+    startX = e.pageX - timeline.offsetLeft;
+    scrollLeft = timeline.scrollLeft;
+  });
+
+  timeline.addEventListener('mouseleave', () => {
+    isDown = false;
+    timeline.style.cursor = 'grab';
+  });
+
+  timeline.addEventListener('mouseup', () => {
+    isDown = false;
+    timeline.style.cursor = 'grab';
+  });
+
+  timeline.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - timeline.offsetLeft;
+    const walk = (x - startX) * 1;
+    timeline.scrollLeft = scrollLeft - walk;
+  });
+}
+
+// ⚡ Bonus: Smooth inertia scroll di semua device
+let isScrolling;
+timeline.addEventListener('scroll', () => {
+  timeline.classList.add('scrolling');
+  clearTimeout(isScrolling);
+  isScrolling = setTimeout(() => {
+    timeline.classList.remove('scrolling');
+  }, 100);
+});
+</script>
 </body>
 </html>
-
 
