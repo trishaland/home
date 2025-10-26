@@ -480,9 +480,10 @@ const firebaseConfig = {
     try {
       const permission = await Notification.requestPermission();
       if (permission === "granted") {
-        const token = await messaging.getToken({
-          vapidKey: "BEjpPL3VlGttKDUl4dHe8jB0NEC56L_CvIOw61fbrHw6QG0QRAnORoaVHtWCkGLz-tn_6irhTErWwPu4EFVLE4E" // dari Firebase Cloud Messaging settings
-        });
+const token = await messaging.getToken({
+  vapidKey: "BEjpPL3VlGttKDUl4dHe8jB0NEC56L_CvIOw61fbrHw6QG0QRAnORoaVHtWCkGLz-tn_6irhTErWwPu4EFVLE4E",
+  serviceWorkerRegistration: await navigator.serviceWorker.register("./firebase-messaging-sw.js")
+});
 
         console.log("✅ Token didapat:", token);
 
