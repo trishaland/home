@@ -9,15 +9,16 @@ firebase.initializeApp({
   messagingSenderId: "904773772791",
   appId: "1:904773772791:web:b2aa07701d406126177af2",
   measurementId: "G-GKKWMK16M9"
-};
+});
 
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
-  console.log("📩 Pesan diterima:", payload);
-  const { title, body, image } = payload.notification;
-  self.registration.showNotification(title, {
-    body,
-    icon: image || "TrishaLand.webp"
-  });
+  console.log("[firebase-messaging-sw.js] Dapat pesan background:", payload);
+  const notificationTitle = payload.notification.title;
+  const notificationOptions = {
+    body: payload.notification.body,
+    icon: "TrishaLand.webp",
+  };
+  self.registration.showNotification(notificationTitle, notificationOptions);
 });
