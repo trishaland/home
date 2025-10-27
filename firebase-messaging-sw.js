@@ -13,12 +13,34 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
+// 🔔 Tangani pesan background FCM
 messaging.onBackgroundMessage((payload) => {
   console.log("[firebase-messaging-sw.js] Dapat pesan background:", payload);
-  const notificationTitle = payload.notification.title;
+
+  // ✅ Ambil title/body dari notification ATAU data
+  const notificationTitle =
+    (payload.notification && payload.notification.title) ||
+    (payload.data && payload.data.title) ||
+    "Pesan Baru 💙";
+
+  const notificationBody =
+    (payload.notification && payload.notification.body) ||
+    (payload.data && payload.data.body) ||
+    "Trisha nyapa kamu dari jauh!";
+
   const notificationOptions = {
-    body: payload.notification.body,
-    icon: "TrishaLand.webp",
+    body: notificationBody,
+    icon: payload.notification?.image || "TrishaLand.webp",
+    data: { url: "https://trishaland.github.io/home/" },
   };
+
   self.registration.showNotification(notificationTitle, notificationOptions);
+});
+
+// 🔗 Biar bisa diklik dan buka situs kamu
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  event.waitUntil(
+    clients.openWindow(event.notification.data.url)
+  );
 });
