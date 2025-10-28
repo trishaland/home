@@ -574,6 +574,164 @@
 #pesanForm button:hover {
   background: #142d70;
 }
+
+/* === NEWS SECTION with Gradient Overlay (tanpa bayangan luar) === */
+.news-section {
+  padding: 80px 20px;
+  background: linear-gradient(180deg, #eaf6ff 0%, #ffffff 100%);
+  overflow: hidden;
+}
+
+.news-slider {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding-bottom: 10px;
+}
+
+.news-slider::-webkit-scrollbar {
+  display: none;
+}
+
+/* ==== CARD NEWS TANPA BOX-SHADOW ==== */
+.news-card {
+  flex: 0 0 85%;
+  aspect-ratio: 16 / 9;
+  border-radius: 18px;
+  position: relative;
+  scroll-snap-align: center;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: none;
+}
+
+/* Gambar dengan animasi zoom */
+.news-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.6s ease, filter 0.6s ease;
+  z-index: 0;
+}
+
+/* 🔥 Efek zoom */
+.news-card:hover::before,
+.news-card:active::before {
+  transform: scale(1.1);
+  filter: brightness(1.1);
+}
+
+/* 🌈 Overlay biru muda transparan */
+.news-overlay {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 25px;
+  color: white;
+  background: linear-gradient(
+    to top,
+    rgba(135, 206, 250, 0.9) 0%, 
+    rgba(173, 216, 230, 0.6) 40%, 
+    rgba(224, 247, 255, 0.2) 70%, 
+    rgba(255, 255, 255, 0) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ✅ Bayangan teks lembut (tanpa outline hitam) */
+.news-overlay h3,
+.news-overlay p,
+.news-tag {
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+/* === TAG BERITA — tetap bisa diklik === */
+.news-tag {
+  font-size: 0.8rem;
+  background: rgba(255,255,255,0.3);
+  padding: 4px 10px;
+  border-radius: 6px;
+  letter-spacing: 1px;
+  pointer-events: auto;
+  position: relative;
+  z-index: 3;
+}
+
+/* === JUDUL & TEKS === */
+.news-overlay h3 {
+  margin-top: 10px;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.news-overlay p {
+  margin-top: 8px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #f0f0f0;
+}
+
+/* === TOMBOL — tetap bisa diklik === */
+.btn-news {
+  display: inline-block;
+  background: #1e90ff;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  margin-top: 10px;
+  transition: background 0.3s;
+  text-shadow: none;
+  pointer-events: auto;
+  position: relative;
+  z-index: 3;
+}
+
+.btn-news:hover {
+  background: #166ccc;
+}
+
+/* === Indikator Slider === */
+.indikator-news {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.indikator-news span {
+  width: 10px;
+  height: 10px;
+  background: rgba(0,64,128,0.3);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.indikator-news span.aktif {
+  background: #004080;
+  transform: scale(1.4);
+}
+
+/* === Responsif === */
+@media (max-width: 768px) {
+  .news-card {
+    flex: 0 0 90%;
+    aspect-ratio: 4 / 3;
+  }
+  .news-overlay {
+    padding: 18px;
+  }
+  .news-overlay h3 {
+    font-size: 1.1rem;
+  }
+}
   </style>
 
 <!-- ===== Trisha Chatbot Start ===== -->
@@ -729,13 +887,14 @@
       <img src="TrishaLandMobile.webp" alt="Logo TrishaLand Mobile">
     </div>
 
-    <nav>
-      <ul>
-        <li><a href="index.html" style="color:#ffffff;">HOME</a></li>
-        <li><a href="about.html">ABOUT TRISHA</a></li>
-        <li><a href="corner.html">CORNER</a></li>
-      </ul>
-    </nav>
+<nav>
+  <ul>
+    <li><a href="index.html" style="color:#ffffff;">HOME</a></li>
+    <li><a href="news.html">NEWS</a></li>
+    <li><a href="about.html">ABOUT TRISHA</a></li>
+    <li><a href="corner.html">CORNER</a></li>
+  </ul>
+</nav>
 
     <div class="hamburger">
       <span></span><span></span><span></span>
@@ -782,6 +941,57 @@
       </div>
     </div>
   </section>
+
+<!-- NEWS SECTION -->
+<section class="news-section">
+  <h2 style="text-align:center; color:#004080; margin-bottom:30px;">📰 Trisha News</h2>
+
+  <div class="news-slider">
+    <!-- Card 1 -->
+    <div class="news-card" style="background-image:url('trishanews4.jpg');">
+      <div class="news-overlay">
+        <span class="news-tag">Berita</span>
+        <h3>Trisha dipromosikan sebagai anggota inti JKT48✨</h3>
+        <p>Pada acara Meet and Greet Sister Reunion, Trisha dan seluruh Generasi 12 resmi dipromosikan menjadi anggota inti 💕</p>
+        <a href="news b1.html" class="btn-news">Lihat Detail ➜</a>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="news-card" style="background-image:url('trishanews3.jpg');">
+      <div class="news-overlay">
+        <span class="news-tag">Video Call</span>
+        <h3>Trisha cosplay bunga matahari🌻</h3>
+        <p>Trisha tampil lucu dan ceria dengan cosplay bunga matahari saat sesi video call!</p>
+        <a href="news b2.html" class="btn-news">Lihat Detail ➜</a>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="news-card" style="background-image:url('trishanews2.jpg');">
+      <div class="news-overlay">
+        <span class="news-tag">Sosmed</span>
+        <h3>Teri Makasih dinotice eajpark🐟</h3>
+        <p>Trisha mengunggah meme “Teri Makasih” dan mendapat perhatian dari EajPark</p>
+        <a href="news b3.html" class="btn-news">Lihat Detail ➜</a>
+      </div>
+    </div>
+
+    <!-- ✅ Card 4 (pindahkan ke dalam slider juga) -->
+    <div class="news-card" style="background-image:url('trishanews1.jpg');">
+      <div class="news-overlay">
+        <span class="news-tag">Show</span>
+        <h3>Trisha Shonichi Setlist Ramune💕</h3>
+        <p>Penuh semangat, Trisha menjalani Shonichi setlist Ramune no Nomikata bersama yang lain</p>
+        <a href="news b4.html" class="btn-news">Lihat Detail ➜</a>
+      </div>
+    </div>
+  </div> <!-- tutup .news-slider -->
+
+  <div class="indikator-news">
+    <span class="aktif"></span><span></span><span></span><span></span>
+  </div>
+</section>
 
   <!-- COUNTDOWN -->
   <section class="countdown-section">
@@ -854,6 +1064,7 @@
         <h3>Halaman</h3>
         <ul>
           <li><a href="index.html">Home</a></li>
+          <li><a href="news.html">News</a></li>
           <li><a href="about.html">About Trisha</a></li>
           <li><a href="corner.html">Corner</a></li>
         </ul>
@@ -1310,6 +1521,17 @@ searchInput.addEventListener("input", e => {
 });
 
 document.addEventListener("DOMContentLoaded", muatPesan);
+</script>
+
+<script>
+const slider = document.querySelector('.news-slider');
+const dots = document.querySelectorAll('.indikator-news span');
+
+slider.addEventListener('scroll', () => {
+  const cardWidth = slider.children[0].offsetWidth + 20;
+  const index = Math.round(slider.scrollLeft / cardWidth);
+  dots.forEach((dot, i) => dot.classList.toggle('aktif', i === index));
+});
 </script>
 </body>
 </html>
