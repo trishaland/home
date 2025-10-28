@@ -721,15 +721,45 @@
 
 /* === Responsif === */
 @media (max-width: 768px) {
+  /* ✅ Card pas 1 layar, tidak kelebihan kanan */
   .news-card {
-    flex: 0 0 90%;
-    aspect-ratio: 4 / 3;
+    flex: 0 0 100%;
+    aspect-ratio: 3 / 4;
   }
+
+  /* ✅ Teks tidak keluar area overlay */
   .news-overlay {
-    padding: 18px;
+    padding: 14px 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
+
+  /* ✅ Judul proporsional & tetap terlihat */
   .news-overlay h3 {
-    font-size: 1.1rem;
+    font-size: 1rem;
+    line-height: 1.3;
+    margin-bottom: 6px;
+    word-wrap: break-word;
+  }
+
+  /* ✅ Deskripsi maksimal 2–3 baris */
+  .news-overlay p {
+    font-size: 0.85rem;
+    line-height: 1.35;
+    max-height: 3.6em; /* batasi tinggi */
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ✅ Tombol tetap rapi */
+  .btn-news {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+
+  /* ✅ Cegah layar melebar saat digeser */
+  .news-section {
+    overflow-x: hidden;
   }
 }
   </style>
