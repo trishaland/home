@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>News</title>
+  <link rel="icon" type="image/png" href="TrishaLand.webp">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Poppins", sans-serif;
+      color: black;
+      background: #ffffff;
+      overflow-x: hidden;
+    }
+
+    /* HEADER */
+    header {
+      position: fixed; top: 0; left: 0;
+      width: 100%;
+      background: rgba(173, 216, 230, 0.8);
+      backdrop-filter: blur(8px);
+      padding: 15px 20px;
+      display: flex; justify-content: space-between; align-items: center;
+      z-index: 1000;
+      height: 60px;
+    }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo-img { width: 55px; height: auto; object-fit: contain; }
+    .logo-text { display: flex; flex-direction: column; line-height: 1.2; }
+    .logo-main { font-size: 22px; font-weight: 600; color: #004080; }
+    .logo-sub { font-size: 12px; color: #333; }
+
+    .mobile-logo { display: none; position: absolute; left: 50%; transform: translateX(-50%); }
+    .mobile-logo img { width: 150px; height: auto; object-fit: contain; }
+
+    nav ul { list-style: none; display: flex; gap: 25px; }
+    nav ul li a { text-decoration: none; color: #000; font-weight: 400; transition: 0.3s; }
+    nav ul li a:hover { color: #004080; }
+    .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; }
+    .hamburger span {
+      width: 25px; height: 3px; background: #000; border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translateY(8px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translateY(-8px); }
+
+    @media (max-width: 768px) {
+      .logo { display: none; }
+      .mobile-logo { display: block; }
+      nav ul {
+        display: none;
+        position: absolute; top: 60px; right: 20px;
+        background: #add8e6;
+        flex-direction: column; gap: 15px;
+        padding: 20px; border-radius: 10px;
+      }
+      nav ul.active { display: flex; }
+      .hamburger { display: flex; }
+    }
+
+/* === NEWS SECTION (TRISHALAND RESPONSIVE - FIXED TWO COLUMN) === */
+.news-page {
+  margin-top: 60px;
+  padding: 40px 20px 80px;
+  background: linear-gradient(180deg, #e6f4ff 0%, #ffffff 100%);
+}
+
+.news-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.news-title {
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #004080;
+  border-left: 8px solid #5ab2ff;
+  padding-left: 16px;
+  margin-bottom: 40px;
+}
+
+.news-card {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  background: #ffffff;
+  border: 1px solid #d6e9ff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 64, 128, 0.05);
+  padding: 20px;
+  margin-bottom: 40px;
+  transition: all 0.3s ease;
+}
+
+/* Hover card: naik sedikit & bayangan lembut */
+.news-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 64, 128, 0.1);
+}
+
+/* === ✨ Foto Berita dengan Efek Zoom di Dalam Bingkai === */
+.news-thumb {
+  width: 300px;
+  max-width: 40%;
+  border-radius: 10px;
+  object-fit: cover;
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1), filter 0.6s ease;
+}
+
+/* 🔥 Saat card di-hover, gambar zoom di dalam bingkai */
+.news-card:hover .news-thumb {
+  transform: scale(1.08);
+  filter: brightness(1.1);
+}
+
+/* === Info Berita === */
+.news-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.news-info h2 {
+  color: #004080;
+  font-size: 1.3rem;
+  margin-bottom: 8px;
+}
+
+.meta {
+  font-size: 0.9rem;
+  color: #4a607d;
+  margin-bottom: 12px;
+}
+
+.meta span {
+  margin-right: 18px;
+}
+
+.news-info p {
+  color: #1f2a44;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.read-btn {
+  align-self: flex-start;
+  background: #5ab2ff;
+  color: white;
+  text-decoration: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-weight: 500;
+  box-shadow: 0 3px 6px rgba(0, 64, 128, 0.15);
+  transition: background 0.3s, transform 0.3s;
+}
+
+.read-btn:hover {
+  background: #408ee0;
+  transform: scale(1.05);
+}
+
+/* ✅ Tetap dua kolom di HP */
+@media (max-width: 768px) {
+  .news-card {
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 15px;
+    gap: 15px;
+  }
+
+  .news-thumb {
+    width: 45%;
+    border-radius: 8px;
+  }
+
+  .news-info h2 {
+    font-size: 1.1rem;
+  }
+
+  .news-info p {
+    font-size: 0.9rem;
+  }
+
+  .read-btn {
+    padding: 6px 14px;
+    font-size: 0.9rem;
+  }
+}
+
+   /* FOOTER */
+    .footer {
+      background: #004080;
+      color: white;
+      padding: 50px 20px 20px;
+      width: 100%;
+    }
+    .footer-container {
+      display: flex; flex-wrap: wrap; justify-content: space-between;
+      max-width: 1200px; margin: 0 auto; gap: 30px;
+    }
+    .footer-column { flex: 1; min-width: 200px; }
+    .footer-column h3 { font-size: 1.2rem; margin-bottom: 15px; color: #ffdd57; }
+    .footer-column ul { list-style: none; padding: 0; }
+    .footer-column ul li { margin-bottom: 10px; }
+    .footer-column ul li a { text-decoration: none; color: white; transition: color 0.3s; }
+    .footer-column ul li a:hover { color: #ffdd57; }
+    .footer-bottom {
+      text-align: center; margin-top: 30px; font-size: 0.9rem;
+      border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px;
+    }
+  </style>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const hamburger = document.querySelector(".hamburger");
+      const navMenu = document.querySelector("nav ul");
+
+      hamburger.addEventListener("click", () => {
+        navMenu.classList.toggle("active");
+        hamburger.classList.toggle("active");
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <img src="TrishaLand.webp" alt="Logo TrishaLand" class="logo-img">
+      <div class="logo-text">
+        <div class="logo-main">Trishaland</div>
+        <div class="logo-sub">Fansite Trisha JKT48</div>
+      </div>
+    </div>
+    <div class="mobile-logo"><img src="TrishaLandMobile.webp" alt="Logo TrishaLand Mobile"></div>
+<nav>
+  <ul>
+    <li><a href="index.html">HOME</a></li>
+    <li><a href="news.html" style="color:#ffffff;">NEWS</a></li>
+    <li><a href="about.html">ABOUT TRISHA</a></li>
+    <li><a href="corner.html">CORNER</a></li>
+  </ul>
+</nav>
+    <div class="hamburger"><span></span><span></span><span></span></div>
+  </header>
+
+<!-- NEWS CONTENT -->
+<section class="news-page">
+  <div class="news-container">
+
+    <h1 class="news-title">Berita Terbaru</h1>
+
+    <div class="news-card">
+      <img src="trishanews4.jpg" alt="Trisha promosi" class="news-thumb">
+      <div class="news-info">
+        <h2>Trisha dipromosikan sebagai anggota inti JKT48✨</h2>
+        <div class="meta">
+          <span>🖋️ By Trishaland</span>
+          <span>📅 25 Oktober 2025</span>
+        </div>
+        <p>Pada acara Meet and Greet Sister Reunion, Trisha dan...</p>
+        <a href="news b1.html" class="read-btn">Read More</a>
+      </div>
+    </div>
+
+    <div class="news-card">
+      <img src="trishanews3.jpg" alt="Trisha Matahari" class="news-thumb">
+      <div class="news-info">
+        <h2>Trisha cosplay bunga matahari🌻</h2>
+        <div class="meta">
+          <span>🖋️ By Trishaland</span>
+          <span>📅 15 Oktober 2025</span>
+        </div>
+        <p>Trisha tampil lucu dan ceria dengan cosplay bunga matahari...</p>
+        <a href="news b2.html" class="read-btn">Read More</a>
+      </div>
+    </div>
+
+    <div class="news-card">
+      <img src="trishanews2.jpg" alt="Teri Makasih" class="news-thumb">
+      <div class="news-info">
+        <h2>Teri Makasih dinotice eajpark🐟</h2>
+        <div class="meta">
+          <span>🖋️ By Trishaland</span>
+          <span>📅 25 Juli 2025</span>
+        </div>
+        <p>Trisha mengunggah meme “Teri Makasih” dan mendapat...</p>
+        <a href="news b3.html" class="read-btn">Read More</a>
+      </div>
+    </div>
+
+    <div class="news-card">
+      <img src="trishanews1.jpg" alt="Trisha shonichi" class="news-thumb">
+      <div class="news-info">
+        <h2>Trisha Shonichi Setlist Ramune💕</h2>
+        <div class="meta">
+          <span>🖋️ By Trishaland</span>
+          <span>📅 17 Juli 2025</span>
+        </div>
+        <p>Penuh semangat, Trisha menjalani Shonichi setlist...</p>
+        <a href="news b4.html" class="read-btn">Read More</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-column">
+        <h3>Halaman</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="news.html">News</a></li>
+          <li><a href="about.html">About Trisha</a></li>
+          <li><a href="corner.html">Corner</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Sosial Media Trisha</h3>
+        <ul>
+          <li><a href="https://www.instagram.com/jkt48.trisha/" target="_blank">Instagram</a></li>
+          <li><a href="https://www.threads.com/@jkt48.trisha" target="_blank">Threads</a></li>
+          <li><a href="https://x.com/JTrisha_JKT48" target="_blank">X / Twitter</a></li>
+          <li><a href="https://www.tiktok.com/@jkt48.trisha" target="_blank">TikTok</a></li>
+          <li><a href="https://www.idn.app/jkt48_trisha" target="_blank">IDN App</a></li>
+          <li><a href="https://www.showroom-live.com/r/JKT48_Trisha" target="_blank">Showroom</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Hashtag</h3>
+        <ul>
+          <li>#TrishAfternoon</li>
+          <li>#TrishArt</li>
+          <li>#Trishartuday</li>
+          <li>#WannaSeeTrisha</li>
+          <li>#Trishaur</li>
+          <li>#Trishelca</li>
+          <li>#CallTrisha</li>
+          <li>#RuangBermain</li>
+          <li>#Inshastory</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2025 Trishaland. All rights reserved.
+    </div>
+  </footer>
+</body>
+</html>
