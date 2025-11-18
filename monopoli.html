@@ -1,0 +1,3258 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Trisha</title>
+  <link rel="icon" type="image/png" href="TrishaLand.webp">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body { height: 100%; }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      color: #000;
+      background: #ffffff;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* HEADER */
+    header {
+      position: fixed; top: 0; left: 0;
+      width: 100%;
+      background: rgba(173, 216, 230, 0.8);
+      backdrop-filter: blur(8px);
+      padding: 15px 20px;
+      display: flex; justify-content: space-between; align-items: center;
+      z-index: 1000;
+      height: 60px;
+    }
+
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo-img { width: 55px; height: auto; object-fit: contain; }
+    .logo-text { display: flex; flex-direction: column; line-height: 1.2; }
+    .logo-main { font-size: 22px; font-weight: 600; color: #004080; }
+    .logo-sub { font-size: 12px; color: #333; }
+
+    .mobile-logo {
+      display: none;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .mobile-logo img { width: 150px; height: auto; object-fit: contain; }
+
+    nav ul { list-style: none; display: flex; gap: 25px; }
+    nav ul li a {
+      text-decoration: none; color: #000; font-weight: 400; transition: 0.3s;
+    }
+    nav ul li a:hover { color: #004080; }
+    .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; transition: all 0.3s ease; }
+    .hamburger span { width: 25px; height: 3px; background: #000; border-radius: 5px; transition: all 0.3s ease; }
+
+    /* 🔥 ANIMASI HAMBURGER JADI X */
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translateY(8px);
+    }
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translateY(-8px);
+    }
+
+    @media (max-width: 768px) {
+      .logo { display: none; }
+      .mobile-logo { display: block; }
+      nav ul {
+        display: none;
+        position: absolute;
+        top: 60px; right: 20px;
+        background: #add8e6;
+        flex-direction: column; gap: 15px;
+        padding: 20px; border-radius: 10px;
+      }
+      nav ul.active { display: flex; }
+      .hamburger { display: flex; }
+    }
+
+#menu, #gameWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ======== MENU AWAL ======== */
+#menu {
+    position: relative;    /* Bukan absolute */
+    width: 100%;
+    padding-top: 100px;    /* Jarak dari header */
+    padding-bottom: 120px; /* Supaya tidak nabrak footer */
+    background: #f0f0f0ee;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+#menu h1 {
+    font-size: 3vmin;
+    margin-bottom: 20px;
+}
+
+.menu-btn {
+    padding: 12px 20px;
+    background: #4a78ff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 2vmin;
+    cursor: pointer;
+}
+
+.menu-btn:hover {
+    background: #365ad5;
+}
+
+/* SUB MENU MULTIPLAYER */
+#multiplayerOptions {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* SUB MENU CPU */
+#cpuOptions {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* ======== WRAPPER GAME ======== */
+/* ======== WRAPPER GAME ======== */
+#gameWrapper {
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    gap: 2vmin;
+
+    margin-top: 100px;
+    margin-bottom: 120px;
+}
+
+/* PANEL KANAN-KIRI */
+.playerPanel {
+    width: 18vmin;
+    min-width: 120px;
+    background: white;
+    padding: 10px;
+    border-radius: 12px;
+    box-shadow: 0 0 8px #0002;
+    font-size: 1.6vmin;
+    height: 80vmin;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.player {
+    padding: 6px;
+    border-radius: 10px;
+    background: #f4f4f4;
+}
+
+/* ======== BOARD ======== */
+
+.board {
+    width: 90vmin;
+    height: 90vmin;
+    max-width: 650px;
+    max-height: 650px;
+    background: #fff;
+    border: 1.2vmin solid #222;
+    display: none; 
+    grid-template-columns: repeat(11, 1fr);
+    grid-template-rows: repeat(11, 1fr);
+    position: relative;
+}
+
+/* DICE BOX */
+#diceBox {
+  position:absolute;
+  top:48%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  background:white;
+  padding:12px 22px;
+  font-size:4vmin;
+  border-radius:12px;
+  opacity:0;
+  transition:opacity .2s;
+  pointer-events:none;
+  z-index:40;
+}
+
+.shake { animation: diceShake 0.6s; }
+.pop { animation: dicePop 0.25s; }
+
+@keyframes diceShake {
+  0% { transform: translate(-50%,-50%) rotate(0deg); }
+  25% { transform: translate(-48%,-52%) rotate(10deg); }
+  50% { transform: translate(-50%,-50%) rotate(-10deg); }
+  75% { transform: translate(-52%,-48%) rotate(10deg); }
+  100% { transform: translate(-50%,-50%) rotate(0deg); }
+}
+
+@keyframes dicePop {
+  0% { transform: translate(-50%,-50%) scale(0.5); opacity:0; }
+  100% { transform: translate(-50%,-50%) scale(1); opacity:1; }
+}
+
+/* BUTTON DADU */
+#rollBtn {
+    position:absolute;
+    bottom: 20%;
+    left:50%;
+    transform:translateX(-50%);
+    padding:10px 25px;
+    border:none;
+    background:#27ae60;
+    color:white;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:2.2vmin;
+    z-index:50;
+}
+
+#rollBtn:hover {
+    background:#1f8a4f;
+}
+
+.cell {
+    border: 0.3vmin solid #ccc;
+    font-size: 1.2vmin;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0.4vmin;
+}
+
+.corner {
+    font-weight: bold;
+    font-size: 1.8vmin;
+    background: #eee;
+    border: 0.2vmin solid #aaa !important;
+    padding: 0;
+}
+
+.property {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 1vmin;
+}
+
+.color-bar {
+    height: 2vmin;
+    width: 100%;
+}
+
+.brown { background: #8b4513; }
+.lightblue { background: #87CEFA; }
+.pink { background: #FF69B4; }
+.orange { background: #FFA500; }
+.red { background: #FF4D4D; }
+.yellow { background: #FFFF66; }
+.green { background: #2ecc71; }
+.darkblue { background: #1E3A8A; }
+
+.empty {
+    background: #fff;
+    border: none;
+}
+
+.token {
+    position:absolute;
+    font-size:3vmin;
+    z-index:20;
+    transition: all 0.35s;
+}
+
+#gameWrapper{ position:relative; }
+
+#financePanel .pf-box{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    font-weight:bold;
+}
+#financePanel .pf-money{ color:#16a34a; }
+#financePanel .pf-asset{ color:#2563eb; }
+#financePanel .pf-debt{ color:#dc2626; }
+
+.board { position: relative; }
+
+.playerHUD {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.88);
+    padding: 10px 12px;
+    border-radius: 12px;
+    width: 85px;
+    font-size: 12px;
+    line-height: 1.3;
+    text-align: left;
+    border: 1px solid rgba(0,0,0,0.2);
+    backdrop-filter: blur(6px);
+    pointer-events: none;
+}
+
+/* 4 pojok */
+.playerHUD.p1 { top: 65px; left: 65px; }
+.playerHUD.p2 { top: 65px; right: 65px; }
+.playerHUD.p3 { bottom: 65px; left: 65px; }
+.playerHUD.p4 { bottom: 65px; right: 65px; }
+
+.playerHUD {
+    transition: 0.25s;
+}
+
+.player-active-1 {
+    border: 4px solid #00c853;
+    box-shadow: 0 0 15px #00e676;
+    background: rgba(0, 200, 83, 0.15);
+    border-radius: 10px;
+}
+
+.player-active-2 {
+    border: 4px solid #2962ff;
+    box-shadow: 0 0 15px #448aff;
+    background: rgba(41, 98, 255, 0.15);
+    border-radius: 10px;
+}
+
+.player-active-3 {
+    border: 4px solid #d50000;
+    box-shadow: 0 0 15px #ff1744;
+    background: rgba(213, 0, 0, 0.15);
+    border-radius: 10px;
+}
+
+.player-active-4 {
+    border: 4px solid #ffd600;
+    box-shadow: 0 0 15px #ffea00;
+    background: rgba(255, 214, 0, 0.2);
+    border-radius: 10px;
+}
+
+/* warna dasar HUD — muncul sejak awal, tapi lebih redup */
+.hud-base-1 { background: rgba(255,118,117,0.18); border-color: rgba(255,118,117,0.35); }
+.hud-base-2 { background: rgba(116,185,255,0.18); border-color: rgba(116,185,255,0.35); }
+.hud-base-3 { background: rgba(85,239,196,0.18); border-color: rgba(85,239,196,0.35); }
+.hud-base-4 { background: rgba(255,234,167,0.20); border-color: rgba(255,234,167,0.35); }
+
+/* kecilkan opacity teks saat tidak aktif supaya kontras lebih jelas */
+.playerHUD { color: #111; transition: box-shadow .18s, transform .18s, background .18s; }
+.playerHUD.dim { opacity: 0.85; filter: none; transform: scale(1); }
+
+/* override saat active (lebih terang / prominent) */
+/* NOTE: kelas player-active-1..4 sudah ada; tambahkan sedikit transform agar terasa */
+.player-active-1, .player-active-2, .player-active-3, .player-active-4 {
+    opacity: 1;
+    transform: scale(1.03);
+}
+
+/* 🎯 RESPONSIVE HUD - Mobile Mode */
+@media (max-width: 768px) {
+    .playerHUD {
+        width: 65px;
+        font-size: 10px;
+        padding: 6px 8px;
+        line-height: 1.1;
+        border-radius: 8px;
+        transform: scale(0.9); /* sedikit mengecil */
+    }
+
+    .playerHUD.p1 { top: 45px; left: 45px; }
+    .playerHUD.p2 { top: 45px; right: 45px; }
+    .playerHUD.p3 { bottom: 45px; left: 45px; }
+    .playerHUD.p4 { bottom: 45px; right: 45px; }
+}
+
+/* ====== BINTANG DI TILE TIDAK MERUSAK LAYOUT ====== */
+.star {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    font-size: 14px;
+    pointer-events: none;
+}
+
+/* pastikan cell relatif supaya star absolute bisa nempel */
+.cell, .corner {
+    position: relative;
+}
+
+/* property cell tetap rapi */
+.property {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 1.5vmin;
+    box-sizing: border-box;
+}
+
+    /* FOOTER */
+    .footer {
+      background: #004080;
+      color: white;
+      padding: 50px 20px 20px;
+      width: 100%;
+    }
+    .footer-container {
+      display: flex; flex-wrap: wrap; justify-content: space-between;
+      max-width: 1200px; margin: 0 auto; gap: 30px;
+    }
+    .footer-column { flex: 1; min-width: 200px; }
+    .footer-column h3 { font-size: 1.2rem; margin-bottom: 15px; color: #ffdd57; }
+    .footer-column ul { list-style: none; padding: 0; }
+    .footer-column ul li { margin-bottom: 10px; }
+    .footer-column ul li a { text-decoration: none; color: white; transition: color 0.3s; }
+    .footer-column ul li a:hover { color: #ffdd57; }
+    .footer-bottom {
+      text-align: center; margin-top: 30px; font-size: 0.9rem;
+      border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px;
+    }
+
+.board {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+  </style>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const hamburger = document.querySelector(".hamburger");
+      const navMenu = document.querySelector("nav ul");
+      if (hamburger && navMenu) {
+        hamburger.addEventListener("click", () => {
+          navMenu.classList.toggle("active");
+          hamburger.classList.toggle("active");
+        });
+      }
+    });
+  </script>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <img src="TrishaLand.webp" alt="Logo TrishaLand" class="logo-img">
+      <div class="logo-text">
+        <div class="logo-main">Trishaland</div>
+        <div class="logo-sub">Fansite Trisha JKT48</div>
+      </div>
+    </div>
+
+    <div class="mobile-logo">
+      <img src="TrishaLandMobile.webp" alt="Logo TrishaLand Mobile">
+    </div>
+
+<nav>
+  <ul>
+    <li><a href="index.html">HOME</a></li>
+    <li><a href="news.html">NEWS</a></li>
+    <li><a href="about.html">ABOUT TRISHA</a></li>
+    <li><a href="corner.html" style="color:#ffffff;">CORNER</a></li>
+  </ul>
+</nav>
+
+    <div class="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main>
+<div id="menu">
+    <h1>Pilih Mode Permainan</h1>
+
+    <button id="btnCPU" class="menu-btn" onclick="showCPU()">Lawan Komputer</button>
+    <button id="btnMulti" class="menu-btn" onclick="showMultiplayer()">Multiplayer</button>
+
+    <div id="cpuOptions">
+        <button class="menu-btn" onclick="startCPU(1)">1 Komputer</button>
+        <button class="menu-btn" onclick="startCPU(2)">2 Komputer</button>
+        <button class="menu-btn" onclick="startCPU(3)">3 Komputer</button>
+        <button class="menu-btn" style="background:#aaa;" onclick="resetMenu()">Kembali</button>
+    </div>
+
+    <div id="multiplayerOptions">
+        <button class="menu-btn" onclick="startMultiplayer(2)">2 Pemain</button>
+        <button class="menu-btn" onclick="startMultiplayer(3)">3 Pemain</button>
+        <button class="menu-btn" onclick="startMultiplayer(4)">4 Pemain</button>
+        <button class="menu-btn" style="background:#aaa;" onclick="resetMenu()">Kembali</button>
+    </div>
+</div>
+
+  </main>
+
+<!-- =============== GAME WRAPPER ================== -->
+<div id="gameWrapper">
+
+<!-- BOARD -->
+<div class="board" id="board">
+    <div id="diceBox">🎲🎲</div>
+    <button id="rollBtn" onclick="rollDice()">Lempar Dadu</button>
+
+    <!-- HUD PLAYER (UANG, ASET, UTANG) -->
+    <div class="playerHUD p1" id="hud1">P1<br>💰uang 1500<br>🏠aset 0<br>💸utang 0</div>
+    <div class="playerHUD p2" id="hud2">P2<br>💰uang 1500<br>🏠aset 0<br>💸utang 0</div>
+    <div class="playerHUD p3" id="hud3">P3<br>💰uang 1500<br>🏠aset 0<br>💸utang 0</div>
+    <div class="playerHUD p4" id="hud4">P4<br>💰uang 1500<br>🏠aset 0<br>💸utang 0</div>
+
+<!-- BOARD -->
+<div class="corner cell" style="grid-column: 1; grid-row: 1;">BEBAS<br>KELILING</div>
+
+<div class="cell property" style="grid-column: 2; grid-row: 1;">
+    <div class="color-bar brown"></div>Rumah Shasa
+</div>
+
+<div class="cell" style="grid-column: 3; grid-row: 1;">Dana Umum</div>
+
+<div class="cell property" style="grid-column: 4; grid-row: 1;">
+    <div class="color-bar brown"></div>FX Sudirman
+</div>
+
+<div class="cell" style="grid-column: 5; grid-row: 1;">Lombok</div>
+
+<div class="cell property" style="grid-column: 6; grid-row: 1;">
+    <div class="color-bar lightblue"></div>Rumah Lana
+</div>
+
+<div class="cell property" style="grid-column: 7; grid-row: 1;">
+    <div class="color-bar lightblue"></div>Rumah Moreen
+</div>
+
+<div class="cell" style="grid-column: 8; grid-row: 1;">Kesempatan</div>
+
+<div class="cell property" style="grid-column: 9; grid-row: 1;">
+    <div class="color-bar lightblue"></div>Rumah Nayla
+</div>
+
+<div class="cell" style="grid-column: 10; grid-row: 1;">Raja Ampat</div>
+
+<div class="corner cell" style="grid-column: 11; grid-row: 1;">AMBIL<br>ALIH</div>
+
+<div class="cell property" style="grid-column: 1; grid-row: 2;">
+    <div class="color-bar pink"></div>Rumah Kimmy
+</div>
+
+<div class="cell" style="grid-column: 1; grid-row: 3;">Kesempatan</div>
+
+<div class="cell property" style="grid-column: 1; grid-row: 4;">
+    <div class="color-bar pink"></div>Rumah Erine
+</div>
+
+<div class="cell property" style="grid-column: 1; grid-row: 5;">
+    <div class="color-bar pink"></div>Rumah Regie
+</div>
+
+<div class="cell" style="grid-column: 1; grid-row: 6;">Bali</div>
+
+<div class="cell property" style="grid-column: 1; grid-row: 7;">
+    <div class="color-bar orange"></div>Kantor IDN
+</div>
+
+<div class="cell" style="grid-column: 1; grid-row: 8;">Bank</div>
+
+<div class="cell property" style="grid-column: 1; grid-row: 9;">
+    <div class="color-bar orange"></div>Rumah Nachia
+</div>
+
+<div class="cell property" style="grid-column: 1; grid-row: 10;">
+    <div class="color-bar orange"></div>Rumah Lily
+</div>
+
+<div class="corner cell" style="grid-column: 1; grid-row: 11;">PENJARA</div>
+
+<div class="cell property" style="grid-column: 2; grid-row: 11;">
+    <div class="color-bar red"></div>Rumah Levi
+</div>
+
+<div class="cell" style="grid-column: 3; grid-row: 11;">Kesempatan</div>
+
+<div class="cell property" style="grid-column: 4; grid-row: 11;">
+    <div class="color-bar red"></div>Teater JKT48
+</div>
+
+<div class="cell property" style="grid-column: 5; grid-row: 11;">
+    <div class="color-bar red"></div>Rumah Ribka
+</div>
+
+<div class="cell" style="grid-column: 6; grid-row: 11;">Pajak Jalan</div>
+
+<div class="cell property" style="grid-column: 7; grid-row: 11;">
+    <div class="color-bar yellow"></div>Rumah Fritzy
+</div>
+
+<div class="cell property" style="grid-column: 8; grid-row: 11;">
+    <div class="color-bar yellow"></div>Indonesia Arena
+</div>
+
+<div class="cell" style="grid-column: 9; grid-row: 11;">Dana Umum</div>
+
+<div class="cell property" style="grid-column: 10; grid-row: 11;">
+    <div class="color-bar yellow"></div>Rumah Aralie
+</div>
+
+<div class="corner cell" style="grid-column: 11; grid-row: 11;">GO</div>
+
+<div class="cell property" style="grid-column: 11; grid-row: 10;">
+    <div class="color-bar green"></div>Rumah Oline
+</div>
+
+<div class="cell property" style="grid-column: 11; grid-row: 9;">
+    <div class="color-bar green"></div>Ice BSD
+</div>
+
+<div class="cell" style="grid-column: 11; grid-row: 8;">Kesempatan</div>
+
+<div class="cell property" style="grid-column: 11; grid-row: 7;">
+    <div class="color-bar green"></div>Rumah Nala
+</div>
+
+<div class="cell property" style="grid-column: 11; grid-row: 6;">
+    <div class="color-bar darkblue"></div>Rumah Delynn
+</div>
+
+<div class="cell property" style="grid-column: 11; grid-row: 5%;">
+    <div class="color-bar darkblue"></div>Rumah Trisha
+</div>
+
+<div class="cell" style="grid-column: 11; grid-row: 4;">Dana Umum</div>
+
+<div class="cell" style="grid-column: 11; grid-row: 3;">Hadiah Pajak</div>
+
+<div class="cell" style="grid-column: 11; grid-row: 2;">Pantai Parangtritis</div>
+
+</div>
+
+<!-- ===================== POPUP BELI ===================== -->
+<div id="buyPopup" style="
+    position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    background:white; padding:20px; border-radius:12px;
+    box-shadow:0 0 20px rgba(0,0,0,0.3); display:none; z-index:9999;
+    width:260px; text-align:center;">
+    <h3 id="buyTitle">Beli Properti?</h3>
+    <p id="buyPrice"></p>
+    <button onclick="confirmBuy()">Beli</button>
+    <button onclick="closeBuyPopup()">Lewati</button>
+</div>
+
+    <!-- 🔥 PANEL UANG/ASET/UTANG DI DALAM BOARD -->
+    <div id="financePanel"></div>
+
+<!-- ===================== POPUP TEATER ===================== -->
+<div id="theaterPopup" style="
+    position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    background:white; padding:20px; border-radius:12px;
+    box-shadow:0 0 20px rgba(0,0,0,0.3); display:none; z-index:9999;
+    width:280px; text-align:center;">
+    
+    <h3 style="margin-bottom:10px;">Pilih Aktivitas di Theater JKT48</h3>
+    <p style="font-size:14px; margin-bottom:15px;">
+        Mau pilih aktivitas apa?
+    </p>
+
+    <button onclick="theaterAction('show')" style="margin:5px;">Nonton Show ($200)</button><br>
+    <button onclick="theaterAction('roulette')" style="margin:5px;">2s Roulette ($100)</button><br>
+    <button onclick="theaterAction('gift')" style="margin:5px;">Gift ($50)</button><br><br>
+
+    <button onclick="closeTheaterPopup()" style="background:#aaa; padding:6px 15px;">Tutup</button>
+</div>
+
+<!-- ===================== POPUP ICE BSD ===================== -->
+<div id="icePopup" style="
+    position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    background:white; padding:20px; border-radius:12px;
+    box-shadow:0 0 20px rgba(0,0,0,0.3); display:none; z-index:9999;
+    width:280px; text-align:center;">
+
+    <h3 style="margin-bottom:10px;">Aktivitas di ICE BSD</h3>
+    <p style="font-size:14px; margin-bottom:15px;">
+        Mau pilih aktivitas apa?
+    </p>
+
+    <button onclick="iceAction('pp')" style="margin:5px;">Beli Photopack ($80)</button><br>
+    <button onclick="iceAction('shirt')" style="margin:5px;">T-Shirt ($150)</button><br>
+    <button onclick="iceAction('lanyard')" style="margin:5px;">Lanyard ($45)</button><br>
+    <button onclick="iceAction('card')" style="margin:5px;">Card Holder ($50)</button><br>
+    <button onclick="iceAction('mng')" style="margin:5px;">Meet & Greet ($50)</button><br>
+    <button onclick="iceAction('2s')" style="margin:5px;">2s ($180)</button><br><br>
+
+    <button onclick="closeIcePopup()" style="background:#aaa; padding:6px 15px;">Tutup</button>
+</div>
+
+<!-- ===================== POPUP KANTOR IDN ===================== -->
+<div id="idnPopup" style="
+    position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    background:white; padding:20px; border-radius:12px;
+    box-shadow:0 0 20px rgba(0,0,0,0.3); display:none; z-index:9999;
+    width:280px; text-align:center;">
+
+    <h3 style="margin-bottom:10px;">Aktivitas di Kantor IDN</h3>
+    <p style="font-size:14px; margin-bottom:15px;">
+        Mau nonton live apa?
+    </p>
+
+    <button onclick="idnAction('main')" style="margin:5px;">Live teman main ($80)</button><br>
+    <button onclick="idnAction('makan')" style="margin:5px;">Live teman makan ($80)</button><br>
+    <button onclick="idnAction('masak')" style="margin:5px;">Live teman masak ($80)</button><br><br>
+
+    <button onclick="closeIdnPopup()" style="background:#aaa; padding:6px 15px;">Tutup</button>
+</div>
+
+<!-- ===================== POPUP INDONESIA ARENA ===================== -->
+<div id="arenaPopup" style="
+    position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    background:white; padding:20px; border-radius:12px;
+    box-shadow:0 0 20px rgba(0,0,0,0.3); display:none; z-index:9999;
+    width:280px; text-align:center;">
+
+    <h3 style="margin-bottom:10px;">Indonesia Arena</h3>
+    <p style="font-size:14px; margin-bottom:15px;">
+        Mau nonton konser JKT48 dimana?
+    </p>
+
+    <button onclick="arenaAction('vip')" style="margin:5px;">VIP ($480)</button><br>
+    <button onclick="arenaAction('festival')" style="margin:5px;">Festival ($55)</button><br>
+    <button onclick="arenaAction('seating')" style="margin:5px;">Seating ($65)</button><br><br>
+
+    <button onclick="closeArenaPopup()" style="background:#aaa; padding:6px 15px;">Tutup</button>
+</div>
+
+<!-- ===================== POPUP PENJARA ===================== -->
+<div id="jailPopup" style="
+    position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    background:white; padding:20px; border-radius:12px; text-align:center;
+    box-shadow:0 0 20px rgba(0,0,0,0.3); display:none; z-index:9999; width:320px;">
+
+    <h3 style="margin-top:0;">🚔 Kamu di Penjara 🚔</h3>
+    <p id="jailDesc" style="font-size:14px;">Sisa menunggu: <b>3</b> ronde</p>
+
+    <div style="margin-top:10px;">
+        <button onclick="jailPay()">Bayar $100</button>
+        <button onclick="jailRollDouble()">Coba Lempar Double</button>
+        <button onclick="jailWaitTurn()">Tunggu Ronde</button>
+        <button id="useJailCardBtn" onclick="useJailCard()" style="display:none;">
+            Gunakan Kartu Bebas Penjara
+        </button>
+    </div>
+</div>
+
+<!-- ===================== POPUP FX SUDIRMAN ===================== -->
+<div id="fxPopup" style="
+    position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    background:white; padding:20px; border-radius:12px;
+    box-shadow:0 0 20px rgba(0,0,0,0.3); display:none; z-index:9999;
+    width:280px; text-align:center;">
+
+    <h3 style="margin-bottom:10px;">FX Sudirman</h3>
+    <p style="font-size:14px; margin-bottom:15px;">
+        Mau pilih aktivitas apa?
+    </p>
+
+    <button onclick="fxAction('climb')" style="margin:5px;">Climbing ($100)</button><br>
+    <button onclick="fxAction('pokemon')" style="margin:5px;">Main Pokemon ($100)</button><br>
+    <button onclick="fxAction('yoga')" style="margin:5px;">Ikut Yoga ($150)</button><br>
+    <button onclick="fxAction('belanja')" style="margin:5px;">Belanja ($200)</button><br>
+    <button onclick="fxAction('makan')" style="margin:5px;">Makan ($100)</button><br>
+    <button onclick="fxAction('wajah')" style="margin:5px;">Perawatan Wajah ($200)</button><br>
+    <button onclick="fxAction('gym')" style="margin:5px;">Gym ($150)</button><br><br>
+
+    <button onclick="closeFxPopup()" style="background:#aaa; padding:6px 15px;">Tutup</button>
+</div>
+
+<!-- ===================== POPUP BANK ===================== -->
+<div id="bankPopup" style="
+    position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    background:white; padding:20px; border-radius:12px;
+    box-shadow:0 0 20px rgba(0,0,0,0.3); display:none; z-index:9999;
+    width:300px; text-align:center;">
+
+    <!-- LANGKAH 1: MENU UTAMA -->
+    <div id="bankStep1">
+        <h3>Bank</h3>
+        <p>Pilih layanan:</p>
+        <button onclick="showLoanOptions()" style="margin:5px;">💰 Minjam Uang</button><br>
+        <button onclick="showDebtOptions()" style="margin:5px;">💸 Bayar Utang</button><br><br>
+        <button onclick="closeBankPopup()" style="background:#aaa;">Tutup</button>
+    </div>
+
+    <!-- LANGKAH 2: PINJAM UANG -->
+    <div id="bankLoanOptions" style="display:none;">
+        <h3>Pinjam Uang</h3>
+        <button onclick="bankLoan(250)" style="margin:5px;">$250</button><br>
+        <button onclick="bankLoan(500)" style="margin:5px;">$500</button><br>
+        <button onclick="bankLoan(750)" style="margin:5px;">$750</button><br>
+        <button onclick="bankLoan(1000)" style="margin:5px;">$1000</button><br><br>
+        <button onclick="backToBankStep1()" style="background:#aaa;">⬅ Kembali</button>
+    </div>
+
+    <!-- LANGKAH 2: BAYAR UTANG -->
+    <div id="bankDebtOptions" style="display:none;">
+        <h3>Bayar Utang</h3>
+        <button id="pay250" onclick="payDebt(250)" style="margin:5px;">Bayar $250</button><br>
+        <button id="pay500" onclick="payDebt(500)" style="margin:5px;">Bayar $500</button><br>
+        <button id="pay750" onclick="payDebt(750)" style="margin:5px;">Bayar $750</button><br>
+        <button id="pay1000" onclick="payDebt(1000)" style="margin:5px;">Bayar $1000</button><br><br>
+        <button onclick="backToBankStep1()" style="background:#aaa;">⬅ Kembali</button>
+    </div>
+</div>
+
+<!-- ===================== POPUP PAJAK JALAN ===================== -->
+<div id="taxPopup" style="
+    position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    background:white; padding:20px; border-radius:12px;
+    box-shadow:0 0 20px rgba(0,0,0,0.3); display:none; z-index:9999;
+    width:260px; text-align:center;">
+
+    <h3>Pajak Jalan</h3>
+    <p style="font-size:14px; margin-bottom:15px;">
+        Kamu wajib membayar pajak sebesar <b>$200</b>
+    </p>
+
+    <button onclick="payTax()" style="background:#e74c3c; color:white; padding:6px 15px;">
+        Bayar Pajak
+    </button>
+</div>
+
+<!-- ===================== POPUP HADIAH PAJAK ===================== -->
+<div id="giftTaxPopup" style="
+    position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    background:white; padding:20px; border-radius:12px;
+    box-shadow:0 0 20px rgba(0,0,0,0.3); display:none; z-index:9999;
+    width:260px; text-align:center;">
+
+    <h3>Hadiah Pajak</h3>
+    <p style="font-size:14px; margin-bottom:15px;">
+        Kamu mendapat hadiah pajak sebesar <b>$100</b>!
+    </p>
+
+    <button onclick="claimTaxGift()" style="background:#27ae60; color:white; padding:6px 15px;">
+        Ambil Hadiah
+    </button>
+</div>
+
+<!-- ===================== POPUP BEBAS KELILING ===================== -->
+<div id="freeMovePopup" style="
+    position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    background:white; padding:20px; border-radius:12px;
+    box-shadow:0 0 20px rgba(0,0,0,0.3); display:none; z-index:9999;
+    width:300px; text-align:center; max-height:80vh; overflow-y:auto;">
+
+    <h3>Pilih Tujuan Bebas Keliling</h3>
+    <p style="font-size:14px;">Pilih lokasi tujuan:</p>
+
+    <div id="freeMoveOptions"></div>
+
+    <br>
+    <button onclick="closeFreeMovePopup()" style="background:#aaa;">Batal</button>
+
+</div>
+
+<!-- ===================== POPUP DANA UMUM ===================== -->
+<div id="danaUmumPopup" style="
+    position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    background:white; padding:20px; border-radius:12px; text-align:center;
+    box-shadow:0 0 20px rgba(0,0,0,0.3); display:none; z-index:9999; width:320px;">
+
+    <h3>Dana Umum</h3>
+    <p id="danaUmumText" style="font-size:14px;"></p>
+    <button onclick="closeDanaUmumPopup()">OK</button>
+</div>
+
+<!-- ===================== POPUP KESIMPATAN ===================== -->
+<div id="kesempatanPopup" style="
+    position:fixed; 
+    top:50%; 
+    left:50%; 
+    transform:translate(-50%,-50%);
+    background:white; 
+    padding:20px; 
+    border-radius:12px; 
+    text-align:center;
+    box-shadow:0 0 20px rgba(0,0,0,0.3); 
+    display:none; 
+    z-index:9999; 
+    width:320px;">
+    
+    <h3>Kesempatan</h3>
+    <p id="kesempatanText" style="font-size:14px;"></p>
+    <button onclick="closeKesempatanPopup()">OK</button>
+</div>
+
+<!-- ===================== POPUP DENDA SEWA ===================== -->
+<div id="rentPopup" style="
+    position:fixed; 
+    top:50%; 
+    left:50%; 
+    transform:translate(-50%,-50%);
+    background:white; 
+    padding:20px; 
+    border-radius:12px; 
+    text-align:center;
+    box-shadow:0 0 20px rgba(0,0,0,0.3); 
+    display:none; 
+    z-index:9999; 
+    width:300px;">
+    
+    <h3>Denda Sewa</h3>
+    <p id="rentPopupText" style="font-size:14px;"></p>
+
+    <button onclick="payRentFine()" style="background:#e74c3c; color:white; padding:6px 15px;">
+        Bayar Denda
+    </button>
+</div>
+
+<!-- POPUP AMBIL ALIH -->
+<div id="takeoverPopup" style="
+    position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    background:white; padding:20px; border-radius:12px; text-align:center;
+    box-shadow:0 0 20px rgba(0,0,0,0.3); display:none; z-index:9999;">
+    
+    <h3>Ambil Alih Properti</h3>
+    <p id="takeoverText"></p>
+
+    <button onclick="confirmTakeover()">Ambil Alih</button>
+    <button onclick="skipTakeover()">Lewati</button>
+</div>
+
+<!-- POPUP PILIH ASET UNTUK DIAMBIL ALIH -->
+<div id="stealPopup" style="
+    position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    background:white; padding:20px; border-radius:12px; text-align:center;
+    box-shadow:0 0 20px rgba(0,0,0,0.3); display:none; z-index:9999; width:300px;">
+    
+    <h3>Ambil Alih Aset</h3>
+    <p>Pilih properti lawan yang ingin kamu ambil:</p>
+
+    <div id="stealOptions" style="margin-top:10px;"></div>
+
+    <button onclick="closeStealPopup()" style="margin-top:10px; background:#aaa;">Batal</button>
+</div>
+
+<div id="sellAssetPopup" style="
+    position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    background:white; padding:20px; border-radius:15px; z-index:9999;
+    display:none; text-align:center; width:300px;">
+    
+    <h3>Uang Tidak Cukup</h3>
+    <p>Jual aset untuk melanjutkan</p>
+
+    <div id="assetList"></div>
+
+    <button onclick="closeSellAssetPopup()">Batal</button>
+</div>
+
+<!-- ===================== POPUP PILIH SHOW ===================== -->
+<div id="showSelectPopup" style="
+    position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    background:white; padding:20px; border-radius:12px;
+    box-shadow:0 0 20px rgba(0,0,0,0.3); display:none; z-index:9999;
+    width:280px; text-align:center;">
+    
+    <h3>Pilih Show yang Ingin Ditonton</h3>
+    <button onclick="playShow('pajama')" style="margin:5px;">Pajama Drive</button><br>
+    <button onclick="playShow('aitakatta')" style="margin:5px;">Aitakatta</button><br><br>
+
+    <button onclick="closeShowSelectPopup()" style="background:#aaa;">Tutup</button>
+</div>
+
+<!-- ===================== POPUP PEMUTAR VIDEO ===================== -->
+<div id="videoPopup" style="
+    position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    background:white; padding:15px; border-radius:12px;
+    box-shadow:0 0 20px rgba(0,0,0,0.3); display:none; z-index:10000;
+    width:90%; max-width:600px; text-align:center;">
+
+    <h3 style="margin-bottom:10px;">Menonton Show</h3>
+
+    <div style="width:100%;aspect-ratio:16/9;">
+        <iframe id="videoFrame" width="100%" height="100%" 
+            src="" title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+    </div>
+
+    <br>
+    <button onclick="closeVideoPopup()" style="padding:6px 15px; background:#e74c3c; color:white;">
+        Tutup Video
+    </button>
+</div>
+
+<!-- ===================== POPUP 2S ROULETTE ===================== -->
+<div id="roulettePopup" style="
+    position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    background:white; padding:20px; border-radius:12px; text-align:center;
+    box-shadow:0 0 20px rgba(0,0,0,0.3); display:none; width:300px; z-index:9999;">
+    
+    <h3>2S Roulette Gen 12</h3>
+    <p>Pencet tombol untuk mengacak member!</p>
+
+    <button onclick="spinRoulette()" style="padding:8px 15px;">🎰 Roullete!</button><br><br>
+
+    <button onclick="closeRoulettePopup()" style="background:#aaa;">Tutup</button>
+</div>
+
+<!-- ===================== POPUP 2S RESULT (KAMERA + FOTO) ===================== -->
+<div id="rouletteResultPopup" style="
+    position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    background:white; padding:15px; border-radius:12px; 
+    box-shadow:0 0 20px rgba(0,0,0,0.3); display:none; 
+    width:90%; max-width:700px; z-index:10000;">
+
+    <h3 id="rouletteResultName" style="text-align:center; margin-bottom:10px;"></h3>
+
+    <div style="display:flex; gap:10px; justify-content:center;">
+
+        <!-- Kamera -->
+        <div style="flex:1; text-align:center;">
+            <video id="cameraPreview" autoplay playsinline style="
+                width:100%; border-radius:12px; background:#000;"></video>
+        </div>
+
+        <!-- Foto member -->
+        <div style="flex:1; text-align:center;">
+            <img id="memberPhoto" src="" style="
+                width:100%; border-radius:12px; object-fit:cover;">
+        </div>
+
+    </div>
+
+    <br>
+    <button onclick="closeRouletteResult()" 
+        style="background:#e74c3c; color:white; padding:8px 15px;">Tutup</button>
+</div>
+
+<!-- ===================== POPUP VIDEO YOUTUBE ===================== -->
+<div id="videoPopup" style="
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    display: none;
+    z-index: 99999;
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+">
+    <h3 style="margin-bottom:10px;">Live Streaming</h3>
+
+    <div style="width:100%; aspect-ratio:16/9; background:#000;">
+        <iframe id="videoFrame"
+            width="100%" height="100%"
+            src=""
+            frameborder="0"
+            allow="autoplay; encrypted-media"
+            allowfullscreen>
+        </iframe>
+    </div>
+
+    <br>
+
+    <button onclick="closeVideoPopup()" 
+        style="padding:8px 20px; background:#e74c3c; color:white; border-radius:8px;">
+        Tutup
+    </button>
+</div>
+
+<!-- ===================== POPUP PILIH VIDEO MAIN ===================== -->
+<div id="idnMainSelect" style="
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    display: none;
+    z-index: 99999;
+    text-align: center;
+">
+    <h3>Pilih Video Main</h3>
+    <button onclick="playIdn('main')" style="margin-top:10px;">Tonton</button><br><br>
+    <button onclick="closeIdnMainSelect()">Tutup</button>
+</div>
+
+<div id="idnMakanSelect" style="
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    display: none;
+    z-index: 99999;
+    text-align: center;
+">
+    <h3>Pilih Video Makan</h3>
+    <button onclick="playIdn('makan')" style="margin-top:10px;">Tonton</button><br><br>
+    <button onclick="closeIdnMakanSelect()">Tutup</button>
+</div>
+
+<div id="idnMasakSelect" style="
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    display: none;
+    z-index: 99999;
+    text-align: center;
+">
+    <h3>Pilih Video Masak</h3>
+    <button onclick="playIdn('masak')" style="margin-top:10px;">Tonton</button><br><br>
+    <button onclick="closeIdnMasakSelect()">Tutup</button>
+</div>
+
+<!-- ===================== POPUP PILIH MEMBER ===================== -->
+<div id="popupPilihMember" style="
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.65);
+    z-index: 99999;
+">
+    <div style="
+        background: #fff;
+        padding: 20px;
+        border-radius: 14px;
+        width: 90%;
+        max-width: 420px;
+        text-align: center;
+    ">
+        <h2>Pilih Member Untuk 2S</h2>
+        <p style="margin-top:-5px; margin-bottom:15px;">ICE BSD</p>
+
+        <select id="memberSelect" style="
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            font-size: 16px;
+        ">
+            <option value="" disabled selected>Pilih Member…</option>
+            <option>Aralie</option>
+            <option>Lily</option>
+            <option>Delynn</option>
+            <option>Trisha</option>
+            <option>Moreen</option>
+            <option>Shasa</option>
+            <option>Erine</option>
+            <option>Oline</option>
+            <option>Kimmy</option>
+            <option>Regie</option>
+            <option>Lana</option>
+            <option>Nala</option>
+            <option>Nachia</option>
+            <option>Fritzy</option>
+            <option>Ribka</option>
+            <option>Levi</option>
+            <option>Nayla</option>
+        </select>
+
+        <button onclick="tampil2SMember()" style="
+            padding:10px 22px;
+            background:#3498db;
+            color:white;
+            border-radius:8px;
+            font-size:16px;
+        ">Lihat 2S</button>
+    </div>
+</div>
+
+<!-- ===================== POPUP 2S HASIL (KAMERA + FOTO) ===================== -->
+<div id="rouletteResultPopup" style="
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    display: none;
+    width: 90%; max-width: 700px;
+    z-index: 10000;
+">
+    <h3 id="rouletteResultName" style="text-align:center; margin-bottom:10px;"></h3>
+
+    <div style="display:flex; gap:10px; justify-content:center;">
+        <!-- Kamera live -->
+        <div style="flex:1; text-align:center;">
+            <video id="cameraPreview" autoplay playsinline style="
+                width:100%; border-radius:12px; background:#000;">
+            </video>
+        </div>
+
+        <!-- Foto member -->
+        <div style="flex:1; text-align:center;">
+            <img id="memberPhoto" src="" style="
+                width:100%; border-radius:12px; object-fit:cover;">
+        </div>
+    </div>
+
+    <br>
+    <button onclick="close2SPopup()" 
+        style="background:#e74c3c; color:white; padding:8px 15px; border-radius:8px;">Tutup</button>
+</div>
+
+</div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-column">
+        <h3>Halaman</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="news.html">News</a></li>
+          <li><a href="about.html">About Trisha</a></li>
+          <li><a href="corner.html">Corner</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Sosial Media Trisha</h3>
+        <ul>
+          <li><a href="https://www.instagram.com/jkt48.trisha/" target="_blank">Instagram</a></li>
+          <li><a href="https://www.threads.com/@jkt48.trisha?xmt=AQF0-sEtwtdm2hYKSQltbYMsN6rjfFrYxUrnCwj_ybbCsJc" target="_blank">Threads</a></li>
+          <li><a href="https://x.com/JTrisha_JKT48" target="_blank">X / Twitter</a></li>
+          <li><a href="https://www.tiktok.com/@jkt48.trisha" target="_blank">TikTok</a></li>
+          <li><a href="https://www.idn.app/jkt48_trisha" target="_blank">IDN App</a></li>
+          <li><a href="https://www.showroom-live.com/r/JKT48_Trisha" target="_blank">Showroom</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Hashtag</h3>
+        <ul>
+          <li>#TrishAfternoon</li>
+          <li>#TrishArt</li>
+          <li>#Trishartuday</li>
+          <li>#WannaSeeTrisha</li>
+          <li>#Trishaur</li>
+          <li>#Trishelca</li>
+          <li>#CallTrisha</li>
+          <li>#RuangBermain</li>
+          <li>#Inshastory</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      © 2025 Trishaland. All rights reserved.
+    </div>
+  </footer>
+
+<script>
+/* ======================= BOARD & TILE ORDER ======================= */
+let tileOrder = [];
+
+/* ================= GEN 12 2S ROULETTE MEMBERS ================= */
+const rouletteMembers = [
+    "NACHIA", "TRISHA", "NAYLA", "LANA", "NALA",
+    "ERINE", "OLINE", "SHASA", "KIMMY", "MOREEN",
+    "REGIE", "DELYNN", "RIBKA", "LILY", "LEVI",
+    "FRITZY", "ARALIE"
+];
+
+// Bottom row → kiri dari GO
+for (let c = 11; c >= 1; c--) tileOrder.push({ col: c, row: 11 });
+// Left side → naik
+for (let r = 10; r >= 1; r--) tileOrder.push({ col: 1, row: r });
+// Top row → kanan
+for (let c = 2; c <= 11; c++) tileOrder.push({ col: c, row: 1 });
+// Right side → turun
+for (let r = 2; r <= 10; r++) tileOrder.push({ col: 11, row: r });
+
+/* ⬇️ TARUH DI SINI */
+const tileNames = [
+  "GO",                  // 0 (11,11)
+  "Rumah Aralie",        // 1 (10,11)
+  "Dana Umum",           // 2 (9,11)
+  "Indonesia Arena",     // 3 (8,11)
+  "Rumah Fritzy",        // 4 (7,11)
+  "Pajak Jalan",         // 5 (6,11)
+  "Rumah Ribka",         // 6 (5,11)
+  "Teater JKT48",        // 7 (4,11)
+  "Kesempatan",          // 8 (3,11)
+  "Rumah Levi",          // 9 (2,11)
+  "Penjara",             // 10 (1,11)
+
+  "Rumah Lily",          // 11 (1,10)
+  "Rumah Nachia",        // 12 (1,9)
+  "Bank",                // 13 (1,8)
+  "Kantor IDN",          // 14 (1,7)
+  "Bali",                // 15 (1,6)
+  "Rumah Regie",         // 16 (1,5)
+  "Rumah Erine",         // 17 (1,4)
+  "Kesempatan",          // 18 (1,3)
+  "Rumah Kimmy",         // 19 (1,2)
+  "Bebas Keliling",      // 20 (1,1)
+
+  "Rumah Shasa",         // 21 (2,1)
+  "Dana Umum",           // 22 (3,1)
+  "FX Sudirman",         // 23 (4,1)
+  "Lombok",              // 24 (5,1)
+  "Rumah Lana",          // 25 (6,1)
+  "Rumah Moreen",        // 26 (7,1)
+  "Kesempatan",          // 27 (8,1)
+  "Rumah Nayla",         // 28 (9,1)
+  "Raja Ampat",          // 29 (10,1)
+  "Ambil Alih",          // 30 (11,1)
+
+  "Pantai Parangtritis", // 31 (11,2)
+  "Hadiah Pajak",        // 32 (11,3)
+  "Dana Umum",           // 33 (11,4)
+  "Rumah Trisha",        // 34 (11,5)
+  "Rumah Delynn",        // 35 (11,6)
+  "Rumah Nala",          // 36 (11,7)
+  "Kesempatan",          // 37 (11,8)
+  "Ice BSD",             // 38 (11,9)
+  "Rumah Oline"          // 39 (11,10)
+];
+
+const board = document.getElementById("board");
+
+
+/* ======================= PLAYER COLORS ======================= */
+const playerColors = ["#ff7675", "#74b9ff", "#55efc4", "#ffeaa7"];
+
+
+/* ======================= MENU ======================= */
+function resetMenu() {
+    document.getElementById("multiplayerOptions").style.display = "none";
+    document.getElementById("cpuOptions").style.display = "none";
+    document.getElementById("btnCPU").style.display = "block";
+    document.getElementById("btnMulti").style.display = "block";
+}
+
+function showCPU() {
+    document.getElementById("btnCPU").style.display = "none";
+    document.getElementById("btnMulti").style.display = "none";
+    document.getElementById("cpuOptions").style.display = "flex";
+}
+
+function showMultiplayer() {
+    document.getElementById("btnCPU").style.display = "none";
+    document.getElementById("btnMulti").style.display = "none";
+    document.getElementById("multiplayerOptions").style.display = "flex";
+}
+
+function startCPU(n) {
+    let names = ["Player 1"];
+    for (let i = 1; i <= n; i++) names.push("CPU " + i);
+    startGame(names);
+}
+
+function startMultiplayer(n) {
+    let names = [];
+    for (let i = 1; i <= n; i++) names.push("Player " + i);
+    startGame(names);
+}
+
+
+/* ======================= GAME START ======================= */
+let players = [];
+let currentTurn = 0;
+
+function startGame(names) {
+    document.getElementById("menu").style.display = "none";
+    document.getElementById("gameWrapper").style.display = "flex";
+    board.style.display = "grid";
+
+    setupPlayers(names);
+}
+
+
+/* ======================= PLAYER SETUP ======================= */
+function setupPlayers(names) {
+    players = [];
+
+    names.forEach((name, i) => {
+        players.push({
+            name,
+            pos: 0,
+            money: 1500,
+            assets: 0,
+            debt: 0,
+            inJail: false,
+            isCPU: name.includes("CPU"),
+            token: makeToken(i)
+        });
+    });
+
+    // Reset HUD
+    for (let i = 1; i <= 4; i++) {
+        let hud = document.getElementById("hud" + i);
+        hud.className = "playerHUD p" + i + " hud-base-" + i + " dim";
+    }
+
+    updateHUDVisibility(names.length);
+
+    setTimeout(checkTurn, 300);
+}
+
+
+/* ======================= TOKEN ======================= */
+function makeToken(i) {
+    let t = document.createElement("div");
+    t.className = "token";
+    t.textContent = ["😀", "😎", "🤖", "👻"][i % 4];
+
+    board.appendChild(t);
+    moveTokenTo(0, t);
+
+    return t;
+}
+
+function moveTokenTo(tile, token) {
+    const pos = tileOrder[tile];
+
+    let selector = `.board .cell[style*="grid-column: ${pos.col}; grid-row: ${pos.row}"]`;
+    let target = document.querySelector(selector);
+
+    if (!target) {
+        selector = `.board .corner[style*="grid-column: ${pos.col}; grid-row: ${pos.row}"]`;
+        target = document.querySelector(selector);
+    }
+
+    if (!target) return;
+
+    const r = target.getBoundingClientRect();
+    const b = board.getBoundingClientRect();
+
+    // offset default (desktop)
+    let offsetX = -19;
+    let offsetY = -17;
+
+    // 📱 offset khusus HP
+    if (window.innerWidth < 768) {
+        offsetX = -7; // geser kanan
+        offsetY = -17;
+    }
+
+    token.style.left = (r.left - b.left + r.width / 2 + offsetX) + "px";
+    token.style.top =  (r.top  - b.top  + r.height / 2 + offsetY) + "px";
+}
+
+
+/* ======================= DICE ======================= */
+function rollDice(isCPU = false) {
+    const rollBtn = document.getElementById("rollBtn");
+
+    if (!isCPU) {
+        rollBtn.disabled = true;
+        rollBtn.style.opacity = 0.5;
+    }
+
+    const box = document.getElementById("diceBox");
+    box.style.opacity = 1;
+
+    box.classList.remove("shake", "pop");
+    void box.offsetWidth;
+
+    box.classList.add("shake");
+    box.textContent = "🎲🎲";
+
+    const d1 = Math.floor(Math.random() * 6) + 1;
+    const d2 = Math.floor(Math.random() * 6) + 1;
+    const total = d1 + d2;
+
+    setTimeout(() => {
+        box.classList.remove("shake");
+        box.classList.add("pop");
+        box.textContent = `${d1} + ${d2} = ${total}`;
+        movePlayer(total);
+    }, 600);
+
+    setTimeout(() => box.style.opacity = 0, 1800);
+}
+
+
+/* ======================= MOVE PLAYER ======================= */
+function movePlayer(steps) {
+    let p = players[currentTurn];
+    let moved = 0;
+
+    let interval = setInterval(() => {
+        // Sebelum bergerak, cek apakah NEXT langkah akan melewati GO
+        if ((p.pos + 1) % 40 === 0) {
+            p.money += 200;     // 🎁 Tambah uang
+            updateAllHUD();     // Update tampilan
+        }
+
+        p.pos = (p.pos + 1) % 40;
+        moveTokenTo(p.pos, p.token);
+
+        moved++;
+        if (moved >= steps) {
+            clearInterval(interval);
+            checkProperty(p.pos);
+        }
+    }, 250);
+}
+
+/* ======================= TURN SYSTEM ======================= */
+function nextTurn() {
+    do {
+        currentTurn = (currentTurn + 1) % players.length;
+    } while (players[currentTurn].eliminated);
+
+    checkTurn();
+}
+
+function updateHUDVisibility(n) {
+    for (let i = 1; i <= 4; i++) {
+        document.getElementById("hud" + i).style.display = i <= n ? "block" : "none";
+    }
+}
+
+/* ======================= CHECK TURN ======================= */
+function checkTurn() {
+    // pastikan currentTurn valid
+    if (currentTurn == null || players.length === 0) return;
+
+    let p = players[currentTurn];
+
+    // 1) jika pemain sudah bangkrut → lewati ke pemain berikutnya
+    if (p.eliminated) {
+        nextTurn();
+        return;
+    }
+
+    // 2) update HUD (pastikan data terlihat)
+    updateAllHUD();
+    highlightHUD();
+
+    const rollBtn = document.getElementById("rollBtn");
+    if (rollBtn) {
+        // disable default, nanti di-enable jika giliran manusia
+        rollBtn.disabled = true;
+        rollBtn.style.opacity = 0.5;
+    }
+
+    // 3) kalau pemain di penjara
+    if (p.inJail) {
+        if (p.isCPU) {
+            // CPU ambil keputusan tanpa popup
+            cpuJailDecision();
+            return;
+        } else {
+            // Player manusia → tampilkan popup penjara
+            openJailPopup();
+            return;
+        }
+    }
+
+    // 4) Kalau CPU → otomatis lempar dadu (pakai isCPU flow yang sudah ada)
+    if (p.isCPU) {
+        if (rollBtn) { rollBtn.disabled = true; rollBtn.style.opacity = 0.5; }
+        // beri delay kecil supaya UI stabil
+        setTimeout(() => rollDice(true), 600);
+        return;
+    }
+
+    // 5) Player manusia → enable tombol lempar dadu
+    if (rollBtn) {
+        rollBtn.disabled = false;
+        rollBtn.style.opacity = 1;
+    }
+}
+
+/* ======================= HUD HIGHLIGHT ======================= */
+function highlightHUD() {
+    players.forEach((_, i) => {
+        let hud = document.getElementById("hud" + (i + 1));
+        hud.className = `playerHUD p${i + 1} hud-base-${i + 1} dim`;
+    });
+
+    let hud = document.getElementById("hud" + (currentTurn + 1));
+    hud.classList.remove("dim");
+    hud.classList.add(`player-active-${currentTurn + 1}`);
+}
+
+
+/* ======================= PROPERTY DATA ======================= */
+const properties = {
+    1:{name:"Rumah Aralie", price:120, rent:20},
+    4:{name:"Rumah Fritzy", price:120, rent:20},
+    6:{name:"Rumah Ribka", price:150, rent:25},
+    9:{name:"Rumah Levi", price:150, rent:25},
+    11:{name:"Rumah Lily", price:180, rent:30},
+    12:{name:"Rumah Nachia", price:200, rent:35},
+    16:{name:"Rumah Regie", price:220, rent:40},
+    17:{name:"Rumah Erine", price:220, rent:40},
+    19:{name:"Rumah Kimmy", price:240, rent:45},
+    21:{name:"Rumah Shasa", price:260, rent:50},
+    25:{name:"Rumah Lana", price:260, rent:50},
+    26:{name:"Rumah Moreen", price:280, rent:55},
+    28:{name:"Rumah Nayla", price:300, rent:60},
+    34:{name:"Rumah Trisha", price:320, rent:65},
+    35:{name:"Rumah Delynn", price:340, rent:70},
+    36:{name:"Rumah Nala", price:360, rent:75},
+    39:{name:"Rumah Oline", price:380, rent:80},
+
+    15:{name:"Bali", price:200, rent:50},
+    24:{name:"Lombok", price:240, rent:60},
+    29:{name:"Raja Ampat", price:300, rent:80},
+    31:{name:"Pantai Parangtritis", price:180, rent:45}
+};
+
+let ownership = {};
+let pendingTile = null;
+
+
+/* ======================= PROPERTY STAR ======================= */
+function updatePropertyStar(tile, ownerIndex) {
+    let prop = document.querySelector(`[data-tile="${tile}"]`);
+
+    if (!prop) {
+        const pos = tileOrder[tile];
+        let selector = `.board .cell[style*="grid-column: ${pos.col}; grid-row: ${pos.row}"],
+                        .board .corner[style*="grid-column: ${pos.col}; grid-row: ${pos.row}"]`;
+        prop = document.querySelector(selector);
+
+        if (!prop) return;
+        prop.setAttribute("data-tile", tile);
+    }
+
+    let old = prop.querySelector(".star");
+    if (old) old.remove();
+
+    const star = document.createElement("div");
+    star.className = "star";
+    star.textContent = "★";
+    star.style.color = playerColors[ownerIndex];
+    star.style.fontSize = "16px";
+    star.style.fontWeight = "bold";
+
+    prop.appendChild(star);
+}
+
+
+/* ======================= PROPERTY CHECK (FINAL FIX) ======================= */
+function checkProperty(tile) {
+    let p = players[currentTurn];
+
+    /* ===== TILES KHUSUS ===== */
+
+    if (tile === 7) return openTheaterPopup();
+    if (tile === 38) return openIcePopup();
+    if (tile === 14) return openIdnPopup();
+    if (tile === 3) return openArenaPopup();
+    if (tile === 23) return openFxPopup();
+    if (tile === 13) return openBankPopup();
+    if (tile === 5) return openTaxPopup();
+    if (tile === 32) return openGiftTaxPopup();
+    if (tile === 20) return openFreeMovePopup();
+    if (tile === 2 || tile === 22 || tile === 33) return openDanaUmum();
+    if (tile === 8 || tile === 18 || tile === 27 || tile === 37) return openKesempatan();
+if (tile === 30) {
+    let p = players[currentTurn];
+
+    // CPU boleh ambil properti otomatis
+    if (p.isCPU) {
+        cpuStealProperty();
+        return;
+    }
+
+    // Player manusia tetap buka popup
+    openStealMenu();
+    return;
+}
+
+
+    if (tile === 10) {
+        sendToJail(currentTurn);
+        return;
+    }
+
+    /* ===== BUKAN PROPERTY ===== */
+    if (!properties[tile]) {
+        nextTurn();
+        return;
+    }
+
+    /* ===== BELUM ADA PEMILIK (FIX BUG 0 === false) ===== */
+    if (ownership[tile] == null) {  // <---- FIX PALING KRUSIAL
+        if (p.isCPU) cpuBuyDecision(tile);
+        else openBuyPopup(tile);
+        return;
+    }
+
+    /* ===== MILIK SENDIRI ===== */
+    if (ownership[tile] === currentTurn) {
+        nextTurn();
+        return;
+    }
+
+    /* ===== BAYAR DENDA ===== */
+    payRent(tile);
+}
+
+/* ======================= BUY POPUP ======================= */
+function openBuyPopup(tile) {
+    pendingTile = tile;
+    const prop = properties[tile];
+
+    document.getElementById("buyTitle").innerText = prop.name;
+    document.getElementById("buyPrice").innerText = `Harga: $${prop.price} — Sewa: $${prop.rent}`;
+    document.getElementById("buyPopup").style.display = "block";
+}
+
+function closeBuyPopup() {
+    pendingTile = null;
+    document.getElementById("buyPopup").style.display = "none";
+    nextTurn();
+}
+
+function confirmBuy() {
+    buyProperty(pendingTile);
+    closeBuyPopup();
+}
+
+function buyProperty(tile) {
+    let p = players[currentTurn];
+    let price = properties[tile].price;
+
+    p.money -= price;
+    p.assets += price;
+    ownership[tile] = currentTurn;
+
+    updatePropertyStar(tile, currentTurn);
+    updateAllHUD();
+}
+
+
+/* ======================= CPU BUY ======================= */
+function cpuBuyDecision(tile) {
+    let p = players[currentTurn];
+    let price = properties[tile].price;
+
+    if (p.money >= price) buyProperty(tile);
+    nextTurn();
+}
+
+
+/* ======================= RENT ======================= */
+let pendingRent = null;
+let pendingOwner = null;
+
+function payRent(tile) {
+    let owner = ownership[tile];
+    let renter = players[currentTurn];
+    let fine = Math.floor(properties[tile].price * 1.5);
+
+    pendingRent = fine;
+    pendingOwner = owner;
+    pendingRentTile = tile;
+
+    // Jika uang tidak cukup → langsung masuk popup jual aset dulu
+    if (renter.money < fine) {
+        openSellAssetPopup(currentTurn, fine, () => {
+            // setelah uang cukup → baru buka popup denda
+            document.getElementById("rentPopupText").innerHTML =
+                `Kamu masuk ke properti milik P${owner+1}<br>Denda: $${fine}`;
+            document.getElementById("rentPopup").style.display = "block";
+        });
+        return;
+    }
+
+    // Jika uang cukup → tampilkan popup denda normal
+    document.getElementById("rentPopupText").innerHTML =
+        `Kamu masuk ke properti milik P${owner+1}<br>Denda: $${fine}`;
+    document.getElementById("rentPopup").style.display = "block";
+}
+
+function payRentFine() {
+    let renter = players[currentTurn];
+    let ownerPlayer = players[pendingOwner];
+    let fine = pendingRent;
+
+    // Jika uang tidak cukup → buka popup jual aset
+    if (!chargeMoney(currentTurn, fine)) {
+
+        openSellAssetPopup(
+            currentTurn,
+            fine,
+            () => {   // fungsi ini dipanggil SETELAH uang cukup
+                chargeMoney(currentTurn, fine);
+                ownerPlayer.money += fine;
+                updateAllHUD();
+
+                document.getElementById("rentPopup").style.display = "none";
+
+                // CPU lanjut otomatis
+                if (renter.isCPU) {
+                    cpuTakeoverAfterRent(pendingRentTile);
+                    pendingRent = null;
+                    pendingOwner = null;
+                    return;
+                }
+
+                // PLAYER → buka popup takeover
+                openTakeoverPopup(pendingRentTile);
+
+                pendingRent = null;
+                pendingOwner = null;
+            }
+        );
+
+        // tutup rent popup SEMENTARA
+        document.getElementById("rentPopup").style.display = "none";
+        return;
+    }
+
+    // --- Uang cukup → bayar normal ---
+    ownerPlayer.money += fine;
+
+    updateAllHUD();
+    document.getElementById("rentPopup").style.display = "none";
+
+    // --- CPU otomatis ambil alih ---
+    if (renter.isCPU) {
+        cpuTakeoverAfterRent(pendingRentTile);
+        pendingRent = null;
+        pendingOwner = null;
+        return;
+    }
+
+    // --- Player buka takeover ---
+    openTakeoverPopup(pendingRentTile);
+
+    pendingRent = null;
+    pendingOwner = null;
+}
+
+/* ======================= HUD UPDATE ======================= */
+function updateAllHUD() {
+    players.forEach((p, i) => {
+        let hud = document.getElementById("hud" + (i + 1));
+
+        // Jika pemain bangkrut → tampilkan status BANKRUT
+        if (p.eliminated) {
+            hud.innerHTML =
+                `P${i+1} — <b style="color:red">BANKRUT</b><br>
+                 💰uang 0<br>
+                 🏠aset 0<br>
+                 💸utang 0`;
+
+            hud.style.opacity = 0.4;
+            hud.style.filter = "grayscale(100%)";
+            return;
+        }
+
+        // HUD normal
+        hud.innerHTML =
+            `P${i+1}<br>
+             💰uang ${p.money}<br>
+             🏠aset ${p.assets}<br>
+             💸utang ${p.debt}`;
+
+        hud.style.opacity = 1;
+        hud.style.filter = "none";
+    });
+}
+
+/* ========== CPU RANDOM HELPER ========== */
+function cpuPickRandom(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
+
+/* ======================= THEATER POPUP ======================= */
+function openTheaterPopup() {
+    let p = players[currentTurn];
+
+    // CPU pilih otomatis
+    if (p.isCPU) {
+        let pick = cpuPickRandom(["show", "roulette", "gift"]);
+        theaterAction(pick);
+        return; // jangan buka popup
+    }
+
+    document.getElementById("theaterPopup").style.display = "block";
+}
+
+function closeTheaterPopup() {
+    document.getElementById("theaterPopup").style.display = "none";
+    nextTurn();
+}
+
+function theaterAction(type) {
+    let p = players[currentTurn];
+
+if (type === "show") {
+    p.money -= 200;
+    updateAllHUD();
+
+    // buka popup pilih show
+    closeTheaterPopup();
+    openShowSelectPopup();
+    return;
+}
+if (type === "roulette") {
+    p.money -= 100;
+    updateAllHUD();
+    closeTheaterPopup();
+    openRoulettePopup();
+    return;
+}
+    if (type === "gift") p.money -= 50;
+
+    updateAllHUD();
+    closeTheaterPopup();
+}
+
+/* ======================= ICE BSD POPUP ======================= */
+function openIcePopup() {
+    let p = players[currentTurn];
+
+    // CPU pilih otomatis
+    if (p.isCPU) {
+        let pick = cpuPickRandom(["pp","shirt","lanyard","card","mng","2s"]);
+        iceAction(pick);
+        return;
+    }
+
+    document.getElementById("icePopup").style.display = "block";
+}
+
+function closeIcePopup() {
+    document.getElementById("icePopup").style.display = "none";
+    nextTurn();
+}
+
+function iceAction(type) {
+    let p = players[currentTurn];
+
+    const cost = {
+        pp: 80,
+        shirt: 150,
+        lanyard: 45,
+        card: 50,
+        mng: 50,
+        "2s": 180
+    };
+
+    // potong uang
+    p.money -= cost[type];
+    updateAllHUD();
+
+    // tutup popup utama ICE
+    closeIcePopup();
+
+    // jika tipe 2S, buka popup pilih member
+    if (type === "2s") {
+        openPopupPilihMember();
+        return;
+    }
+
+    // tipe lain selesai di sini
+}
+
+/* ======================= IDN POPUP ======================= */
+function openIdnPopup() {
+    let p = players[currentTurn];
+
+    // CPU pilih otomatis
+    if (p.isCPU) {
+        let pick = cpuPickRandom(["main", "makan", "masak"]);
+        idnAction(pick);
+        return; // CPU tidak buka popup
+    }
+
+    document.getElementById("idnPopup").style.display = "block";
+}
+
+function closeIdnPopup() {
+    document.getElementById("idnPopup").style.display = "none";
+    
+    // Aktifkan kembali tombol lempar dadu
+    const rollBtn = document.getElementById("rollBtn");
+    if (rollBtn) rollBtn.disabled = false;
+
+    nextTurn();
+}
+
+function idnAction(type) {
+    let p = players[currentTurn];
+
+    if (type === "main") {
+        p.money -= 80;
+        updateAllHUD();
+
+        closeIdnPopup();
+        openIdnMainSelect();   // popup pilih video “main”
+        return;
+    }
+
+    if (type === "makan") {
+        p.money -= 80;
+        updateAllHUD();
+
+        closeIdnPopup();
+        openIdnMakanSelect();  // popup pilih video “makan”
+        return;
+    }
+
+    if (type === "masak") {
+        p.money -= 80;
+        updateAllHUD();
+
+        closeIdnPopup();
+        openIdnMasakSelect();  // popup pilih video “masak”
+        return;
+    }
+
+    updateAllHUD();
+    closeIdnPopup();
+}
+
+/* ======================= ARENA POPUP ======================= */
+function openArenaPopup() {
+    let p = players[currentTurn];
+
+    // CPU otomatis
+    if (p.isCPU) {
+        let pick = cpuPickRandom(["vip","festival","seating"]);
+        arenaAction(pick);
+        return;
+    }
+
+    document.getElementById("arenaPopup").style.display = "block";
+}
+
+function closeArenaPopup() {
+    document.getElementById("arenaPopup").style.display = "none";
+    nextTurn();
+}
+
+function arenaAction(type) {
+    let p = players[currentTurn];
+
+    if (type === "vip") p.money -= 480;
+    if (type === "festival") p.money -= 55;
+    if (type === "seating") p.money -= 65;
+
+    updateAllHUD();
+    closeArenaPopup();
+}
+
+/* ======================= JAIL SYSTEM FINAL ======================= */
+
+const jailIndex = 10; // posisi penjara (tile 10)
+let jailWait = {};    // berisi sisa ronde tiap pemain
+
+// FUNGSI MASUK PENJARA
+function sendToJail(playerIndex) {
+    const p = players[playerIndex];
+    p.pos = jailIndex;
+    p.inJail = true;
+    jailWait[playerIndex] = 3;
+
+    moveTokenTo(jailIndex, p.token);
+
+    // CPU tidak boleh buka popup
+    if (p.isCPU) {
+        cpuJailDecision();
+        return;
+    }
+
+    // Player manusia → buka popup
+    openJailPopup();
+}
+
+/* ---- POPUP ---- */
+function openJailPopup() {
+    const p = players[currentTurn];
+    document.getElementById("jailDesc").innerHTML =
+        `Sisa menunggu: <b>${jailWait[currentTurn]}</b> ronde`;
+
+    document.getElementById("jailPopup").style.display = "block";
+}
+
+function closeJailPopup() {
+    document.getElementById("jailPopup").style.display = "none";
+}
+
+/* ---- 1. BAYAR 100 ---- */
+function jailPay() {
+    const p = players[currentTurn];
+
+    if (p.money < 100) {
+        alert("Uangmu tidak cukup!");
+        return;
+    }
+
+    p.money -= 100;
+    p.inJail = false;
+    jailWait[currentTurn] = 0;
+
+    updateAllHUD();
+    closeJailPopup();
+    checkTurn(); // kembali ke turn normal
+}
+
+/* ---- 2. TUNGGU 3 RONDE ---- */
+function jailWaitTurn() {
+    jailWait[currentTurn]--;
+
+    if (jailWait[currentTurn] <= 0) {
+        players[currentTurn].inJail = false;
+        jailWait[currentTurn] = 0;
+        alert("Kamu bebas setelah menunggu 3 ronde!");
+        closeJailPopup();
+        checkTurn();
+    } else {
+        closeJailPopup();
+        nextTurn();
+    }
+}
+
+/* ---- 3. ROLL UNTUK DOUBLE ---- */
+function jailRollDouble() {
+    const d1 = Math.floor(Math.random() * 6) + 1;
+    const d2 = Math.floor(Math.random() * 6) + 1;
+
+    alert(`Dadu: ${d1} & ${d2}`);
+
+    if (d1 === d2) {
+        players[currentTurn].inJail = false;
+        jailWait[currentTurn] = 0;
+        alert("KAMU DAPAT DOUBLE! BEBAS!");
+        closeJailPopup();
+        checkTurn();
+    } else {
+        jailWait[currentTurn]--;
+        if (jailWait[currentTurn] <= 0) {
+            players[currentTurn].inJail = false;
+            alert("Kamu bebas karena sudah 3 ronde!");
+            closeJailPopup();
+            checkTurn();
+        } else {
+            alert("Tidak kembar, tetap di penjara.");
+            closeJailPopup();
+            nextTurn();
+        }
+    }
+}
+
+function openJailPopup() {
+    const p = players[currentTurn];
+
+    if (jailWait[currentTurn] == null) {
+        jailWait[currentTurn] = 3;
+    }
+
+    document.getElementById("jailDesc").innerHTML =
+        `Sisa menunggu: <b>${jailWait[currentTurn]}</b> ronde`;
+    
+    // Tampilkan tombol Kartu Bebas Penjara jika pemain punya
+    document.getElementById("useJailCardBtn").style.display =
+        p.getOutOfJailCard ? "inline-block" : "none";
+
+    document.getElementById("jailPopup").style.display = "block";
+}
+
+/* ======================= FX SUDIRMAN POPUP ======================= */
+function openFxPopup() {
+    let p = players[currentTurn];
+
+    // CPU otomatis pilih tanpa popup
+    if (p.isCPU) {
+        let pick = cpuPickRandom(["climb","pokemon","yoga","belanja","makan","wajah","gym"]);
+        fxAction(pick);
+        return;
+    }
+
+    // Player manusia → tampilkan popup
+    document.getElementById("fxPopup").style.display = "block";
+}
+
+function closeFxPopup() {
+    document.getElementById("fxPopup").style.display = "none";
+    nextTurn();
+}
+
+function fxAction(type) {
+    let p = players[currentTurn];
+
+    const cost = {
+        climb: 100,
+        pokemon: 100,
+        yoga: 150,
+        belanja: 200,
+        makan: 100,
+        wajah: 200,
+        gym: 150
+    };
+
+    p.money -= cost[type];
+
+    updateAllHUD();
+    closeFxPopup();
+}
+
+/* ======================= BANK SYSTEM (FINAL) ======================= */
+
+function openBankPopup() {
+    let p = players[currentTurn];
+
+    // ===== CPU MODE =====
+    if (p.isCPU) {
+        cpuBankAction();
+        return;
+    }
+
+    // ===== PLAYER =====
+    document.getElementById("bankPopup").style.display = "block";
+    backToBankStep1();
+}
+
+function closeBankPopup() {
+    document.getElementById("bankPopup").style.display = "none";
+    nextTurn();
+}
+
+/* STEP SWITCHING */
+function showLoanOptions() {
+    document.getElementById("bankStep1").style.display = "none";
+    document.getElementById("bankLoanOptions").style.display = "block";
+    document.getElementById("bankDebtOptions").style.display = "none";
+}
+
+function showDebtOptions() {
+    let p = players[currentTurn];
+
+    document.getElementById("bankStep1").style.display = "none";
+    document.getElementById("bankLoanOptions").style.display = "none";
+    document.getElementById("bankDebtOptions").style.display = "block";
+
+    document.getElementById("pay250").disabled = p.debt < 250;
+    document.getElementById("pay500").disabled = p.debt < 500;
+    document.getElementById("pay750").disabled = p.debt < 750;
+    document.getElementById("pay1000").disabled = p.debt < 1000;
+}
+
+function backToBankStep1() {
+    document.getElementById("bankStep1").style.display = "block";
+    document.getElementById("bankLoanOptions").style.display = "none";
+    document.getElementById("bankDebtOptions").style.display = "none";
+}
+
+/* PLAYER: PINJAM UANG */
+function bankLoan(amount) {
+    let p = players[currentTurn];
+    p.money += amount;
+    p.debt += amount;
+
+    updateAllHUD();
+    closeBankPopup();
+}
+
+/* PLAYER: BAYAR UTANG */
+function payDebt(amount) {
+    let p = players[currentTurn];
+
+    if (p.money < amount) {
+        alert("Uangmu tidak cukup!");
+        return;
+    }
+
+    p.money -= amount;
+    p.debt -= amount;
+    if (p.debt < 0) p.debt = 0;
+
+    updateAllHUD();
+    closeBankPopup();
+}
+
+/* ============ CPU AUTO DECISION ============ */
+function cpuBankAction() {
+    let p = players[currentTurn];
+
+    // Jika punya utang → bayar dulu
+    if (p.debt >= 250) {
+        let bayar = Math.min(p.debt, 250);
+        if (p.money >= bayar) {
+            p.money -= bayar;
+            p.debt -= bayar;
+        }
+    }
+    // Kalau uang sedikit → pinjam 250
+    else if (p.money < 150) {
+        p.money += 250;
+        p.debt += 250;
+    }
+
+    updateAllHUD();
+
+    // lanjut turn
+    setTimeout(() => nextTurn(), 500);
+}
+
+/* ======================= PAJAK JALAN ======================= */
+function openTaxPopup() {
+    document.getElementById("taxPopup").style.display = "block";
+}
+
+function payTax() {
+    let p = players[currentTurn];
+    p.money -= 200;
+
+    updateAllHUD();
+    document.getElementById("taxPopup").style.display = "none";
+    nextTurn();
+}
+
+/* ======================= HADIAH PAJAK ======================= */
+function openGiftTaxPopup() {
+    document.getElementById("giftTaxPopup").style.display = "block";
+}
+
+function claimTaxGift() {
+    let p = players[currentTurn];
+    p.money += 100;
+    updateAllHUD();
+
+    document.getElementById("giftTaxPopup").style.display = "none";
+    nextTurn();
+}
+
+/* ======================= BEBAS KELILING ======================= */
+function openFreeMovePopup() {
+    let p = players[currentTurn];
+
+    // CPU = auto pilih tile (paling simple: pilih tile acak)
+    if (p.isCPU) {
+        let randomTile = Math.floor(Math.random() * 40);
+        freeMoveTo(randomTile);
+        return;
+    }
+
+    // PLAYER manusia → tampilkan popup
+    const container = document.getElementById("freeMoveOptions");
+    container.innerHTML = ""; 
+
+    tileOrder.forEach((pos, i) => {
+        let btn = document.createElement("button");
+        btn.textContent = tileNames[i] || `Tile ${i}`;
+        btn.style.margin = "4px";
+        btn.style.padding = "6px 10px";
+        btn.onclick = () => freeMoveTo(i);
+        container.appendChild(btn);
+    });
+
+    document.getElementById("freeMovePopup").style.display = "block";
+}
+
+function freeMoveTo(tileIndex) {
+    let p = players[currentTurn];
+    p.pos = tileIndex;  
+    moveTokenTo(tileIndex, p.token);
+
+    document.getElementById("freeMovePopup").style.display = "none";
+
+    // CEGAH double trigger: delay sedikit
+    setTimeout(() => {
+        checkProperty(tileIndex);
+    }, 50);
+}
+
+function closeFreeMovePopup() {
+    document.getElementById("freeMovePopup").style.display = "none";
+    nextTurn(); // Kalau batal, tetap lanjut turn
+}
+
+/* ======================= DANA UMUM ======================= */
+const danaUmumCards = [
+    { text: "Member kasih hadiah Photocard spesial 🎁\nKamu dapat $150", 
+      effect: (p) => { p.money += 150; updateAllHUD(); } 
+    },
+
+    { text: "Kamu menang kuis di Theater JKT48 👗\nKamu dapat $200", 
+      effect: (p) => { p.money += 200; updateAllHUD(); } 
+    },
+
+    { text: "Ongkos transport ke acara Handshake 🚕\nBayar $100", 
+      effect: (p) => { p.money -= 100; updateAllHUD(); } 
+    },
+
+    { text: "Bayar biaya membership OFC JKT48 💳\nBayar $200", 
+      effect: (p) => { p.money -= 200; updateAllHUD(); } 
+    },
+
+    { text: "Trip wisata ke Bali ✈\nPindah ke Bali dan dapat $100", 
+      effect: (p) => { 
+          p.pos = 15; 
+          p.money += 100; 
+          moveTokenTo(15, p.token); 
+          p.justTeleported = true; 
+          updateAllHUD(); 
+      } 
+    },
+
+    { text: "Tiket liburan ke Raja Ampat 🛫\nPindah ke Raja Ampat", 
+      effect: (p) => { 
+          p.pos = 29; 
+          moveTokenTo(29, p.token); 
+          p.justTeleported = true; 
+          updateAllHUD(); 
+      } 
+    },
+
+    { text: "Kartu Bebas Penjara 🚔\nSimpan kartu ini", 
+      effect: (p) => { 
+          p.getOutOfJailCard = true; 
+          updateAllHUD(); 
+      } 
+    },
+
+    { text: "Bank salah transfer ke kamu 🏦\nKamu dapat $250", 
+      effect: (p) => { p.money += 250; updateAllHUD(); } 
+    },
+
+    { text: "Bayar pajak jalan untuk renovasi kota 💸\nBayar $150", 
+      effect: (p) => { p.money -= 150; updateAllHUD(); } 
+    },
+
+    { text: "Kamu jadi Fanbase Tergokil 2025 🌟\nKamu dapat $300", 
+      effect: (p) => { p.money += 300; updateAllHUD(); } 
+    },
+];
+
+function openDanaUmum() {
+    let p = players[currentTurn];
+    let card = danaUmumCards[Math.floor(Math.random() * danaUmumCards.length)];
+
+    document.getElementById("danaUmumText").textContent = card.text;
+    document.getElementById("danaUmumPopup").style.display = "block";
+
+    // RESET dulu biar aman
+    p.justTeleported = false;
+
+    // jalankan efek
+    card.effect(p);
+    updateAllHUD();
+
+    return; 
+}
+
+function closeDanaUmumPopup() {
+    document.getElementById("danaUmumPopup").style.display = "none";
+
+    let p = players[currentTurn];
+
+    // Jika efek kartu MEMINDAHKAN POSISI (teleport)
+    if (p.justTeleported) {
+        p.justTeleported = false; // reset
+        // Panggil tile di posisi baru
+        checkProperty(p.pos);
+        return; 
+    }
+
+    // Jika tidak teleport → lanjut turn seperti biasa
+    nextTurn();
+}
+
+/* ======================= KESEMPATAN ======================= */
+const kesempatanCards = [
+    {
+        text: "Pergi ke GO! 🎉\nAmbil $200 saat lewat",
+        effect: (p) => {
+            if (p.pos > 0) p.money += 200;
+            p.pos = 0;
+            moveTokenTo(0, p.token);
+            p.justTeleported = true;
+        }
+    },
+
+    {
+        text: "Advance ke FX Sudirman 🏙️\nJika lewat GO, dapat $200",
+        effect: (p) => {
+            if (p.pos > 23) p.money += 200;
+            p.pos = 23;
+            moveTokenTo(23, p.token);
+            p.justTeleported = true;
+        }
+    },
+
+    {
+        text: "Pergi ke Bank 💵\nSaat tiba tidak ada biaya",
+        effect: (p) => {
+            if (p.pos > 13) p.money += 200;
+            p.pos = 13;
+            moveTokenTo(13, p.token);
+            p.justTeleported = true;
+        }
+    },
+
+{
+    text: "Pergi ke Penjara 🚔\nKamu tidak menerima $200",
+    effect: (p) => {
+        p.pos = 10;
+        p.inJail = true;
+        jailWait[currentTurn] = 3;
+        moveTokenTo(10, p.token);
+        p.justTeleported = true; // ← WAJIB!!!
+    }
+},
+
+    {
+        text: "Kamu menjadi bintang tamu di Indonesia Arena ⭐\nDapat $240",
+        effect: (p) => { p.money += 240; }
+    },
+
+    {
+        text: "Biaya perbaikan DSLR untuk foto member 📷\nBayar $150",
+        effect: (p) => { p.money -= 150; }
+    },
+
+    {
+        text: "Dapat undangan event spesial di Teater JKT48 🎤\nDapat $100",
+        effect: (p) => { p.money += 100; }
+    },
+
+    {
+        text: "Kamu menang mini game di acara OFC 🎮\nDapat $180",
+        effect: (p) => { p.money += 180; }
+    },
+
+    {
+        text: "Kalah battle game di FX Sudirman 😭\nBayar $80",
+        effect: (p) => { p.money -= 80; }
+    },
+
+    {
+        text: "Advance ke ICE BSD ❄️\nJika lewat GO, dapat $200",
+        effect: (p) => {
+            if (p.pos > 38) p.money += 200;
+            p.pos = 38;
+            moveTokenTo(38, p.token);
+            p.justTeleported = true;
+        }
+    }
+];
+
+function openKesempatan() {
+    let p = players[currentTurn];
+    let card = kesempatanCards[Math.floor(Math.random() * kesempatanCards.length)];
+
+    document.getElementById("kesempatanText").textContent = card.text;
+    document.getElementById("kesempatanPopup").style.display = "block";
+
+    // RESET FLAG
+    p.justTeleported = false;
+
+    card.effect(p);
+    updateAllHUD();
+
+    return;
+}
+
+function closeKesempatanPopup() {
+    // tutup popup
+    document.getElementById("kesempatanPopup").style.display = "none";
+
+    let p = players[currentTurn];
+
+    // Jika kartu menyebabkan teleport → panggil checkProperty() sekarang.
+    // checkProperty() akan membuka popup lokasi yang sesuai (mis. Ice BSD),
+    // dan urutan nextTurn akan ditangani oleh popup lokasi itu (mis. closeIcePopup).
+    if (p.justTeleported) {
+        p.justTeleported = false;   // reset flag agar tidak ter-trigger lagi
+        // panggil checkProperty di posisi baru (tidak lakukan nextTurn di sini)
+        checkProperty(p.pos);
+        return;
+    }
+
+    // Kalau tidak teleport → lanjut normal
+    nextTurn();
+}
+
+let pendingRentTile = null; // agar tahu tile mana
+
+// MODIFIKASI KECIL DI payRent supaya menyimpan tile
+// (HANYA TAMBAHKAN baris terakhir ini)
+function payRent(tile) {
+    let owner = ownership[tile];
+    let fine = Math.floor(properties[tile].price * 1.5);
+
+    pendingRent = fine;
+    pendingOwner = owner;
+    pendingRentTile = tile;  // <--- TAMBAHKAN INI
+
+    document.getElementById("rentPopupText").innerHTML =
+        `Kamu masuk ke properti milik P${owner+1}<br>Denda: $${fine}`;
+
+    document.getElementById("rentPopup").style.display = "block";
+}
+
+function openTakeoverPopup(tile) {
+    let prop = properties[tile];
+    document.getElementById("takeoverText").innerHTML =
+        `Ambil alih <b>${prop.name}</b> seharga <b>$${prop.price}</b>?`;
+
+    document.getElementById("takeoverPopup").style.display = "block";
+}
+
+function confirmTakeover() {
+    const tile = pendingRentTile;
+    const p = players[currentTurn];
+    const price = properties[tile].price;
+
+    if (p.money < price) {
+        alert("Uang tidak cukup!");
+        return skipTakeover();
+    }
+
+    p.money -= price;
+    players[ownership[tile]].assets -= price;
+    p.assets += price;
+
+    ownership[tile] = currentTurn;
+    updatePropertyStar(tile, currentTurn);
+    updateAllHUD();
+
+    pendingRentTile = null;
+    document.getElementById("takeoverPopup").style.display = "none";
+    nextTurn();
+}
+
+function skipTakeover() {
+    pendingRentTile = null;
+    document.getElementById("takeoverPopup").style.display = "none";
+    nextTurn();
+}
+
+function openStealMenu() {
+    const container = document.getElementById("stealOptions");
+    container.innerHTML = "";
+
+    let p = players[currentTurn];
+
+    // Kumpulkan semua property milik pemain lain
+    let enemyTiles = Object.keys(ownership)
+        .filter(t => ownership[t] != null && ownership[t] !== currentTurn)
+        .map(t => parseInt(t));
+
+    // Kalau tidak ada yang bisa diambil
+    if (enemyTiles.length === 0) {
+        container.innerHTML = "<p>Tidak ada properti pemain lain.</p>";
+        document.getElementById("stealPopup").style.display = "block";
+        return;
+    }
+
+    // Buat tombol tiap properti
+    enemyTiles.forEach(tile => {
+        let btn = document.createElement("button");
+        btn.textContent = properties[tile].name;
+        btn.style.display = "block";
+        btn.style.margin = "5px auto";
+        btn.onclick = () => stealProperty(tile);
+        container.appendChild(btn);
+    });
+
+    document.getElementById("stealPopup").style.display = "block";
+}
+
+function stealProperty(tile) {
+    let oldOwner = ownership[tile];
+    let newOwner = currentTurn;
+
+    let price = properties[tile].price;
+
+    // Kurangi aset owner lama
+    players[oldOwner].assets -= price;
+
+    // Tambah aset pemilik baru
+    players[newOwner].assets += price;
+
+    // Ubah kepemilikan
+    ownership[tile] = newOwner;
+
+    // Update bintang warna
+    updatePropertyStar(tile, newOwner);
+
+    updateAllHUD();
+
+    document.getElementById("stealPopup").style.display = "none";
+    nextTurn();
+}
+
+function closeStealPopup() {
+    document.getElementById("stealPopup").style.display = "none";
+    nextTurn();
+}
+
+function cpuStealProperty() {
+    let cpu = players[currentTurn];
+
+    // cari semua properti milik pemain lain
+    let enemyTiles = Object.keys(ownership)
+        .filter(t => ownership[t] != null && ownership[t] !== currentTurn)
+        .map(t => parseInt(t));
+
+    // jika tidak ada properti lawan
+    if (enemyTiles.length === 0) {
+        nextTurn();
+        return;
+    }
+
+    // pilih properti termurah (biar simple)
+    let chosen = enemyTiles.sort((a, b) => properties[a].price - properties[b].price)[0];
+
+    let oldOwner = ownership[chosen];
+
+    // pindahkan aset
+    players[oldOwner].assets -= properties[chosen].price;
+    cpu.assets += properties[chosen].price;
+
+    // ubah kepemilikan
+    ownership[chosen] = currentTurn;
+
+    // update bintang
+    updatePropertyStar(chosen, currentTurn);
+    updateAllHUD();
+
+    // lanjut turn
+    nextTurn();
+}
+
+function cpuTakeoverAfterRent(tile) {
+    let cpu = players[currentTurn];
+    let oldOwner = ownership[tile];
+
+    // harga properti
+    let price = properties[tile].price;
+
+    // CPU cuma takeover kalau uangnya cukup
+    if (cpu.money >= price) {
+
+        cpu.money -= price;
+        cpu.assets += price;
+        players[oldOwner].assets -= price;
+
+        // pindahkan kepemilikan
+        ownership[tile] = currentTurn;
+
+        // update tampilan
+        updatePropertyStar(tile, currentTurn);
+        updateAllHUD();
+    }
+
+    nextTurn();
+}
+
+function cpuJailDecision() {
+    let p = players[currentTurn];
+
+    // 1. Kalau CPU punya kartu bebas penjara → pakai
+    if (p.getOutOfJailCard) {
+        p.getOutOfJailCard = false;
+        p.inJail = false;
+        jailWait[currentTurn] = 0;
+        updateAllHUD();
+        nextTurn();
+        return;
+    }
+
+    // 2. Kalau uang cukup → bayar $100
+    if (p.money >= 100) {
+        p.money -= 100;
+        p.inJail = false;
+        jailWait[currentTurn] = 0;
+        updateAllHUD();
+        nextTurn();
+        return;
+    }
+
+    // 3. Kalau tidak punya uang → tunggu 1 ronde
+    jailWait[currentTurn]--;
+
+    if (jailWait[currentTurn] <= 0) {
+        p.inJail = false;
+        jailWait[currentTurn] = 0;
+    }
+
+    updateAllHUD();
+    nextTurn();
+}
+
+/* ======================= MONEY SYSTEM & SELL ASSET ======================= */
+
+let pendingPaymentAmount = 0;
+let pendingPaymentCallback = null;
+
+/* Cegah uang minus — kembalikan false kalau tidak cukup */
+function chargeMoney(playerIndex, amount) {
+    let p = players[playerIndex];
+
+    if (p.money >= amount) {
+        p.money -= amount;
+        updateAllHUD();
+        return true;
+    } else {
+        updateAllHUD();
+        return false;
+    }
+}
+
+/* Popup Jual Aset */
+function openSellAssetPopup(playerIndex, requiredAmount, callback) {
+
+    let p = players[playerIndex];
+
+    // Jika uang pemain sudah cukup → langsung bayar tanpa jual aset
+    if (p.money >= requiredAmount) {
+        p.money -= requiredAmount;
+        updateAllHUD();
+        callback();
+        return;
+    }
+
+    // ============================================
+    // 1. CPU: jual aset otomatis
+    // ============================================
+    if (p.isCPU) {
+        cpuAutoSell(playerIndex, requiredAmount, callback);
+        return;
+    }
+
+    // ============================================
+    // 2. Pemain manusia
+    // ============================================
+    pendingPaymentAmount = requiredAmount;
+    pendingPaymentCallback = callback;
+
+    let list = document.getElementById("assetList");
+    list.innerHTML = "";
+
+    // Daftar properti yang dimiliki pemain
+    let ownedTiles = Object.keys(ownership)
+        .filter(t => ownership[t] == playerIndex)
+        .map(t => parseInt(t));
+
+    // ============================================
+    // 3. Kalau tidak punya aset → tetap boleh bayar
+    //    (TIDAK LANGSUNG BANGKRUT)
+    // ============================================
+    if (ownedTiles.length === 0) {
+        // Izinkan uang menjadi negatif sementara
+        p.money -= requiredAmount;
+        updateAllHUD();
+        callback();
+        return;
+    }
+
+    // ============================================
+    // 4. Tampilkan property yang bisa dijual
+    //    (harga jual = 50% dari price)
+    // ============================================
+    ownedTiles.forEach(tile => {
+        let sellValue = Math.floor(properties[tile].price / 2);
+
+        let btn = document.createElement("button");
+        btn.textContent = `${properties[tile].name} — Jual $${sellValue}`;
+
+        btn.onclick = () => sellAsset(playerIndex, tile, btn, sellValue);
+
+        btn.style.display = "block";
+        btn.style.margin = "5px auto";
+        list.appendChild(btn);
+    });
+
+    // ============================================
+    // 5. Buka popup
+    // ============================================
+    document.getElementById("sellAssetPopup").style.display = "block";
+}
+
+/* Proses menjual aset */
+function sellAsset(playerIndex, tile, button, sellValue) {
+    let p = players[playerIndex];
+
+    p.money += sellValue;
+    p.assets -= properties[tile].price;
+    ownership[tile] = null;
+
+    updatePropertyStar(tile, null);
+    updateAllHUD();
+
+    button.disabled = true;
+    button.style.opacity = "0.4";
+    button.textContent += " (Terjual)";
+
+    // Kalau uang sudah cukup → jalankan pembayaran
+    if (p.money >= pendingPaymentAmount) {
+        document.getElementById("sellAssetPopup").style.display = "none";
+        pendingPaymentCallback();
+        pendingPaymentCallback = null;
+        return;
+    }
+
+    // Kalau properti habis → uang tetap bisa minus, tidak bangkrut otomatis
+    let stillOwned = Object.keys(ownership).filter(t => ownership[t] == playerIndex);
+    if (stillOwned.length === 0) {
+        // izinkan pembayaran dengan uang yang ada (bisa minus)
+        document.getElementById("sellAssetPopup").style.display = "none";
+        p.money -= pendingPaymentAmount;
+        updateAllHUD();
+        pendingPaymentCallback();
+        return;
+    }
+}
+
+function eliminatePlayer(playerIndex) {
+    alert(players[playerIndex].name + " bangkrut dan keluar dari permainan!");
+
+    players[playerIndex].eliminated = true;
+
+    // hapus semua kepemilikan
+    Object.keys(ownership).forEach(tile => {
+        if (ownership[tile] == playerIndex) ownership[tile] = null;
+    });
+
+    updateAllHUD();
+
+    // cek pemenang
+    let alive = players.filter(p => !p.eliminated);
+    if (alive.length === 1) {
+        alert("GAME OVER! Pemenang: " + alive[0].name);
+        location.reload();
+        return;
+    }
+
+    // Jika pemain yang sedang turn saat ini baru saja di-eliminate,
+    // kita lanjutkan ke nextTurn supaya giliran tidak stuck di pemain mati.
+    if (playerIndex === currentTurn) {
+        nextTurn();
+    }
+}
+
+function cpuAutoSell(playerIndex, amountNeeded, onComplete) {
+    let p = players[playerIndex];
+
+    // Cek apakah uangnya sudah cukup
+    if (p.money >= amountNeeded) {
+        if (onComplete) onComplete();
+        return;
+    }
+
+    // Cari semua aset milik CPU
+    let ownedTiles = Object.keys(ownership)
+        .filter(t => ownership[t] == playerIndex)
+        .map(t => parseInt(t));
+
+    // Jika CPU tidak punya aset → bangkrut
+    if (ownedTiles.length === 0) {
+        eliminatePlayer(playerIndex);
+        return;
+    }
+
+    // Pilih aset termurah untuk dijual
+    ownedTiles.sort((a, b) => properties[a].price - properties[b].price);
+    let tile = ownedTiles[0];
+
+    // CPU menjual aset termurah
+    p.money += properties[tile].price;
+    p.assets -= properties[tile].price;
+    ownership[tile] = null;
+
+    updatePropertyStar(tile, null);
+    updateAllHUD();
+
+    // Lanjutkan lagi sampai cukup
+    cpuAutoSell(playerIndex, amountNeeded, onComplete);
+}
+
+function chargeMoney(playerIndex, amount, onComplete) {
+    let p = players[playerIndex];
+
+    if (p.money >= amount) {
+        p.money -= amount;
+        updateAllHUD();
+        if (onComplete) onComplete();
+        return;
+    }
+
+    if (p.isCPU) {
+        cpuAutoSell(playerIndex, amount, () => {
+            p.money -= amount;
+            updateAllHUD();
+            if (onComplete) onComplete();
+        });
+        return;
+    }
+
+    pendingPaymentAmount = amount;
+    pendingPaymentCallback = onComplete;
+
+    openSellAssetPopup(playerIndex, amount, onComplete);
+}
+
+/* ======================= SHOW SELECT ======================= */
+function openShowSelectPopup() {
+    document.getElementById("showSelectPopup").style.display = "block";
+}
+
+function closeShowSelectPopup() {
+    document.getElementById("showSelectPopup").style.display = "none";
+    nextTurn(); // selesai pilih, lanjut game
+}
+
+/* ======================= PLAY SHOW VIDEO ======================= */
+function playShow(show) {
+    let url = "";
+
+    if (show === "pajama") {
+        url = "https://www.youtube.com/embed/43In6pCqiOI";
+    } 
+
+    if (show === "aitakatta") {
+        url = "https://www.youtube.com/embed/cn2JNT31rIQ?start=5315";
+    }
+
+    document.getElementById("videoFrame").src = url;
+    document.getElementById("showSelectPopup").style.display = "none";
+    document.getElementById("videoPopup").style.display = "block";
+}
+
+function closeVideoPopup() {
+    document.getElementById("videoFrame").src = "";
+    document.getElementById("videoPopup").style.display = "none";
+    nextTurn();
+}
+
+/* ======================= OPEN/CLOSE ROULETTE ======================= */
+function openRoulettePopup() {
+    document.getElementById("roulettePopup").style.display = "block";
+}
+
+function closeRoulettePopup() {
+    document.getElementById("roulettePopup").style.display = "none";
+    nextTurn();
+}
+
+
+/* ======================= SPIN ROULETTE ======================= */
+function spinRoulette() {
+    // Ambil member acak
+    let picked = rouletteMembers[Math.floor(Math.random() * rouletteMembers.length)];
+
+    // Simpan nama
+    document.getElementById("rouletteResultName").innerText = "Kamu dapat: " + picked;
+
+    // Ganti foto member (nama file format: lowercase + "2sr.jpg")
+    let fileName = picked.toLowerCase() + "2sr.jpg";
+    document.getElementById("memberPhoto").src = fileName;
+
+    // Tutup popup awal
+    document.getElementById("roulettePopup").style.display = "none";
+
+    // Buka popup kamera + foto member
+    document.getElementById("rouletteResultPopup").style.display = "block";
+
+    startCamera(); // Nyalakan kamera
+}
+
+
+/* ======================= START CAMERA ======================= */
+function startCamera() {
+    let video = document.getElementById("cameraPreview");
+
+    navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+        .then(stream => {
+            video.srcObject = stream;
+        })
+        .catch(err => {
+            alert("Tidak bisa mengakses kamera!");
+        });
+}
+
+/* ======================= CLOSE RESULT ======================= */
+function closeRouletteResult() {
+    let video = document.getElementById("cameraPreview");
+
+    // Matikan kamera
+    if (video.srcObject) {
+        video.srcObject.getTracks().forEach(t => t.stop());
+    }
+
+    document.getElementById("rouletteResultPopup").style.display = "none";
+    nextTurn();
+}
+
+/* ======================= PLAY IDN LIVE ======================= */
+function playIdn(show) {
+    // tutup semua popup pilih video
+    document.getElementById("idnMainSelect").style.display = "none";
+    document.getElementById("idnMakanSelect").style.display = "none";
+    document.getElementById("idnMasakSelect").style.display = "none";
+
+    let url = "";
+
+    if (show === "main") url = "https://www.youtube.com/embed/fUC1zkADUsg";
+    if (show === "makan") url = "https://www.youtube.com/embed/adCiwDTkb_Y";
+    if (show === "masak") url = "https://www.youtube.com/embed/WRQt6fbdcv8";
+
+    document.getElementById("videoFrame").src = url;
+    document.getElementById("videoPopup").style.display = "block";
+}
+
+function closeVideoPopup() {
+    document.getElementById("videoFrame").src = "";
+    document.getElementById("videoPopup").style.display = "none";
+    nextTurn();
+}
+
+function openIdnMainSelect() {
+    document.getElementById("idnMainSelect").style.display = "block";
+}
+
+function closeIdnMainSelect() {
+    document.getElementById("idnMainSelect").style.display = "none";
+}
+
+function openIdnMakanSelect() {
+    document.getElementById("idnMakanSelect").style.display = "block";
+}
+
+function closeIdnMakanSelect() {
+    document.getElementById("idnMakanSelect").style.display = "none";
+}
+
+function openIdnMasakSelect() {
+    document.getElementById("idnMasakSelect").style.display = "block";
+}
+
+function closeIdnMasakSelect() {
+    document.getElementById("idnMasakSelect").style.display = "none";
+}
+
+let selectedMember = "";
+
+const memberImages = {
+    "Aralie": "aralie2sr.jpg",
+    "Lily": "lily2sr.jpg",
+    "Delynn": "delynn2sr.jpg",
+    "Trisha": "trisha2sr.jpg",
+    "Moreen": "moreen2sr.jpg",
+    "Shasa": "shasa2sr.jpg",
+    "Erine": "erine2sr.jpg",
+    "Oline": "oline2sr.jpg",
+    "Kimmy": "kimmy2sr.jpg",
+    "Regie": "regie2sr.jpg",
+    "Lana": "lana2sr.jpg",
+    "Nala": "nala2sr.jpg",
+    "Nachia": "nachia2sr.jpg",
+    "Fritzy": "fritzy2sr.jpg",
+    "Ribka": "ribka2sr.jpg",
+    "Levi": "levi2sr.jpg",
+    "Nayla": "nayla2sr.jpg"
+};
+
+// buka popup pilih member
+function openPopupPilihMember() {
+    document.getElementById("popupPilihMember").style.display = "flex";
+}
+
+// setelah user pilih member → tampil popup hasil
+function tampil2SMember() {
+    let select = document.getElementById("memberSelect");
+    selectedMember = select.value;
+
+    if(!selectedMember) {
+        alert("Pilih member dulu!");
+        return;
+    }
+
+    // tutup popup pilih member
+    document.getElementById("popupPilihMember").style.display = "none";
+
+    // set judul & foto member
+    document.getElementById("rouletteResultName").innerText = "2S " + selectedMember;
+    document.getElementById("memberPhoto").src = memberImages[selectedMember];
+
+    // tampil popup hasil
+    document.getElementById("rouletteResultPopup").style.display = "flex";
+
+    // buka kamera live
+    const video = document.getElementById("cameraPreview");
+    if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
+        navigator.mediaDevices.getUserMedia({ video:true })
+        .then(stream => video.srcObject = stream)
+        .catch(err => console.log("Camera error: ", err));
+    }
+}
+
+// tutup popup hasil 2S
+function close2SPopup(){
+    document.getElementById("rouletteResultPopup").style.display = "none";
+
+    // hentikan kamera
+    const video = document.getElementById("cameraPreview");
+    if(video.srcObject){
+        video.srcObject.getTracks().forEach(track => track.stop());
+        video.srcObject = null;
+    }
+
+    nextTurn(); // lanjut giliran berikutnya
+}
+
+// Siapkan audio
+let bgMusic = new Audio("bm.mp3");
+bgMusic.loop = true;
+bgMusic.volume = 0.5;
+
+// Mulai musik setelah klik pertama user
+document.body.addEventListener("click", function startMusic() {
+    if (bgMusic.paused) {
+        bgMusic.play().catch(err => console.log(err));
+    }
+    document.body.removeEventListener("click", startMusic);
+});
+
+</script>
+</body>
+</html>
