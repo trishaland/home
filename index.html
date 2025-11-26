@@ -1831,11 +1831,11 @@ let fotoList = [];
 function loadGallery(filter = "all") {
   galleryGrid.innerHTML = "";
 
-  if (filter === "all") {
-    fotoList = Array.from({length: totalFoto}, (_, i) => i + 1);
-  } else {
-    fotoList = kategoriFoto[filter] ?? [];
-  }
+if (filter === "all") {
+    fotoList = Array.from({length: totalFoto}, (_, i) => i + 1).reverse();
+} else {
+    fotoList = [...(kategoriFoto[filter] ?? [])].sort((a, b) => b - a);
+}
 
   renderGallery();
 }
