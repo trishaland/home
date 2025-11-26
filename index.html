@@ -855,6 +855,161 @@
   }
   .user { align-self: flex-end; background: #fff; border: 1px solid #d1e7ff; }
   .bot { align-self: flex-start; background: #ffffff; border: 1px solid #c9e6ff; color: #004c80; }
+
+/* ======== GALERI TRISHA (BLUE STYLE) ======== */
+:root {
+  --blue-main: #8acaf9;
+  --blue-light: #d9eeff;
+}
+
+.gallery-section {
+  padding: 20px 20px 20px;
+  background: #ffffff;
+  text-align: center;
+}
+
+.gallery-title {
+  font-size: 2rem;
+  color: #004080;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.gallery-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.gallery-tab {
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  background: var(--blue-light);
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 0.9rem;
+}
+
+.gallery-tab.active {
+  background: var(--blue-main);
+  color: white;
+  font-weight: 600;
+}
+
+.gallery-count {
+  margin: 10px 0 25px;
+  color: #444;
+  font-size: 0.9rem;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.gallery-grid img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 12px;
+  transition: transform 0.25s ease;
+  cursor: pointer;
+}
+
+.gallery-grid img:hover {
+  transform: scale(1.05);
+}
+
+/* Tombol Load More */
+.gallery-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.btn-load {
+  padding: 10px 22px;
+  background: var(--blue-main);
+  color: white;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: 600;
+}
+
+.btn-load:hover {
+  opacity: 0.85;
+}
+
+.btn-less {
+  background: #ccc;
+  color: #333;
+}
+
+/* ===== Modal Zoom Foto (FIX) ===== */
+.modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  padding: 20px;
+}
+
+.modal-box {
+  position: relative;
+  max-width: 90vw;
+  max-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* ↓ Tambahan baru untuk menurunkan modal */
+  margin-top: 40px;   
+}
+
+.modal-box img {
+  max-width: 90vw;
+  max-height: 80vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+/* Tombol Close */
+.modal-close {
+  position: fixed;
+  top: 70px;
+  right: 35px;
+  font-size: 42px;
+  color: white;
+  cursor: pointer;
+}
+
+/* Tombol Previous & Next */
+.modal-prev, .modal-next {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 55px;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+}
+
+.modal-prev { left: 35px; }
+.modal-next { right: 35px; }
 </style>
 
   <script>
@@ -1042,6 +1197,37 @@
     <span class="aktif"></span><span></span><span></span><span></span>
   </div>
 </section>
+
+<section class="gallery-section">
+  <h2 class="gallery-title">Galeri Foto Trisha</h2>
+
+<div class="gallery-tabs">
+    <button class="gallery-tab active" data-filter="all">Semua</button>
+    <button class="gallery-tab" data-filter="trishelca">Trishelca</button>
+    <button class="gallery-tab" data-filter="trishart">Trishart</button>
+    <button class="gallery-tab" data-filter="show">Show / Stage</button>
+    <button class="gallery-tab" data-filter="friends">With Friends</button>
+</div>
+
+  <div class="gallery-count" id="galleryCount">Menampilkan 15 foto</div>
+
+  <div class="gallery-grid" id="galleryGrid"></div>
+
+  <div class="gallery-buttons">
+    <button class="btn-load" id="btnMore">Lihat Lebih Banyak</button>
+    <button class="btn-load btn-less" id="btnLess" style="display:none;">Lihat Lebih Sedikit</button>
+  </div>
+</section>
+
+<!-- Modal Zoom -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal-box">
+    <span class="modal-close" id="modalClose">&times;</span>
+    <span class="modal-prev" id="modalPrev">&#10094;</span>
+    <span class="modal-next" id="modalNext">&#10095;</span>
+    <img id="modalImg" src="">
+  </div>
+</div>
 
   <!-- COUNTDOWN -->
   <section class="countdown-section">
@@ -1582,6 +1768,145 @@ slider.addEventListener('scroll', () => {
   const index = Math.round(slider.scrollLeft / cardWidth);
   dots.forEach((dot, i) => dot.classList.toggle('aktif', i === index));
 });
+</script>
+
+<script>
+const galleryGrid = document.getElementById("galleryGrid");
+const galleryCount = document.getElementById("galleryCount");
+const btnMore = document.getElementById("btnMore");
+const btnLess = document.getElementById("btnLess");
+
+// Kategori manual
+const kategoriFoto = {
+  trishelca: [
+    1,2,3,4,5,6,7,8,9,10,
+    13,14,15,16,17,18,19,
+    22,23,24,25,26,
+    32,64,66
+  ],
+
+  show: [
+    11,12,
+    20,21,
+    27,
+    44,45,46,47,
+    60,62,
+    73,74,75,76,77,78,79,80,81,
+    83,85,87
+  ],
+
+  friends: [
+    28,29,30,31,
+    33,34,35,36,37,38,39,40,41,42,43,
+    55,56,
+    58,59,
+    61,
+    63,
+    65,
+    67,68,69,70,71,72,
+    82,84,86
+  ],
+
+  trishart: [
+    48,49,50,51,52,53,54,
+    57
+  ]
+};
+
+const totalFoto = 87;
+let tampil = 15; // foto awal
+let fotoList = [];
+
+// Load foto
+function loadGallery(filter = "all") {
+  galleryGrid.innerHTML = "";
+
+  if (filter === "all") {
+    fotoList = Array.from({length: totalFoto}, (_, i) => i + 1);
+  } else {
+    fotoList = kategoriFoto[filter] ?? [];
+  }
+
+  renderGallery();
+}
+
+function renderGallery() {
+  galleryGrid.innerHTML = "";
+  let slice = fotoList.slice(0, tampil);
+
+  slice.forEach(i => {
+    const img = document.createElement("img");
+    img.src = `galeri${i}.webp`;
+    img.dataset.index = i;
+    img.addEventListener("click", () => openModal(i));
+    galleryGrid.appendChild(img);
+  });
+
+  galleryCount.textContent = 
+    `Menampilkan ${slice.length} dari ${fotoList.length} foto`;
+
+  btnMore.style.display = tampil < fotoList.length ? "inline-block" : "none";
+  btnLess.style.display = tampil > 15 ? "inline-block" : "none";
+}
+
+// Button Load More
+btnMore.onclick = () => {
+  tampil += 10;
+  renderGallery();
+};
+
+// Button Less
+btnLess.onclick = () => {
+  tampil = 15;
+  renderGallery();
+};
+
+// Tabs
+document.querySelectorAll(".gallery-tab").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".gallery-tab")
+      .forEach(x => x.classList.remove("active"));
+    btn.classList.add("active");
+
+    tampil = 15;
+    loadGallery(btn.dataset.filter);
+  });
+});
+
+loadGallery();
+
+// =======================
+// Modal Zoom Foto
+// =======================
+const modalBg = document.getElementById("modalBg");
+const modalImg = document.getElementById("modalImg");
+const modalClose = document.getElementById("modalClose");
+const modalNext = document.getElementById("modalNext");
+const modalPrev = document.getElementById("modalPrev");
+
+let currentIndex = 1;
+
+function openModal(i) {
+  currentIndex = i;
+  modalImg.src = `galeri${i}.webp`;
+  modalBg.style.display = "flex";
+}
+
+modalClose.onclick = () => modalBg.style.display = "none";
+
+// Next
+modalNext.onclick = () => {
+  currentIndex++;
+  if (currentIndex > fotoList.length) currentIndex = 1;
+  modalImg.src = `galeri${fotoList[currentIndex - 1]}.webp`;
+};
+
+// Prev
+modalPrev.onclick = () => {
+  currentIndex--;
+  if (currentIndex < 1) currentIndex = fotoList.length;
+  modalImg.src = `galeri${fotoList[currentIndex - 1]}.webp`;
+};
 </script>
 </body>
 </html>
