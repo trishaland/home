@@ -1010,6 +1010,16 @@
 
 .modal-prev { left: 35px; }
 .modal-next { right: 35px; }
+
+@media (max-width: 400px) {
+  .gallery-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .gallery-grid img {
+    height: 95px;
+  }
+}
 </style>
 
   <script>
