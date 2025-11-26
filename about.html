@@ -1338,8 +1338,8 @@
               <div class="flip-card">
                 <div class="flip-card-inner">
                   <div class="flip-card-front">
-                    <img src="aitakatta.png" alt="35 kali Aitakatta">
-                    <div class="caption">35 kali<br>Aitakatta</div>
+                    <img src="aitakatta.png" alt="36 kali Aitakatta">
+                    <div class="caption">36 kali<br>Aitakatta</div>
                   </div>
                   <div class="flip-card-back">
                     <div class="back-title">Aitakatta</div>
@@ -1421,11 +1421,15 @@
         <div class="timeline-event"><img src="tlfirstmv.jpg" alt=""><p>First MV</p></div>
         <div class="timeline-event"><img src="tlsecondmng.jpg" alt=""><p>Second MNG</p></div>
         <div class="timeline-event"><img src="tlfirstofc.jpg" alt=""><p>First OFC Event</p></div>
+        <div class="timeline-event"><img src="tlsecondofc.jpg" alt=""><p>Second OFC Event</p></div>
         <div class="timeline-event"><img src="tlthirdmng.jpg" alt=""><p>Third MNG</p></div>
         <div class="timeline-event"><img src="tlsecondbd.jpg" alt=""><p>Second Birthday</p></div>
         <div class="timeline-event"><img src="tlcenterpajama.jpg" alt=""><p>Center Pajama</p></div>
         <div class="timeline-event"><img src="tlcenteraitakatta.jpg" alt=""><p>Center Aitakatta</p></div>
         <div class="timeline-event"><img src="tlshonichiramune.jpg" alt=""><p>Shonichi Ramune</p></div>
+        <div class="timeline-event"><img src="tlthirdofc.jpg" alt=""><p>Third OFC Event</p></div>
+        <div class="timeline-event"><img src="tlannouninti.jpg" alt=""><p>Trisha Naik Inti</p></div>
+        <div class="timeline-event"><img src="tlshonichikkg.jpg" alt=""><p>Shonichi Kira kira girl</p></div>
       </div>
     </div>
   </section>
@@ -1773,16 +1777,21 @@ const slices = [
   "First MV",
   "Second MNG",
   "First OFC Event",
+  "Second OFC Event",
   "Third MNG",
   "Second Birthday",
   "Center Pajama",
   "Center Aitakatta",
-  "Shonichi Ramune"
+  "Shonichi Ramune",
+  "Third OFC Event",
+  "Trisha Naik Inti",
+  "Shonichi Kira kira girls"
 ];
 const colors = [
   "#FF85A1", "#66C3FF", "#B084F6", "#FFD56B", "#7EE8B5",
   "#FF85A1", "#66C3FF", "#B084F6", "#FFD56B", "#7EE8B5",
-  "#FF85A1", "#66C3FF", "#B084F6", "#FFD56B"
+  "#FF85A1", "#66C3FF", "#B084F6", "#FFD56B", "#7EE8B5",
+  "#FF85A1", "#66C3FF", "#B084F6"
 ];
 
 let rotation = 0;
@@ -1897,11 +1906,15 @@ const events = [
   {title: "First MV", desc: "<b>20 Agustus 2024</b> - Trisha tampil di MV pertamanya bersama JKT48! MV Belalang yang Membangkang 🎬", img: "tlfirstmv.jpg"},
   {title: "Second MNG", desc: "<b>28 September 2024</b> - Meet and Greet kedua Trisha dengan suasana hangat. Road to Sousenkyo 💖", img: "tlsecondmng.jpg"},
   {title: "First OFC Event", desc: "<b>30 September 2024</b> - Trisha hadir di event OFC pertamanya! Sudden Versus 💫", img: "tlfirstofc.jpg"},
+  {title: "Second OFC Event", desc: "<b>28 Januari 2025</b> - Trisha kembali hadir di event OFC keduanya! Seru-seruan bareng, PINS & WINS: Bowling🎳", img: "tlsecondofc.jpg"},
   {title: "Third MNG", desc: "<b>8 Februari 2025</b> - Trisha kembali menyapa fans di MNG ketiga! #KuSangatSuka 😊", img: "tlthirdmng.jpg"},
   {title: "Second Birthday", desc: "<b>23 Februari 2025</b> - Show ulang tahun ke-2  Trisha yang penuh kejutan! #DreamsToDest1n4tion #MagicAcademy 🎂", img: "tlsecondbd.jpg"},
   {title: "Center Pajama", desc: "<b>3 Mei 2025</b> - Trisha tampil sebagai Global Center di Pajama Drive! 🌟", img: "tlcenterpajama.jpg"},
   {title: "Center Aitakatta", desc: "<b>10 Mei 2025</b> - Trisha jadi Global center untuk Aitakatta! 💥", img: "tlcenteraitakatta.jpg"},
-  {title: "Shonichi Ramune", desc: "<b>17 Juli 2025</b> - Trisha tampil perdana di setlist Cara Meminum Ramune #TrishaYatraKatha😊", img: "tlshonichiramune.jpg"}
+  {title: "Shonichi Ramune", desc: "<b>17 Juli 2025</b> - Trisha tampil perdana di setlist Cara Meminum Ramune #TrishaYatraKatha😊", img: "tlshonichiramune.jpg"},
+  {title: "Third OFC Event", desc: "<b>26 Agustus 2025</b> - OFC event ketiga bareng Trisha! Sudden Versus #3 siap bikin suasana makin seru! 💫", img: "tlthirdofc.jpg"},
+  {title: "Trisha Naik Inti", desc: "<b>25 Oktober 2025</b> - Pada event Meet and Greet Sister Reunion, Trisha resmi dipromosikan sebagai member inti. Terima kasih atas dukungan semua pihak 🤍", img: "tlannouninti.jpg"},
+  {title: "Shonichi Kira kira girls", desc: "<b>21 November 2025</b> - Shonichi Kira-Kira Girls! Trisha akhirnya memulai langkah barunya di panggung penuh cahaya ini! 🌟", img: "tlshonichikkg.jpg"}
 ];
 
 /* 🎯 Update event aktif + Hubungkan Wheel ↔ Timeline */
