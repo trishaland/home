@@ -361,16 +361,25 @@
 
 /* Kanan: Flip Card Container */
 .flipcard-container {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 card per baris */
   gap: 25px;
-  justify-content: center;
-  align-items: stretch;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
+  justify-items: center;
+  width: 100%;
   padding: 10px;
-  -webkit-overflow-scrolling: touch;
+
+  /* hilangkan semua ini karena tidak dipakai lagi */
+  overflow-x: visible;
+  scroll-snap-type: none;
+  scroll-behavior: auto;
 }
+
+@media (max-width: 768px) {
+  .flipcard-container {
+    grid-template-columns: 1fr; /* 1 per baris */
+  }
+}
+
 .flipcard-container::-webkit-scrollbar { display: none; }
 
 /* Individual Card */
@@ -1295,17 +1304,17 @@
             <div class="rekap-info">
               <div class="info-item">
                 <img src="icon-show.png" alt="Show Icon">
-                <span><span class="count" data-target="93">0</span> Show</span>
+                <span><span class="count" data-target="95">0</span> Show</span>
               </div>
 
               <div class="info-item">
                 <img src="icon-setlist.png" alt="Setlist Icon">
-                <span><span class="count" data-target="3">0</span> Setlist</span>
+                <span><span class="count" data-target="4">0</span> Setlist</span>
               </div>
 
               <div class="info-item">
                 <img src="icon-unit.png" alt="Unit Icon">
-                <span><span class="count" data-target="7">0</span> Unit Songs</span>
+                <span><span class="count" data-target="8">0</span> Unit Songs</span>
               </div>
             </div>
 
@@ -1351,6 +1360,20 @@
                     <div class="back-title">Cara Meminum Ramune</div>
                     <strong>Shonichi:</strong> 17 Juli 2025<br>
                     <strong>Unit Song:</strong> Finland Miracle<br><br>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flip-card">
+                <div class="flip-card-inner">
+                  <div class="flip-card-front">
+                    <img src="kkg.png" alt="1 kali Kira kira girls">
+                    <div class="caption">1 kali<br>Kira kira girls</div>
+                  </div>
+                  <div class="flip-card-back">
+                    <div class="back-title">Kira kira girls</div>
+                    <strong>Shonichi:</strong> 21 November 2025<br>
+                    <strong>Unit Songs:</strong> Gomen Ne, Jewel<br><br>
                   </div>
                 </div>
               </div>
@@ -2130,4 +2153,3 @@ timeline.addEventListener('scroll', () => {
 </script>
 </body>
 </html>
-
