@@ -1135,6 +1135,66 @@
     font-size: 0.85rem;
   }
 }
+
+/* ================= FUN FACT SCROLLING ================= */
+.funfact-scroll {
+  width: 100%;
+  overflow: hidden;
+  background: #f6f8ff;
+  padding: 18px 0;
+  border-top: 1px solid #e3e8ff;
+  border-bottom: 1px solid #e3e8ff;
+  margin: 40px 0;
+}
+
+.scroll-wrapper {
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+}
+
+.scroll-track {
+  display: inline-flex;
+  gap: 14px;
+  padding-left: 100%;
+  animation: scrollLeft 100s linear infinite; /* LEBIH LAMBAT */
+}
+
+/* CHIP RECTANGLE */
+.chip {
+  background: #ffffff;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #2f2f5a;
+  border: 1px solid #dcdffe;
+  box-shadow: 0 2px 5px rgba(190, 195, 255, 0.3);
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* Animasi scroll */
+@keyframes scrollLeft {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .chip {
+    font-size: 0.9rem;
+    padding: 7px 12px;
+  }
+  .scroll-track {
+    animation-duration: 100s; /* lebih lambat lagi di hp */
+  }
+}
+
+/* Pause */
+.scroll-track.paused {
+  animation-play-state: paused;
+}
 </style>
 
   <script>
@@ -1257,6 +1317,57 @@
       </div>
     </div>
 
+  </div>
+</section>
+
+<section class="funfact-scroll">
+  <div class="scroll-wrapper">
+    <div class="scroll-track" id="funfactTrack">
+
+      <span class="chip">🎨 Trisha suka warna hitam, biru, coklat, dan hijau.</span>
+      <span class="chip">🎐 Pencinta film Ghibli.</span>
+      <span class="chip">🍣 Suka sashimi.</span>
+      <span class="chip">🎧 K-Pop favorit: Enhypen, Treasure, BND, ZB1.</span>
+      <span class="chip">🎼 Genre favorit: RnB & klasik.</span>
+      <span class="chip">👻 Suka film zombie, monster, dan horor.</span>
+      <span class="chip">🎾 Hobi: tenis & berenang.</span>
+      <span class="chip">🐱 Bias Enha: Jungwon, Jake, Jay.</span>
+      <span class="chip">🧢 Bias BND: Leehan & Taesan.</span>
+      <span class="chip">🍫 Ice cream favorit: dark chocolate.</span>
+      <span class="chip">🔮 Suka Jujutsu Kaisen & Megumi.</span>
+      <span class="chip">🧠 MBTI: INTJ.</span>
+      <span class="chip">🤝 Love language: Acts of Service.</span>
+      <span class="chip">🍍 Kue favorit: nastar.</span>
+      <span class="chip">🍜 Tim bubur tidak diaduk.</span>
+      <span class="chip">👶 Anak bungsu.</span>
+      <span class="chip">🎒 Wajib bawa: topi, masker, parfum.</span>
+      <span class="chip">👕 Ukuran baju: S/M.</span>
+      <span class="chip">🤸‍♀️ Bakat unik: tangan bisa muter 360°.</span>
+      <span class="chip">🔴 Fans Manchester United.</span>
+
+      <!-- duplicate for seamless loop -->
+      <span class="chip">🎨 Trisha suka warna hitam, biru, coklat, dan hijau.</span>
+      <span class="chip">🎐 Pencinta film Ghibli.</span>
+      <span class="chip">🍣 Suka sashimi.</span>
+      <span class="chip">🎧 K-Pop favorit: Enhypen, Treasure, BND, ZB1.</span>
+      <span class="chip">🎼 Genre favorit: RnB & klasik.</span>
+      <span class="chip">👻 Suka film zombie, monster, dan horor.</span>
+      <span class="chip">🎾 Hobi: tenis & berenang.</span>
+      <span class="chip">🐱 Bias Enha: Jungwon, Jake, Jay.</span>
+      <span class="chip">🧢 Bias BND: Leehan & Taesan.</span>
+      <span class="chip">🍫 Ice cream favorit: dark chocolate.</span>
+      <span class="chip">🔮 Suka Jujutsu Kaisen & Megumi.</span>
+      <span class="chip">🧠 MBTI: INTJ.</span>
+      <span class="chip">🤝 Love language: Acts of Service.</span>
+      <span class="chip">🍍 Kue favorit: nastar.</span>
+      <span class="chip">🍜 Tim bubur tidak diaduk.</span>
+      <span class="chip">👶 Anak bungsu.</span>
+      <span class="chip">🎒 Wajib bawa: topi, masker, parfum.</span>
+      <span class="chip">👕 Ukuran baju: S/M.</span>
+      <span class="chip">🤸‍♀️ Bakat unik: tangan bisa muter 360°.</span>
+      <span class="chip">🔴 Fans Manchester United.</span>
+
+    </div>
   </div>
 </section>
 
@@ -2162,6 +2273,17 @@ timeline.addEventListener('scroll', () => {
   isScrolling = setTimeout(() => {
     timeline.classList.remove('scrolling');
   }, 100);
+});
+
+// Pause on hover
+const track = document.getElementById('funfactTrack');
+
+track.addEventListener('mouseenter', () => {
+  track.classList.add('paused');
+});
+
+track.addEventListener('mouseleave', () => {
+  track.classList.remove('paused');
 });
 </script>
 </body>
