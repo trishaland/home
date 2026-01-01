@@ -1025,50 +1025,62 @@
    TRISHA ARCHIVE – FINAL VERSION
    =============================== */
 
-.archive-section {
+.spreadsheet-section {
   padding: 80px 20px;
   background: #d7edff;
   text-align: center;
 }
 
-.archive-section h2 {
+.spreadsheet-section h2 {
   font-size: 2rem;
   color: #004080;
   margin-bottom: 25px;
 }
 
-.archive-table-wrapper {
+/* CARD WRAPPER */
+.spreadsheet-wrapper {
   max-width: 1200px;
   margin: auto;
-  overflow-x: auto;
-  background: white;
+  background: #ffffff;
   border-radius: 16px;
+  overflow: hidden;
   box-shadow: 0 6px 18px rgba(0,0,0,0.15);
 }
 
-#archive-table {
+/* SCROLL CONTAINER (ANTI LAG) */
+.spreadsheet-scroll {
+  height: 520px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* IFRAME */
+.spreadsheet-scroll iframe {
   width: 100%;
-  border-collapse: collapse;
-  min-width: 800px;
+  height: 520px;
+  border: none;
+  display: block;
+
+  /* PERFORMANCE BOOST */
+  will-change: transform;
+  transform: translateZ(0);
 }
 
-#archive-table th,
-#archive-table td {
-  padding: 12px 14px;
-  border-bottom: 1px solid #ddd;
-  text-align: left;
-  font-size: 14px;
-}
+/* MOBILE OPTIMIZATION */
+@media (max-width: 768px) {
+  .spreadsheet-section {
+    padding: 60px 15px;
+  }
 
-#archive-table th {
-  background: #004080;
-  color: white;
-  position: sticky;
-  top: 0;
-}
+  .spreadsheet-section h2 {
+    font-size: 1.6rem;
+  }
 
-#archive-table tr:hover {
-  background: #f3faff;
+  .spreadsheet-scroll,
+  .spreadsheet-scroll iframe {
+    height: 420px;
+  }
 }
 </style>
 
@@ -1311,11 +1323,17 @@
     </div>
   </section>
 
-<section class="archive-section">
+<section class="spreadsheet-section">
   <h2>Trisha Archive 📚</h2>
 
-  <div class="archive-table-wrapper">
-    <table id="archive-table"></table>
+  <div class="spreadsheet-wrapper">
+    <div class="spreadsheet-scroll">
+      <iframe
+        src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRv1wmian6g36UBGkzQwvwPuZYVmA0StAFjSIKOfm5vjWH_tAtvOFrooUxXXwLVFR06Dg6_Rjvmp0B3/pubhtml?widget=true&headers=false"
+        loading="lazy"
+        scrolling="yes">
+      </iframe>
+    </div>
   </div>
 </section>
 
@@ -1985,30 +2003,6 @@ modalPrev.onclick = () => {
   if (currentIndex < 1) currentIndex = fotoList.length;
   modalImg.src = `galeri${fotoList[currentIndex - 1]}.webp`;
 };
-</script>
-
-<script>
-fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vRv1wmian6g36UBGkzQwvwPuZYVmA0StAFjSIKOfm5vjWH_tAtvOFrooUxXXwLVFR06Dg6_Rjvmp0B3/pub?output=csv")
-  .then(res => res.text())
-  .then(csv => {
-    const rows = csv.trim().split("\n").map(r => r.split(","));
-    const table = document.getElementById("archive-table");
-
-    rows.forEach((row, index) => {
-      const tr = document.createElement("tr");
-      row.forEach(cell => {
-        const el = document.createElement(index === 0 ? "th" : "td");
-        el.textContent = cell.replace(/"/g, "");
-        tr.appendChild(el);
-      });
-      table.appendChild(tr);
-    });
-  })
-  .catch(err => {
-    console.error("Gagal ambil data sheet:", err);
-    document.getElementById("archive-table").innerHTML =
-      "<tr><td colspan='10'>Gagal memuat data.</td></tr>";
-  });
 </script>
 </body>
 </html>
