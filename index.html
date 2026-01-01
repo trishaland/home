@@ -1021,6 +1021,10 @@
   }
 }
 
+/* ===============================
+   TRISHA ARCHIVE – FINAL VERSION
+   =============================== */
+
 .spreadsheet-section {
   padding: 80px 20px;
   background: #d7edff;
@@ -1033,24 +1037,49 @@
   margin-bottom: 25px;
 }
 
+/* CARD WRAPPER */
 .spreadsheet-wrapper {
   max-width: 1200px;
   margin: auto;
-  background: white;
+  background: #ffffff;
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 6px 18px rgba(0,0,0,0.15);
 }
 
-.spreadsheet-wrapper iframe {
-  width: 100%;
-  height: 600px;
-  border: none;
+/* SCROLL CONTAINER (ANTI LAG) */
+.spreadsheet-scroll {
+  height: 520px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }
 
+/* IFRAME */
+.spreadsheet-scroll iframe {
+  width: 100%;
+  height: 520px;
+  border: none;
+  display: block;
+
+  /* PERFORMANCE BOOST */
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* MOBILE OPTIMIZATION */
 @media (max-width: 768px) {
-  .spreadsheet-wrapper iframe {
-    height: 500px;
+  .spreadsheet-section {
+    padding: 60px 15px;
+  }
+
+  .spreadsheet-section h2 {
+    font-size: 1.6rem;
+  }
+
+  .spreadsheet-scroll,
+  .spreadsheet-scroll iframe {
+    height: 420px;
   }
 }
 </style>
@@ -1298,10 +1327,13 @@
   <h2>Trisha Archive 📚</h2>
 
   <div class="spreadsheet-wrapper">
-    <iframe
-      src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRv1wmian6g36UBGkzQwvwPuZYVmA0StAFjSIKOfm5vjWH_tAtvOFrooUxXXwLVFR06Dg6_Rjvmp0B3/pubhtml?widget=true&headers=false"
-      loading="lazy">
-    </iframe>
+    <div class="spreadsheet-scroll">
+      <iframe
+        src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRv1wmian6g36UBGkzQwvwPuZYVmA0StAFjSIKOfm5vjWH_tAtvOFrooUxXXwLVFR06Dg6_Rjvmp0B3/pubhtml?widget=true&headers=false"
+        loading="lazy"
+        scrolling="yes">
+      </iframe>
+    </div>
   </div>
 </section>
 
