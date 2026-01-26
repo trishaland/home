@@ -1195,6 +1195,112 @@
 .scroll-track.paused {
   animation-play-state: paused;
 }
+
+.member-journey{
+  padding:100px 20px;
+  background:#f2f9fc;
+}
+
+.journey-wrapper{
+  max-width:1000px;
+  margin:auto;
+  display:flex;
+  justify-content:center;
+  gap:80px;
+  flex-wrap:wrap;
+}
+
+.journey-card{
+  text-align:center;
+  position:relative;
+}
+
+/* frame foto */
+.frame{
+  border:1px solid #333;
+  padding:14px;
+  background:#fff;
+}
+
+.frame img{
+  width:260px;
+  height:auto;
+  display:block;
+}
+
+/* caption */
+.caption{
+  margin-top:18px;
+  font-family:Georgia, serif;
+}
+
+.caption h4{
+  font-weight:normal;
+  letter-spacing:1px;
+  margin-bottom:6px;
+}
+
+.caption p{
+  font-style:italic;
+  line-height:1.6;
+  font-size:14px;
+}
+
+/* responsive */
+@media(max-width:768px){
+  .journey-wrapper{
+    gap:50px;
+  }
+  .frame img{
+    width:220px;
+  }
+}
+
+.caption{
+  margin-top:22px;
+  text-align:center;
+}
+
+.caption .year{
+  font-size:13px;
+  letter-spacing:2px;
+  color:#7aaecf;
+}
+
+.caption h4{
+  margin:8px 0 6px;
+  font-size:18px;
+  font-weight:600;
+}
+
+.caption p{
+  font-size:14px;
+  line-height:1.6;
+  color:#555;
+}
+
+.frame{
+  border:1px solid #333;
+  padding:14px;
+  background:#fff;
+  transition:transform .4s ease, box-shadow .4s ease;
+  cursor:pointer;
+}
+
+.frame:hover{
+  transform:translateY(-10px) rotate(-1deg) scale(1.03);
+  box-shadow:0 25px 40px rgba(0,0,0,.15);
+}
+
+.frame img{
+  width:260px;
+  display:block;
+  transition:transform .4s ease;
+}
+
+.frame:hover img{
+  transform:scale(1.05);
+}
 </style>
 
   <script>
@@ -1369,6 +1475,46 @@
       <span class="chip">🔴 Fans Manchester United.</span>
 
     </div>
+  </div>
+</section>
+
+<section class="member-journey">
+  <div class="journey-wrapper">
+
+    <!-- CARD 1 -->
+    <div class="journey-card">
+      <div class="frame">
+        <img src="kabesha1.jpg" alt="Trisha 2023">
+      </div>
+
+      <div class="caption">
+        <span class="year">2023</span>
+        <h4>The Beginning</h4>
+        <p>
+          First Kabesha moment,<br>
+          when Trisha started her journey<br>
+          as a trainee.
+        </p>
+      </div>
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="journey-card">
+      <div class="frame">
+        <img src="kabesha2.jpg" alt="Trisha 2026">
+      </div>
+
+      <div class="caption">
+        <span class="year">2026</span>
+        <h4>The Growth</h4>
+        <p>
+          A brighter smile,<br>
+          stronger presence,<br>
+          Trisha as a regular member.
+        </p>
+      </div>
+    </div>
+
   </div>
 </section>
 
