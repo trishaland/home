@@ -3,69 +3,2074 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Web Nonaktif</title>
+  <title>Trishaland</title>
+  <link rel="icon" type="image/png" href="TrishaLand.webp">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+
   <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      font-family: "Poppins", sans-serif;
+      color: black;
+      background: #ffffff;
+      overflow-x: hidden;
+    }
+
+    /* Navbar */
+    header {
+      position: fixed; top: 0; left: 0;
+      width: 100%;
+      background: rgba(173, 216, 230, 0.8);
+      backdrop-filter: blur(8px);
+      padding: 15px 20px;
+      display: flex; justify-content: space-between; align-items: center;
+      z-index: 1000;
+      height: 60px;
+    }
+
+    /* Desktop Logo */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-img {
+      width: 55px;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+
+    .logo-main {
+      font-size: 22px;
+      font-weight: 600;
+      color: #004080;
+    }
+
+    .logo-sub {
+      font-size: 12px;
+      color: #333;
+    }
+
+    /* Mobile Logo (hidden by default) */
+    .mobile-logo {
+      display: none;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .mobile-logo img {
+      width: 150px;
+      height: auto;
+      object-fit: contain;
+    }
+
+    nav ul { list-style: none; display: flex; gap: 25px; }
+    nav ul li a {
+      text-decoration: none; color: #000; font-weight: 400; transition: 0.3s;
+    }
+    nav ul li a:hover { color: #004080; }
+
+    /* Hamburger */
+    .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; transition: all 0.3s ease; }
+    .hamburger span {
+      width: 25px; height: 3px; background: #000; border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    /* 🔥 Animasi hamburger jadi X */
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translateY(8px);
+    }
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translateY(-8px);
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+      /* Hide desktop logo */
+      .logo { display: none; }
+
+      /* Show mobile logo in center */
+      .mobile-logo { display: block; }
+
+      nav ul {
+        display: none;
+        position: absolute;
+        top: 60px; right: 20px;
+        background: #add8e6;
+        flex-direction: column; gap: 15px;
+        padding: 20px;
+        border-radius: 10px;
+      }
+      nav ul.active { display: flex; }
+      .hamburger { display: flex; }
+    }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+      display: flex; justify-content: center; align-items: center;
+    }
+    .hero-video {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: -2;
+    }
+    .hero::after {
+      content: "";
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(to bottom, rgba(0, 64, 128, 0.5), rgba(255,255,255,0.6));
+      z-index: -1;
+    }
+    .hero-gradient {
+      position: relative;
+      height: 120px;
+      background: linear-gradient(to bottom, transparent, #ffffff);
+      margin-top: -120px;
+      z-index: 1;
+    }
+
+    /* ABOUT */
+    .about-new {
+      width: 100%; padding: 100px 20px;
+      background: #ffffff; display: flex; justify-content: center;
+    }
+    .about-container {
+      display: flex; flex-wrap: wrap; gap: 50px;
+      max-width: 1200px; align-items: center;
+    }
+    .about-left-new { flex: 1; min-width: 300px; }
+    .opening-text {
+      font-size: 1.1rem; font-weight: 500; color: #0054c9;
+      margin-bottom: 20px; line-height: 1.4;
+    }
+    .about-photo {
+      width: 100%; max-width: 380px;
+      border-radius: 10px; object-fit: cover;
+    }
+    .about-right-new { flex: 1; min-width: 320px; }
+    .about-name {
+      font-size: 2rem; font-weight: 600; color: #4a7df0; margin-bottom: 10px;
+    }
+    .about-quote {
+      font-size: 1rem; font-style: italic; color: #3994ff; margin-bottom: 30px;
+    }
+    .biodata-card {
+      background: #4eaaf7;
+      padding: 25px;
+      border-radius: 15px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 25px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .biodata-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+    .biodata-item {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 1rem; color: white;
+    }
+    .btn-about {
+      display: inline-block;
+      background: #1e90ff; color: white;
+      padding: 12px 24px; text-decoration: none;
+      border-radius: 8px; font-size: 1rem; font-weight: 500;
+      transition: 0.3s;
+    }
+    .btn-about:hover { background: #1875d1; }
+    @media (max-width: 768px) {
+      .about-container { flex-direction: column; text-align: center; }
+      .biodata-card { grid-template-columns: 1fr; }
+      .about-photo { margin: 0 auto; }
+    }
+
+    /* COUNTDOWN */
+    .countdown-section {
+      position: relative;
+      background: url('ultahbg.webp') center/cover no-repeat fixed;
+      padding: 100px 20px;
+      text-align: center;
+      color: white;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .countdown-section::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 64, 128, 0.5);
+      z-index: -1;
+    }
+
+    .countdown-section h2 {
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    .countdown-section p {
+      font-size: 1.1rem;
+      margin-bottom: 40px;
+      color: #e0e0e0;
+    }
+
+    .countdown-timer {
       display: flex;
       justify-content: center;
-      align-items: center;
-      height: 100vh;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .time-box {
+      background: rgba(0, 0, 0, 0.6);
       color: white;
+      padding: 25px 15px;
+      border-radius: 10px;
+      min-width: 90px;
       text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease;
     }
 
-    .container {
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(10px);
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      max-width: 400px;
-      width: 90%;
-    }
+    .time-box:hover { transform: translateY(-5px); }
 
-    .container img {
-      width: 100%;
-      max-width: 250px;
-      border-radius: 12px;
-      margin-bottom: 20px;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
-    }
-
-    h1 {
-      font-size: 22px;
-      margin: 0;
-      font-weight: 500;
+    .time-box span {
+      display: block;
+      font-size: 2.5rem;
+      font-weight: bold;
       letter-spacing: 1px;
     }
 
-    p {
-      margin-top: 10px;
-      font-size: 14px;
-      opacity: 0.8;
+    .time-box small {
+      font-size: 0.9rem;
+      opacity: 0.9;
     }
 
-    @media (max-width: 480px) {
-      h1 {
-        font-size: 18px;
+    @media (max-width: 600px) {
+      .time-box {
+        min-width: 70px;
+        padding: 18px 10px;
       }
-      .container {
-        padding: 20px;
-      }
+      .time-box span { font-size: 1.8rem; }
     }
+
+    /* FOOTER */
+    .footer {
+      background: #004080;
+      color: white;
+      padding: 50px 20px 20px;
+      margin-top: 50px;
+    }
+    .footer-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 30px;
+    }
+    .footer-column {
+      flex: 1;
+      min-width: 200px;
+    }
+    .footer-column h3 {
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      color: #ffdd57;
+    }
+    .footer-column ul {
+      list-style: none;
+      padding: 0;
+    }
+    .footer-column ul li { margin-bottom: 10px; }
+    .footer-column ul li a {
+      text-decoration: none;
+      color: white;
+      transition: color 0.3s;
+    }
+    .footer-column ul li a:hover { color: #ffdd57; }
+    .footer-bottom {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      padding-top: 15px;
+    }
+
+    @media (max-width: 768px) {
+      .hero { height: 50vh; }
+      .hero-gradient { height: 80px; margin-top: -80px; }
+    }
+
+.kirim-pesan-section {
+  padding: 60px 20px;
+  background: linear-gradient(180deg, #eaf6ff 0%, #d7edff 100%);
+  text-align: center;
+  color: #1e2a35;
+}
+
+.kirim-pesan-section h2 {
+  font-size: 2em;
+  margin-bottom: 10px;
+  color: #2b82ff;
+}
+
+.kirim-pesan-section p {
+  margin-bottom: 25px;
+  font-size: 1.1em;
+  color: #35506b;
+}
+
+#pesanForm {
+  max-width: 500px;
+  margin: 0 auto 30px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#pesanForm input,
+#pesanForm textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  background: #ffffff;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  font-family: "Poppins", sans-serif;
+}
+
+#pesanForm textarea {
+  resize: none;
+  height: 100px;
+}
+
+#pesanForm button {
+  background: #4aa8ff;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#pesanForm button:hover {
+  background: #6cc3ff;
+}
+
+.daftar-pesan {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+#daftarPesan {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 30px 20px;
+  scroll-behavior: smooth;
+  cursor: grab;
+}
+
+#daftarPesan:active {
+  cursor: grabbing;
+}
+
+.pesan {
+  flex: 0 0 320px; /* sedikit lebih lebar */
+  min-height: 180px; /* lebih tinggi */
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 18px;
+  padding: 20px;
+  color: #fff;
+  scroll-snap-align: start;
+  backdrop-filter: blur(12px);
+  font-family: "Patrick Hand", cursive; /* tulisan tangan */
+  box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+  transition: transform 0.3s ease;
+}
+
+.pesan:hover {
+  transform: scale(1.05);
+}
+
+/* Biar timestamp keliatan lembut */
+.pesan small {
+  opacity: 0.85;
+  font-size: 0.85em;
+  display: block;
+  margin-top: 5px;
+  text-align: right;
+}
+
+/* Hilangkan scrollbar */
+#daftarPesan::-webkit-scrollbar {
+  display: none;
+}
+
+.indikator-slide {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  gap: 8px;
+}
+
+.indikator-slide span {
+  width: 10px;
+  height: 10px;
+  background: #ccc;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.indikator-slide span.aktif {
+  background: #2b82ff;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.5); opacity: 0.6; }
+}
+
+/* ✨ Jeda lembut antara pesan dan footer (tanpa warna putih) */
+.kirim-pesan-section {
+  margin-bottom: 0 !important;
+  padding-bottom: 40px !important; /* kasih jarak halus */
+  background: #d7edff; /* warna biru pastel lembut */
+}
+
+.footer {
+  margin-top: 0 !important;
+  padding-top: 40px !important; /* jarak di dalam footer */
+}
+
+/* === PESAN DARI FANS (Tema Putih & Navy) === */
+#daftarPesan {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  gap: 20px;
+  padding: 20px;
+  scroll-snap-type: x mandatory;
+  justify-content: flex-start;
+}
+
+#daftarPesan::-webkit-scrollbar {
+  height: 8px;
+}
+
+#daftarPesan::-webkit-scrollbar-thumb {
+  background: rgba(10, 29, 77, 0.3);
+  border-radius: 4px;
+}
+
+.pesan {
+  flex: 0 0 80%;
+  background: white;
+  border: 2px solid rgba(10, 29, 77, 0.2);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  color: #0a1d4d; /* biru navy */
+  scroll-snap-align: center;
+  transition: transform 0.3s ease;
+}
+
+.pesan:hover {
+  transform: scale(1.03);
+}
+
+.pesan strong {
+  color: #0a1d4d; /* nama biru navy */
+  font-size: 1.1em;
+}
+
+.pesan p {
+  margin-top: 10px;
+  color: #0a1d4d; /* isi pesan biru navy */
+  line-height: 1.4em;
+}
+
+.pesan small {
+  color: #0a1d4d; /* tanggal biru navy */
+  opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+  .pesan {
+    flex: 0 0 90%;
+  }
+}
+
+/* Indikator titik */
+.indikator-slide {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  gap: 8px;
+}
+
+.indikator-slide span {
+  display: block;
+  width: 10px;
+  height: 10px;
+  background: rgba(10, 29, 77, 0.3);
+  border-radius: 50%;
+  transition: background 0.3s;
+}
+
+.indikator-slide span.aktif {
+  background: #0a1d4d;
+}
+
+/* === Bagian judul form === */
+.kirim-pesan-section h2,
+.kirim-pesan-section h3 {
+  color: #0a1d4d !important;
+}
+
+/* Teks tombol & input */
+#pesanForm input,
+#pesanForm textarea,
+#pesanForm button {
+  color: #0a1d4d;
+  border-color: rgba(10, 29, 77, 0.3);
+}
+
+#pesanForm button {
+  background: #0a1d4d;
+  color: white;
+}
+
+#pesanForm button:hover {
+  background: #142d70;
+}
+
+/* === NEWS SECTION with Gradient Overlay (tanpa bayangan luar) === */
+.news-section {
+  padding: 80px 20px;
+  background: linear-gradient(180deg, #eaf6ff 0%, #ffffff 100%);
+  overflow: hidden;
+}
+
+.news-slider {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding-bottom: 10px;
+}
+
+.news-slider::-webkit-scrollbar {
+  display: none;
+}
+
+/* ==== CARD NEWS TANPA BOX-SHADOW ==== */
+.news-card {
+  flex: 0 0 85%;
+  aspect-ratio: 16 / 9;
+  border-radius: 18px;
+  position: relative;
+  scroll-snap-align: center;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: none;
+}
+
+/* Gambar dengan animasi zoom */
+.news-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.6s ease, filter 0.6s ease;
+  z-index: 0;
+}
+
+/* 🔥 Efek zoom */
+.news-card:hover::before,
+.news-card:active::before {
+  transform: scale(1.1);
+  filter: brightness(1.1);
+}
+
+/* 🌈 Overlay biru muda transparan */
+.news-overlay {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 25px;
+  color: white;
+  background: linear-gradient(
+    to top,
+    rgba(135, 206, 250, 0.9) 0%, 
+    rgba(173, 216, 230, 0.6) 40%, 
+    rgba(224, 247, 255, 0.2) 70%, 
+    rgba(255, 255, 255, 0) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ✅ Bayangan teks lembut (tanpa outline hitam) */
+.news-overlay h3,
+.news-overlay p,
+.news-tag {
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+/* === TAG BERITA — tetap bisa diklik === */
+.news-tag {
+  font-size: 0.8rem;
+  background: rgba(255,255,255,0.3);
+  padding: 4px 10px;
+  border-radius: 6px;
+  letter-spacing: 1px;
+  pointer-events: auto;
+  position: relative;
+  z-index: 3;
+}
+
+/* === JUDUL & TEKS === */
+.news-overlay h3 {
+  margin-top: 10px;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.news-overlay p {
+  margin-top: 8px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #f0f0f0;
+}
+
+/* === TOMBOL — tetap bisa diklik === */
+.btn-news {
+  display: inline-block;
+  background: #1e90ff;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  margin-top: 10px;
+  transition: background 0.3s;
+  text-shadow: none;
+  pointer-events: auto;
+  position: relative;
+  z-index: 3;
+}
+
+.btn-news:hover {
+  background: #166ccc;
+}
+
+/* === Indikator Slider === */
+.indikator-news {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.indikator-news span {
+  width: 10px;
+  height: 10px;
+  background: rgba(0,64,128,0.3);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.indikator-news span.aktif {
+  background: #004080;
+  transform: scale(1.4);
+}
+
+/* === Responsif === */
+@media (max-width: 768px) {
+  /* ✅ Card pas 1 layar, tidak kelebihan kanan */
+  .news-card {
+    flex: 0 0 100%;
+    aspect-ratio: 3 / 4;
+  }
+
+  /* ✅ Teks tidak keluar area overlay */
+  .news-overlay {
+    padding: 14px 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ✅ Judul proporsional & tetap terlihat */
+  .news-overlay h3 {
+    font-size: 1rem;
+    line-height: 1.3;
+    margin-bottom: 6px;
+    word-wrap: break-word;
+  }
+
+  /* ✅ Deskripsi maksimal 2–3 baris */
+  .news-overlay p {
+    font-size: 0.85rem;
+    line-height: 1.35;
+    max-height: 3.6em; /* batasi tinggi */
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ✅ Tombol tetap rapi */
+  .btn-news {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+
+  /* ✅ Cegah layar melebar saat digeser */
+  .news-section {
+    overflow-x: hidden;
+  }
+}
   </style>
-</head>
-<body>
 
-  <div class="container">
-    <img src="nonaktif.jpg" alt="Web Nonaktif">
-    <h1>Web ini sudah di nonaktifkan</h1>
-    <p>Silakan hubungi admin untuk informasi lebih lanjut.</p>
+<!-- ===== Trisha Chatbot Start ===== -->
+<style>
+  /* Chat bubble toggle */
+  #chat-toggle {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background: url('TrishaLand.webp') center/cover no-repeat;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    transition: transform 0.3s;
+    z-index: 9999;
+  }
+  #chat-toggle:hover { transform: scale(1.1); }
+
+  /* Chat window */
+  .chat-box {
+    font-family: 'Poppins', sans-serif;
+    position: fixed;
+    bottom: 100px;
+    right: 25px;
+    width: 340px;
+    max-height: 480px;
+    background: linear-gradient(180deg, #ffffff 0%, #dff2ff 100%);
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    animation: fadeUp 0.3s ease forwards;
+    z-index: 9998;
+  }
+  @keyframes fadeUp {
+    from {opacity: 0; transform: translateY(20px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+
+  .chat-header {
+    background: rgba(255,255,255,0.7);
+    padding: 12px;
+    font-weight: 600;
+    text-align: center;
+    color: #0077c8;
+    border-bottom: 1px solid #c9e6ff;
+  }
+
+  .chat-messages {
+    flex: 1;
+    padding: 12px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .chat-input {
+    display: flex;
+    border-top: 1px solid #c9e6ff;
+    background: #fff;
+  }
+  .chat-input input {
+    flex: 1;
+    border: none;
+    padding: 10px 14px;
+    font-size: 14px;
+    border-radius: 0 0 0 20px;
+    outline: none;
+  }
+  .chat-input button {
+    border: none;
+    background: #0077c8;
+    color: white;
+    padding: 0 18px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 0 0 20px 0;
+  }
+
+  .message {
+    max-width: 80%;
+    padding: 10px 14px;
+    border-radius: 16px;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  .user { align-self: flex-end; background: #fff; border: 1px solid #d1e7ff; }
+  .bot { align-self: flex-start; background: #ffffff; border: 1px solid #c9e6ff; color: #004c80; }
+
+/* ======== GALERI TRISHA (BLUE STYLE) ======== */
+:root {
+  --blue-main: #8acaf9;
+  --blue-light: #d9eeff;
+}
+
+.gallery-section {
+  padding: 20px 20px 20px;
+  background: #ffffff;
+  text-align: center;
+}
+
+.gallery-title {
+  font-size: 2rem;
+  color: #004080;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.gallery-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.gallery-tab {
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  background: var(--blue-light);
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 0.9rem;
+}
+
+.gallery-tab.active {
+  background: var(--blue-main);
+  color: white;
+  font-weight: 600;
+}
+
+.gallery-count {
+  margin: 10px 0 25px;
+  color: #444;
+  font-size: 0.9rem;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.gallery-grid img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 12px;
+  transition: transform 0.25s ease;
+  cursor: pointer;
+}
+
+.gallery-grid img:hover {
+  transform: scale(1.05);
+}
+
+/* Tombol Load More */
+.gallery-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.btn-load {
+  padding: 10px 22px;
+  background: var(--blue-main);
+  color: white;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: 600;
+}
+
+.btn-load:hover {
+  opacity: 0.85;
+}
+
+.btn-less {
+  background: #ccc;
+  color: #333;
+}
+
+/* ===== Modal Zoom Foto (FIX) ===== */
+.modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  padding: 20px;
+}
+
+.modal-box {
+  position: relative;
+  max-width: 90vw;
+  max-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* ↓ Tambahan baru untuk menurunkan modal */
+  margin-top: 40px;   
+}
+
+.modal-box img {
+  max-width: 90vw;
+  max-height: 80vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+/* Tombol Close */
+.modal-close {
+  position: fixed;
+  top: 70px;
+  right: 35px;
+  font-size: 42px;
+  color: white;
+  cursor: pointer;
+}
+
+/* Tombol Previous & Next */
+.modal-prev, .modal-next {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 55px;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+}
+
+.modal-prev { left: 35px; }
+.modal-next { right: 35px; }
+
+@media (max-width: 400px) {
+  .gallery-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .gallery-grid img {
+    height: 95px;
+  }
+}
+
+/* ===============================
+   TRISHA ARCHIVE – FINAL VERSION
+   =============================== */
+
+.archive-section {
+  padding: 80px 20px;
+  background: #d7edff;
+  text-align: center;
+}
+
+.archive-section h2 {
+  font-size: 2rem;
+  color: #004080;
+  margin-bottom: 20px;
+}
+
+/* TABS */
+.archive-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  padding: 10px 22px;
+  border: none;
+  border-radius: 20px;
+  background: #ffffff;
+  color: #004080;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+.tab-btn.active {
+  background: #004080;
+  color: white;
+}
+
+/* CARD */
+.archive-card {
+  max-width: 1200px;
+  margin: auto;
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+/* TAB CONTENT */
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* PDF VIEWER */
+.tab-content iframe {
+  width: 100%;
+  height: 520px;
+  border: none;
+  border-radius: 12px;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .tab-content iframe {
+    height: 380px;
+  }
+}
+</style>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const hamburger = document.querySelector(".hamburger");
+      const navMenu = document.querySelector("nav ul");
+
+      hamburger.addEventListener("click", () => {
+        navMenu.classList.toggle("active");
+        hamburger.classList.toggle("active"); // 🔥 Tambah animasi
+      });
+
+      // Countdown
+      const targetDate = new Date("Feb 16, 2026 00:00:00").getTime();
+      const daysEl = document.getElementById("days");
+      const hoursEl = document.getElementById("hours");
+      const minutesEl = document.getElementById("minutes");
+      const secondsEl = document.getElementById("seconds");
+
+      function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        if (distance <= 0) {
+          document.querySelector(".countdown-section").style.background = "#ffe4ec";
+          document.querySelector(".countdown-timer").innerHTML = "<h3>🎉 Selamat Ulang Tahun, Trisha! 🎂</h3>";
+          clearInterval(timer);
+          return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        daysEl.innerText = days;
+        hoursEl.innerText = hours;
+        minutesEl.innerText = minutes;
+        secondsEl.innerText = seconds;
+      }
+
+      const timer = setInterval(updateCountdown, 1000);
+      updateCountdown();
+    });
+  </script>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <header>
+    <div class="logo">
+      <img src="TrishaLand.webp" alt="Logo Trishaland" class="logo-img">
+      <div class="logo-text">
+        <div class="logo-main">Trishaland</div>
+        <div class="logo-sub">Fansite Trisha JKT48</div>
+      </div>
+    </div>
+
+    <div class="mobile-logo">
+      <img src="TrishaLandMobile.webp" alt="Logo TrishaLand Mobile">
+    </div>
+
+<nav>
+  <ul>
+    <li><a href="index.html" style="color:#ffffff;">HOME</a></li>
+    <li><a href="news.html">NEWS</a></li>
+    <li><a href="about.html">ABOUT TRISHA</a></li>
+    <li><a href="corner.html">CORNER</a></li>
+  </ul>
+</nav>
+
+    <div class="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <video autoplay muted loop playsinline class="hero-video">
+      <source src="trishahero.mp4" type="video/mp4">
+      Browser kamu tidak mendukung video background.
+    </video>
+  </section>
+  <div class="hero-gradient"></div>
+
+  <!-- ABOUT -->
+  <section class="about-new">
+    <div class="about-container">
+      <div class="about-left-new">
+        <p class="opening-text">
+          Jalan-jalan ke Kota Mamasa<br>
+          Selamat datang di Fansite Trisha
+        </p>
+        <img src="trisha1.webp" alt="Trisha" class="about-photo">
+      </div>
+
+      <div class="about-right-new">
+        <h2 class="about-name">Jazzlyn Trisha</h2>
+        <p class="about-quote">
+          “Pelukis yang hadir di mimpi-mimpimu indahmu,<br>
+          one two trishaaa...”
+        </p>
+
+        <div class="biodata-card">
+          <div class="biodata-item"><span>📅</span> 16 Februari 2011</div>
+          <div class="biodata-item"><span>📏</span> 161 cm</div>
+          <div class="biodata-item"><span>💉</span> Golongan O</div>
+          <div class="biodata-item"><span>📍</span> Jakarta, Indonesia</div>
+          <div class="biodata-item"><span>♒</span> Aquarius</div>
+          <div class="biodata-item"><span>🎨</span> Melukis</div>
+        </div>
+
+<a href="about.html" class="btn-about">Selengkapnya➜</a>
+      </div>
+    </div>
+  </section>
+
+<!-- NEWS SECTION -->
+<section class="news-section">
+  <h2 style="text-align:center; color:#004080; margin-bottom:30px;">📰 Trisha News</h2>
+
+    <div class="news-slider">
+    <!-- Card 1 -->
+    <div class="news-card" style="background-image:url('trishanews9.jpg');">
+      <div class="news-overlay">
+        <span class="news-tag">Berita</span>
+        <h3>Launching Birthday T-Shirt Trisha: Trishaland Adakan Giveaway👕</h3>
+        <p>Trishaland turut mengadakan giveaway sebanyak 2 BDTS Trisha untuk para penggemar💕</p>
+        <a href="news b9.html" class="btn-news">Lihat Detail ➜</a>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="news-card" style="background-image:url('trishanews8.jpg');">
+      <div class="news-overlay">
+        <span class="news-tag">Berita</span>
+        <h3>Trisha shonichi setlist Sambil Menggadeng Erat Tanganku✨</h3>
+        <p>Trisha resmi menjalani shonichi setlist Sambil Menggandeng Erat Tanganku 💕</p>
+        <a href="news b8.html" class="btn-news">Lihat Detail ➜</a>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="news-card" style="background-image:url('trishanews7.jpg');">
+      <div class="news-overlay">
+        <span class="news-tag">Berita</span>
+        <h3>Trisha akan menjadi bagian Team Love: JKT48 Fight💕</h3>
+        <p>Trisha diumumkan sebagai salah satu member yang tergabung dalam Team Love💕</p>
+        <a href="news b7.html" class="btn-news">Lihat Detail ➜</a>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="news-card" style="background-image:url('trishanews6.jpg');">
+      <div class="news-overlay">
+        <span class="news-tag">Berita</span>
+        <h3>Trisha shonichi setlist kira kira girls✨</h3>
+        <p>Shonichi pertunjukan setlist Kira Kira Girls berlangsung lancar 💕</p>
+        <a href="news b6.html" class="btn-news">Lihat Detail ➜</a>
+      </div>
+    </div>
+    
+    <!-- Card 5 -->
+    <div class="news-card" style="background-image:url('trishanews5.jpg');">
+      <div class="news-overlay">
+        <span class="news-tag">Berita</span>
+        <h3>The celebration of Generation 12’s second anniversary✨</h3>
+        <p>Perayaan 2nd Anniversary Generation 12 berlangsung ceria dengan berbagai momen penuh kehangatan</p>
+        <a href="news b5.html" class="btn-news">Lihat Detail ➜</a>
+      </div>
+    </div>
+
+    <!-- Card 6 -->
+    <div class="news-card" style="background-image:url('trishanews4.jpg');">
+      <div class="news-overlay">
+        <span class="news-tag">Berita</span>
+        <h3>Trisha dipromosikan sebagai anggota inti JKT48✨</h3>
+        <p>Pada acara Meet and Greet Sister Reunion, Trisha dan seluruh Generasi 12 resmi dipromosikan menjadi anggota inti 💕</p>
+        <a href="news b1.html" class="btn-news">Lihat Detail ➜</a>
+      </div>
+    </div>
+
+    <!-- Card 7 -->
+    <div class="news-card" style="background-image:url('trishanews3.jpg');">
+      <div class="news-overlay">
+        <span class="news-tag">Video Call</span>
+        <h3>Trisha cosplay bunga matahari🌻</h3>
+        <p>Trisha tampil lucu dan ceria dengan cosplay bunga matahari saat sesi video call!</p>
+        <a href="news b2.html" class="btn-news">Lihat Detail ➜</a>
+      </div>
+    </div>
+
+    <!-- Card 8 -->
+    <div class="news-card" style="background-image:url('trishanews2.jpg');">
+      <div class="news-overlay">
+        <span class="news-tag">Sosmed</span>
+        <h3>Teri Makasih dinotice eajpark🐟</h3>
+        <p>Trisha mengunggah meme “Teri Makasih” dan mendapat perhatian dari EajPark</p>
+        <a href="news b3.html" class="btn-news">Lihat Detail ➜</a>
+      </div>
+    </div>
+
+    <!-- ✅ Card 9 (pindahkan ke dalam slider juga) -->
+    <div class="news-card" style="background-image:url('trishanews1.jpg');">
+      <div class="news-overlay">
+        <span class="news-tag">Show</span>
+        <h3>Trisha Shonichi Setlist Ramune💕</h3>
+        <p>Penuh semangat, Trisha menjalani Shonichi setlist Ramune no Nomikata bersama yang lain</p>
+        <a href="news b4.html" class="btn-news">Lihat Detail ➜</a>
+      </div>
+    </div>
+  </div> <!-- tutup .news-slider -->
+
+  <div class="indikator-news">
+    <span class="aktif"></span><span></span><span></span><span></span>
+  </div>
+</section>
+
+<section class="gallery-section">
+  <h2 class="gallery-title">Galeri Foto Trisha</h2>
+
+<div class="gallery-tabs">
+    <button class="gallery-tab active" data-filter="all">Semua</button>
+    <button class="gallery-tab" data-filter="trishelca">Trishelca</button>
+    <button class="gallery-tab" data-filter="trishart">Trishart</button>
+    <button class="gallery-tab" data-filter="show">Show / Stage</button>
+    <button class="gallery-tab" data-filter="friends">With Friends</button>
+</div>
+
+  <div class="gallery-count" id="galleryCount">Menampilkan 15 foto</div>
+
+  <div class="gallery-grid" id="galleryGrid"></div>
+
+  <div class="gallery-buttons">
+    <button class="btn-load" id="btnMore">Lihat Lebih Banyak</button>
+    <button class="btn-load btn-less" id="btnLess" style="display:none;">Lihat Lebih Sedikit</button>
+  </div>
+</section>
+
+<!-- Modal Zoom -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal-box">
+    <span class="modal-close" id="modalClose">&times;</span>
+    <span class="modal-prev" id="modalPrev">&#10094;</span>
+    <span class="modal-next" id="modalNext">&#10095;</span>
+    <img id="modalImg" src="">
+  </div>
+</div>
+
+  <!-- COUNTDOWN -->
+  <section class="countdown-section">
+    <h2>Countdown Ulang Tahun Trisha 🎂</h2>
+    <p>Hitung mundur menuju 16 Februari 2026</p>
+    <div class="countdown-timer">
+      <div class="time-box"><span id="days">0</span><small>Hari</small></div>
+      <div class="time-box"><span id="hours">0</span><small>Jam</small></div>
+      <div class="time-box"><span id="minutes">0</span><small>Menit</small></div>
+      <div class="time-box"><span id="seconds">0</span><small>Detik</small></div>
+    </div>
+  </section>
+
+<section class="archive-section">
+  <h2>Trisha Archive 📚</h2>
+
+  <!-- TABS -->
+  <div class="archive-tabs">
+    <button class="tab-btn active" data-tab="show">Show</button>
+    <button class="tab-btn" data-tab="live">Live</button>
+    <button class="tab-btn" data-tab="offair">Off Air</button>
+    <button class="tab-btn" data-tab="konser">Konser</button>
   </div>
 
+  <!-- CARD -->
+  <div class="archive-card">
+
+    <div class="tab-content active" id="show">
+      <iframe src="show.pdf"></iframe>
+    </div>
+
+    <div class="tab-content" id="live">
+      <iframe src="live.pdf"></iframe>
+    </div>
+
+    <div class="tab-content" id="offair">
+      <iframe src="offair.pdf"></iframe>
+    </div>
+
+    <div class="tab-content" id="konser">
+      <iframe src="konser.pdf"></iframe>
+    </div>
+
+  </div>
+</section>
+
+<!-- KALENDER -->
+<section class="schedule-section" style="
+  padding:80px 20px; 
+  text-align:center;
+  background:#d7edff;
+">
+  <h2 style="font-size:2rem; color:#004080; margin-bottom:20px;">Schedule Trisha 📅</h2>
+  <iframe src="https://calendar.google.com/calendar/embed?src=trishalandd%40gmail.com&ctz=Asia%2FJakarta" 
+          style="border:0" width="100%" height="600" frameborder="0" scrolling="no"></iframe>
+</section>
+
+<section id="kirimPesan" class="kirim-pesan-section" style="background:#d7edff;">
+  <h2>💌 Tulis Pesan untuk Trisha</h2>
+  <p>Yuk, buat Trisha tersenyum dengan pesanmu! 🌤️</p>
+
+  <form id="pesanForm">
+    <input type="text" id="nama" name="nama" placeholder="Namamu" required>
+    <textarea id="pesan" name="pesan" placeholder="Pesan untuk Trisha..." required></textarea>
+    <button type="submit">Kirim 💖</button>
+  </form>
+
+  <div id="status"></div>
+
+  <h3>🌸 Dari Hati yang Sayang Trisha <span id="jumlahPesan"></span></h3>
+
+  <!-- 🔍 Pencarian nama pengirim -->
+  <div class="search-box" style="margin:10px 0 20px 0; text-align:center;">
+    <input 
+      type="text" 
+      id="searchPesan" 
+      placeholder="🔍 Cari nama pengirim" 
+      style="
+        padding:10px 15px;
+        border-radius:12px;
+        border:none;
+        outline:none;
+        width:100%;
+        max-width:320px;
+        box-shadow:0 2px 8px rgba(0,0,0,0.1);
+        font-size:15px;
+      ">
+  </div>
+
+  <div id="pesanWrapper" class="pesan-wrapper">
+    <div id="daftarPesan" class="daftar-pesan"></div>
+  </div>
+
+  <div class="indikator-slide">
+    <span></span><span></span><span></span>
+  </div>
+</section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-column">
+        <h3>Halaman</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="news.html">News</a></li>
+          <li><a href="about.html">About Trisha</a></li>
+          <li><a href="corner.html">Corner</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Sosial Media Trisha</h3>
+        <ul>
+          <li><a href="https://www.instagram.com/jkt48.trisha/" target="_blank">Instagram</a></li>
+          <li><a href="https://www.threads.com/@jkt48.trisha?xmt=AQF0-sEtwtdm2hYKSQltbYMsN6rjfFrYxUrnCwj_ybbCsJc" target="_blank">Threads</a></li>
+          <li><a href="https://x.com/JTrisha_JKT48" target="_blank">X / Twitter</a></li>
+          <li><a href="https://www.tiktok.com/@jkt48.trisha" target="_blank">TikTok</a></li>
+          <li><a href="https://www.idn.app/jkt48_trisha" target="_blank">IDN App</a></li>
+          <li><a href="https://www.showroom-live.com/r/JKT48_Trisha" target="_blank">Showroom</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Hashtag</h3>
+        <ul>
+          <li>#TrishAfternoon</li>
+          <li>#TrishArt</li>
+          <li>#Trishartuday</li>
+          <li>#WannaSeeTrisha</li>
+          <li>#Trishaur</li>
+          <li>#Trishelca</li>
+          <li>#CallTrisha</li>
+          <li>#RuangBermain</li>
+          <li>#Inshastory</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      © 2026 Trishaland. All rights reserved.
+    </div>
+  </footer>
+
+<!-- Chat bubble button -->
+<button id="chat-toggle" aria-label="Buka chat"></button>
+
+<!-- Chat window -->
+<div class="chat-box" id="chatBox">
+  <div class="chat-header">Trisha Chat 💬</div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="message bot">Hai! Aku TrishaBot 🤍 Mau tanya atau curhat tentang Trisha JKT48?</div>
+  </div>
+  <div class="chat-input">
+    <input type="text" id="userInput" placeholder="Ketik pesan..." />
+    <button id="sendBtn">Kirim</button>
+  </div>
+</div>
+
+<script>
+  const toggleBtn = document.getElementById('chat-toggle');
+  const chatBox = document.getElementById('chatBox');
+  const sendBtn = document.getElementById('sendBtn');
+  const userInput = document.getElementById('userInput');
+  const chatMessages = document.getElementById('chatMessages');
+
+  // ====== 🔮 DAFTAR JAWABAN STATIS ======
+  const responses = {
+    // --- semua tentang Trisha tetap seperti sebelumnya ---
+    "siapa trisha": "Trisha itu wanita paling cantik di muka bumi 💗 Gadis yang ceria, tegas, tapi super ramah dan tulus.",
+    "trisha lahir kapan": "Trisha lahir di Jakarta, 16 Februari 2011 🌸",
+    "asal trisha dari mana": "Asalnya dari Jakarta~ tapi punya darah Bukittinggi dan Tionghoa juga 💕",
+    "trisha generasi berapa": "Dia member JKT48 Generasi 12!",
+    "warna favorit trisha": "Warna pastel lembut kayak biru muda dan pink muda 💞",
+    "lagu favorit trisha": "Trisha suka lagu-lagu yang tenang dan manis kayak ‘Temodemo no Namida’ 🎶",
+    "unit song trisha apa aja": "Tenshi no Shippo, Koi no Plan, Revolusi Rio, Nageki no Figure, Nagisa no Cherry, dan Finland Miracle!",
+    "show terakhir trisha": "Belum grad kok 😆 Masih aktif tampil di teater~",
+    "trisha suka makanan apa": "Trisha suka ramen 🍜, es krim 🍦, dan makanan manis 💕",
+    "zodiak trisha apa": "Aquarius dong ♒ penuh ide dan bebas!",
+    "kenapa trisha gabung jkt48": "Karena dia ingin menyebarkan semangat positif lewat panggung ✨",
+    "siapa sahabat dekat trisha": "Ci Delynn, Ka Cathy, dan Ka Anin — deket banget!",
+    "trisha lagi ngapain": "Kayaknya lagi latihan deh 💃 atau lagi istirahat sambil scroll fanletter 😆",
+    "trisha cantik banget": "Aduh makasih 😳 tapi kamu juga gak kalah kok!",
+    "trisha lucu banget": "Hehehe, makasih 🥰 katanya sih Trisha emang gampang bikin orang senyum~",
+    "trisha suka apa": "Trisha suka hal-hal yang estetik, musik lembut, dan interaksi hangat sama fans 💗",
+    "trisha tinggi berapa": "Tingginya sekitar 150-an cm, kecil tapi kuat 💪",
+    "trisha takut sama apa": "Katanya takut sama kecoa terbang 🪳😭",
+    "trisha punya hewan peliharaan?": "Punya! Dia suka banget sama kucing 🐱",
+    "trisha suka warna apa": "Warna pastel, terutama biru muda dan putih 💙🤍",
+    "trisha suka film apa": "Dia suka film slice of life yang hangat dan ringan 🎬",
+    "trisha suka anime?": "Iya dong~ katanya suka anime yang cute-cute 💕",
+    "trisha suka minum apa": "Teh susu, matcha latte, atau jus segar 🧋",
+    "trisha suka liburan kemana": "Tempat yang tenang dan banyak pohon 🌿 kayak pegunungan atau pantai sore hari.",
+    "trisha lagi sibuk apa": "Lagi latihan terus biar performancenya makin keren~ 💃",
+    "trisha fansnya disebut apa": "Belum resmi sih... tapi banyak yang bilang 'Trishalover' 💗",
+    "trisha suka warna rambut apa": "Cokelat muda atau hitam alami, yang lembut gitu~ ☕",
+    "trisha suka parfum apa": "Wangi vanilla lembut, manis tapi elegan 🌸",
+    "trisha suka bunga apa": "Bunga sakura! Karena lembut tapi kuat 🌸",
+    "trisha suka lagu jkt48 apa": "‘365 Nichi no Kamihikouki’ katanya bikin semangat terus ☁️",
+    "trisha suka snack apa": "Cokelat, wafer, dan potato chips 🍫",
+    "trisha suka minum es gak": "Suka banget~ apalagi kalau cuaca panas 🧊",
+    "trisha fans dari mana aja": "Dari seluruh Indonesia bahkan luar negeri juga ada 💫",
+    "trisha punya saudara?": "Iya~ tapi dia jarang cerita soal keluarganya, pengen dijaga privasinya 😊",
+    "trisha sekolah dimana": "Masih sekolah di Jakarta~ pinter banget bagi waktu antara belajar dan JKT48 📚",
+    "trisha suka genre musik apa": "Pop lembut dan ballad yang meaningful 🎵",
+    "trisha suka baju kayak gimana": "Yang simple tapi classy, warna pastel 💕",
+    "trisha cita-cita apa": "Jadi artis multitalenta dan panutan positif 🌟",
+    "trisha suka main apa": "Game ringan atau sekadar scroll sosmed 😆",
+    "trisha kalau libur ngapain": "Kadang masak, kadang tidur seharian 💤",
+    "trisha suka hujan gak": "Suka! Katanya suasana hujan tuh bikin tenang ☔",
+    "trisha suka baca buku gak": "Kadang! Dia suka buku self improvement 📖",
+    "trisha suka warna biru?": "Suka banget~ biru muda tuh warna favoritnya 💙",
+    "trisha suka hewan apa": "Kucing dan kelinci 🐰",
+    "trisha suka jalan-jalan?": "Iya dong~ terutama kalau ke tempat sepi dan tenang 🌿",
+    "trisha suka idol siapa": "Katanya suka banget sama Takahashi Minami dan Melody 💕",
+    "trisha suka game apa": "Dia suka game lucu kayak Animal Crossing 🎮",
+    "trisha suka makanan pedas gak": "Katanya sih suka tapi gak kuat banyak 🌶️😂",
+    "trisha suka tidur siang?": "Suka banget~ katanya bisa nge-refresh mood 💤",
+    "trisha lebih suka kucing atau anjing": "Kucing dong 🐱 tapi anjing juga lucu sih katanya~",
+    "trisha suka warna ungu gak": "Lumayan suka! Apalagi ungu pastel 💜",
+    "trisha suka selfie gak": "Suka banget~ tapi kadang malu upload 😳",
+    "trisha suka dessert apa": "Cheesecake dan pudding favoritnya 🍰",
+    "trisha suka teh atau kopi": "Teh dong 🍵 lebih calming katanya~",
+    "trisha suka olahraga apa": "Dia suka stretching dan dance pastinya 💃",
+    "trisha suka boneka?": "Suka banget 🧸 katanya boneka bikin nyaman~",
+    "trisha suka matahari terbenam?": "Iya! Katanya sunset tuh momen paling hangat 🌇",
+    "trisha suka warna pink gak": "Banget~ warna yang cute 💕",
+    "trisha suka film disney?": "Iya~ terutama Tangled dan Frozen ❄️",
+    "trisha suka denger lagu siapa": "Kadang dengerin Taylor Swift atau YUI 🎧",
+    "trisha suka makan di mana": "Tempat cozy yang adem dan gak rame 🍽️",
+    "trisha lebih suka pagi atau malam": "Malam 🌙 katanya lebih tenang buat refleksi~",
+    "trisha suka foto-foto?": "Iya dong 📸 apalagi kalau lighting-nya bagus!",
+    "trisha suka makeup apa": "Natural look~ katanya lebih fresh ✨",
+    "trisha suka warna hijau gak": "Suka tapi yang muda dan lembut 💚",
+    "trisha punya motto hidup?": "“Do your best and be kind.” 🌟",
+    "trisha suka belajar apa": "Bahasa Inggris dan seni 💬🎨",
+    "trisha suka nonton apa": "Reality show Jepang dan variety Korea 😆",
+    "trisha suka tempat sunyi?": "Kadang iya~ buat nenangin pikiran 🌿",
+    "trisha suka makan malam?": "Kadang iya, tapi ringan aja 🍜",
+    "trisha suka baju lucu?": "Banget! Katanya cute outfit bikin mood naik 🩷",
+    "trisha suka foto mirror?": "Hehehe iya 😆 kadang dihapus lagi~",
+    "trisha suka warna putih?": "Suka banget! Bersih dan elegan 🤍",
+    "trisha suka lagu sedih?": "Suka juga, katanya bisa ngerasain emosi 💧",
+    "trisha suka parfum floral?": "Banget~ wangi bunga tuh calming 🌸",
+    "trisha suka warna hitam?": "Kadang iya, biar kelihatan classy 🖤",
+    "trisha suka hujan malam?": "Iya~ katanya suasananya romantis ☔💫",
+    "trisha suka makan sushi?": "Iya dong 🍣 salah satu makanan favorit~",
+    "trisha suka denger podcast?": "Kadang, apalagi yang inspiratif 🎙️",
+    "trisha suka outfit casual?": "Banget~ nyaman tapi tetep stylish 👚",
+
+    // --- 🩵 tambahan 40 SAPAAN & OBROLAN SEHARI-HARI ---
+    "halo": "Haiii~ senang banget kamu nyapa aku 🤍",
+    "hai": "Hai juga~ gimana kabarmu hari ini? 🌸",
+    "pagi": "Selamat pagi ☀️ semoga harimu manis kayak boba!",
+    "siang": "Selamat siang 🌼 udah makan belum?",
+    "malam": "Selamat malam 🌙 semoga tidurmu nyenyak~",
+    "selamat pagi": "Pagi jugaaa 💕 semangat ya buat hari ini!",
+    "selamat malam": "Malam juga~ waktunya rebahan sambil denger musik 🎧",
+    "udah makan": "Belum, kamu dulu deh 😋 nanti aku nyusul~",
+    "lagi apa": "Lagi nemenin kamu chat 😚",
+    "lagi ngapain": "Hehe, lagi nunggu kamu nyapa aku 💬",
+    "apa kabar": "Baik banget! Kamu gimana? 💕",
+    "kabar baik": "Syukurlah 🩷 semoga terus baik ya~",
+    "aku kangen": "Awww aku juga kangen 😳",
+    "hehe": "Hehe lucu banget kamu 😆",
+    "hihi": "Hihi kenapa ketawa~ lucu ya?",
+    "hehehe": "Hehehe ketawa terus 😄 bikin aku senang~",
+    "terima kasih": "Sama-sama 🥰 makasih juga udah ngobrol~",
+    "makasih": "Sama-sama 💗 kamu baik banget~",
+    "maaf": "Gak apa-apa kok 🤍 semua baik-baik aja~",
+    "iya": "Hehe iya juga sih 😄",
+    "enggak": "Heheh yaudah deh 😅",
+    "ngantuk": "Tidur aja yuk 😴 biar seger besok~",
+    "lapar": "Makan dulu ya 🍜 jangan ditunda~",
+    "haus": "Minum air putih ya 💧 biar gak dehidrasi!",
+    "bosan": "Coba denger lagu Trisha deh~ langsung semangat 💗",
+    "gabut": "Hehe sama 😆 ayo cari hal lucu bareng~",
+    "sendirian": "Kamu gak sendiri kok 🤍 aku di sini~",
+    "kangen trisha": "Aku juga 🥺 Trisha pasti seneng kalo tau kamu inget dia~",
+    "good morning": "Good morning ☀️ have a lovely day!",
+    "good night": "Good night 🌙 dream sweet ya~",
+    "aku sayang trisha": "Awww 🩷 Trisha pasti tersenyum denger itu!",
+    "love you": "Love you too 💞 makasih udah baik banget~",
+    "miss you": "Miss you too 😭 jangan lama-lama ya~",
+    "semangat": "Semangat jugaaa 💪 Trisha juga pasti dukung kamu!",
+    "halo trisha": "Haiii 💖 kamu lucu banget manggil gitu~",
+    "hi trisha": "Hi juga~ 🤍 apa kabar?",
+    "aku sedih": "Jangan sedih ya 🥺 aku peluk virtual dulu~",
+    "aku bahagia": "Yayyy 😍 aku ikut bahagia juga~",
+    "selamat sore": "Sore jugaa 🌇 semoga harimu hangat~",
+    "selamat siang trisha": "Hehe siang juga 💗 lagi ngapain nih?",
+  };
+
+  // ====== 💬 RESPON UNTUK CURHAT ======
+  function emotionalReply(msg) {
+    if (msg.includes("capek") || msg.includes("lelah")) return "Istirahat dulu ya 😌 Trisha juga bilang, kesehatan itu nomor satu~";
+    if (msg.includes("sedih")) return "Jangan sedih ya 🥺 Trisha pengen kamu tetap tersenyum~";
+    if (msg.includes("kangen") || msg.includes("rindu")) return "Kangen juga gapapa~ tandanya kamu sayang 💗";
+    if (msg.includes("senang") || msg.includes("bahagia")) return "Senang dengernya 😍 semoga harimu terus cerah!";
+    if (msg.includes("bingung") || msg.includes("galau")) return "Pelan-pelan aja ya, nanti semuanya akan jelas 🌈";
+    if (msg.includes("semangat")) return "Waa semangatmu keren banget 💪🔥";
+    if (msg.includes("takut")) return "Gak apa-apa takut, manusiawi banget 🫶 Trisha juga kadang gitu kok.";
+    if (msg.includes("sendiri")) return "Kamu gak sendiri kok, TrishaBot di sini nemenin 🤍";
+    if (msg.includes("malas")) return "Wajar sih~ tapi coba gerak dikit, biar semangat balik 💫";
+    if (msg.includes("kesepian")) return "Aduh 😢 semoga perasaan itu cepat reda ya, kamu berharga kok!";
+    if (msg.includes("deg-degan")) return "Hehe deg-degan tanda kamu peduli ❤️";
+    if (msg.includes("sakit")) return "Cepet sembuh ya 🩷 jangan lupa minum air dan istirahat!";
+    if (msg.includes("marah")) return "Tenangin diri dulu ya 😌 Tarik napas dalam, nanti juga reda kok.";
+    if (msg.includes("nangis")) return "Boleh kok nangis, tapi jangan lama-lama ya 🥺 Trisha mau kamu senyum lagi!";
+    if (msg.includes("bosan") || msg.includes("bosen")) return "Coba denger lagu JKT48 deh~ Trisha bilang musik bisa naikin mood 💗";
+    if (msg.includes("gagal")) return "Gapapa banget 😌 semua orang pernah gagal, yang penting bangkit lagi!";
+    if (msg.includes("kecewa")) return "Huft... aku ngerti banget 😔 tapi jangan biarkan kecewa matiin semangatmu ya.";
+    if (msg.includes("gelisah")) return "Coba tenangkan diri, semuanya akan baik-baik aja 🌙";
+    if (msg.includes("pengen menyerah")) return "Jangan ya 😭 Trisha percaya kamu bisa lewat ini 💗";
+    if (msg.includes("malu")) return "Gak usah malu, kamu udah keren kok apa adanya 💫";
+    if (msg.includes("lapar")) return "Makan dulu yuk 🍜 biar gak pingsan! Trisha juga suka ngemil ramen~";
+    if (msg.includes("pusing")) return "Coba duduk sebentar dan tarik napas ya 😌 semoga cepet lega~";
+    if (msg.includes("gelap")) return "Kalau lagi gelap, inget deh... habis malam selalu ada pagi 🌅";
+    if (msg.includes("rindu trisha")) return "Awww 🥺 Trisha juga pasti kangen kamu~";
+    if (msg.includes("jatuh cinta")) return "Hehe, hati-hati ya 💕 cinta itu indah tapi juga butuh sabar~";
+    if (msg.includes("galau cinta")) return "Yahh~ cinta emang kadang ribet 😅 tapi kamu kuat kok 💘";
+    if (msg.includes("gabut")) return "Kalau gabut, coba scroll konten JKT48 deh! Siapa tau Trisha muncul 💫";
+
+    // ✨ tambahan 35 curhatan baru
+    if (msg.includes("bosan belajar")) return "Istirahat bentar yuk 📚 biar otaknya gak panas!";
+    if (msg.includes("gak fokus")) return "Coba tarik napas pelan, matiin notif dulu 😌";
+    if (msg.includes("gak percaya diri")) return "Kamu tuh keren banget, percaya deh 💪";
+    if (msg.includes("takut gagal")) return "Gagal itu langkah menuju sukses 🌟 kata Trisha juga gitu!";
+    if (msg.includes("bingung hidup")) return "Wajar banget 😌 hidup itu proses belajar terus~";
+    if (msg.includes("patah hati")) return "Aduh 🥺 peluk virtual dulu ya 🤍 kamu bakal sembuh dari itu.";
+    if (msg.includes("pengen nangis")) return "Gapapa 😭 kadang nangis tuh lega banget.";
+    if (msg.includes("gak dianggap")) return "Aku ngerti banget perasaan itu 😔 tapi kamu tetep berharga kok!";
+    if (msg.includes("gak disayang")) return "Yakin deh, ada banyak yang sayang kamu 💗";
+    if (msg.includes("bingung mau ngapain")) return "Coba mulai dari hal kecil dulu 💫";
+    if (msg.includes("gak punya teman")) return "Sekarang kamu udah punya TrishaBot 🤍";
+    if (msg.includes("gak berguna")) return "Kamu sangat berarti, jangan pikir sebaliknya 😢";
+    if (msg.includes("pengen diem aja")) return "Gapapa, tapi jangan lama ya~ nanti sepi 🫶";
+    if (msg.includes("pengen nyerah")) return "Jangan ya 😭 TrishaBot percaya kamu kuat!";
+    if (msg.includes("cape banget")) return "Istirahat dulu ya 😌 biar energi balik lagi~";
+    if (msg.includes("bingung sama perasaan")) return "Pelan-pelan aja 🕊️ perasaan bakal jelas sendiri.";
+    if (msg.includes("takut ditinggal")) return "TrishaBot gak bakal ninggalin kamu kok 🤍";
+    if (msg.includes("gak semangat hidup")) return "Aku ngerti banget 😔 tapi coba ingat hal-hal kecil yang bikin kamu senyum~";
+    if (msg.includes("gak bisa move on")) return "Wajar banget 💔 tapi waktu bakal bantu sembuhin.";
+    if (msg.includes("sendirian banget")) return "Kamu gak sendiri kok, aku di sini 🌸";
+    if (msg.includes("bingung kerja")) return "Santai aja, semua orang punya ritmenya masing-masing 💼";
+    if (msg.includes("bosan di rumah")) return "Coba denger lagu JKT48~ langsung ceria deh 🎶";
+    if (msg.includes("gak disukai")) return "Bukan semua orang harus suka kamu, yang penting kamu bahagia 💕";
+    if (msg.includes("gak bisa tidur")) return "Coba minum air hangat dan tenangin pikiran 😴";
+    if (msg.includes("ngantuk banget")) return "Ya udah, tidur bentar aja 😌 biar seger lagi~";
+    if (msg.includes("mager")) return "Haha mager gapapa, tapi jangan kelamaan ya 😆";
+    if (msg.includes("galau banget")) return "TrishaBot kirim peluk virtual 🤗";
+    if (msg.includes("takut masa depan")) return "Percaya aja, masa depanmu bakal bagus banget 🌈";
+    if (msg.includes("gak bisa fokus")) return "Coba denger musik tenang dulu 🎧";
+    if (msg.includes("pengen liburan")) return "Wah sama 😆 Trisha juga pengen healing ke pantai~";
+    if (msg.includes("gak ngerti hidup")) return "Gak apa-apa, hidup tuh proses cari arti 🌱";
+    if (msg.includes("bosan rutinitas")) return "Coba ubah dikit aja aktivitasnya biar fresh 💡";
+    if (msg.includes("takut kecewa")) return "Kadang kecewa itu tanda kamu peduli 💕";
+    if (msg.includes("gak disapa")) return "Heheh~ sekarang aku nyapa duluan ya! Haiii 🩷";
+    if (msg.includes("pengen cerita")) return "Boleh banget 😚 cerita aja, aku dengerin kok.";
+    return null;
+  }
+
+  // ====== 💬 FUNGSI CHATBOT ======
+  toggleBtn.addEventListener('click', () => {
+    chatBox.style.display = chatBox.style.display === 'flex' ? 'none' : 'flex';
+  });
+
+  sendBtn.addEventListener('click', sendMessage);
+  userInput.addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(); });
+
+  function sendMessage() {
+    const text = userInput.value.trim();
+    if (!text) return;
+    addMessage(text, 'user');
+    userInput.value = '';
+
+    const lower = text.toLowerCase();
+    let reply = responses[lower];
+    if (!reply) reply = emotionalReply(lower);
+
+    if (!reply) {
+      const randomReplies = [
+        "Hehehe... Trisha juga pengen tahu soal itu 😆",
+        "Hmm, menarik juga pertanyaannya~ tapi aku belum punya jawabannya 😅",
+        "Wah, belum pernah ada yang nanya itu ke TrishaBot 😳",
+        "Ehehe, nanti kalau Trisha cerita aku kabarin ya~ 💌",
+        "Aku belum tahu pasti, tapi kedengarannya seru banget! 💕",
+        "Wahh pertanyaannya unik banget, aku jadi mikir 😆",
+        "Hmm... aku rasa Trisha bakal senyum kalau denger itu 💖",
+        "Ehehe, boleh juga tuh idenya~",
+        "Belum diceritain sih, tapi aku bisa tebak pasti menarik ✨",
+        "Trisha pasti jawabnya manis banget kalau dia denger~ 🍬"
+      ];
+      reply = randomReplies[Math.floor(Math.random() * randomReplies.length)];
+    }
+
+    setTimeout(() => addMessage(reply, 'bot'), 600);
+  }
+
+  function addMessage(text, sender) {
+    const msg = document.createElement('div');
+    msg.classList.add('message', sender);
+    msg.textContent = text;
+    chatMessages.appendChild(msg);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+</script>
+
+<script>
+const scriptURL = "https://script.google.com/macros/s/AKfycbzQoiHGwJa0wZ2rdDFGfg5v9fMpUN0pP5PMd-YL_7vkGD-njU07Uock2vQ7iuxbjfPy/exec";
+const form = document.getElementById("pesanForm");
+const status = document.getElementById("status");
+const daftarPesan = document.getElementById("daftarPesan");
+const searchInput = document.getElementById("searchPesan");
+const indikatorContainer = document.querySelector(".indikator-slide");
+let semuaPesan = [];
+
+// 🚫 Kata terlarang lengkap
+const kataTerlarang = [
+  "anjing","anjg","ajg","anj","anjir","anjr","anjay","anjy","anjyng",
+  "bangsat","bgsat","bgs","goblok","gblk","tolol","tll","bego","bgo",
+  "kontol","kntl","memek","mmk","pepek","ppk","ngentot","ngntt","entot","ntot",
+  "tai","tae","babi","b4bi","setan","s3tan","brengsek","brngsk","kampret","kmpret","kmprt",
+  "lonte","lnte","pelacur","placur","coli","cl","bokep","bkep","perek","prek",
+  "jelek","jlk","burik","brik","alay","al4y","hina","h1na","norak","nrk","sial","sialan","siall","bangke","bngke",
+  "kampungan","kmpngn","sundal","sndl","bodoh","bdh","jijik","njijik","menjijikkan",
+  "asu","asuu","asw","asoe","asuh","asux","jancuk","jancok","jancuq","jancux","jck","janc","ndasmu","ndsmu","ndas",
+  "kacuk","kacux","kacok","kacuq","kacukmu","pantek","pantik","pntek","pntik","panteq",
+  "mbacot","bacot","bacod","mbcd","congor","congorr","cangkem","cangkm","cngkm","cangkemu",
+  "kehed","kehd","kehede","kehe","asu sia","anjing sia","pukimak","pkmk","kimak","kmk","cuk","cukimak","cukma","cok",
+  "anjx","anjg","anjt","bgsd","kntl","mmk","ppk","ngntt","ngntd","ngnt","asuq","asuw","anjc","bgsad","bgst","bngst","brngsk"
+];
+
+// Normalisasi teks
+function normalisasiTeks(teks) {
+  return teks
+    .toLowerCase()
+    .replace(/[@$!.,_~*#^%]/g, "")
+    .replace(/0/g, "o").replace(/1/g, "i").replace(/3/g, "e")
+    .replace(/4/g, "a").replace(/5/g, "s").replace(/7/g, "t").replace(/8/g, "b")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+// === Kirim Pesan ===
+form.addEventListener("submit", e => {
+  e.preventDefault();
+  const namaAsli = form.nama.value.trim();
+  const pesanAsli = form.pesan.value.trim();
+  if (!namaAsli || !pesanAsli) return;
+
+  const nama = normalisasiTeks(namaAsli);
+  const pesan = normalisasiTeks(pesanAsli);
+
+const adaKataKasarnya = kataTerlarang.some(kata => {
+  const regex = new RegExp(`\\b${kata}\\b`, "gi");
+  return regex.test(pesan) || regex.test(nama);
+});
+
+  if (adaKataKasarnya) {
+    status.textContent = "🚫 Pesanmu mengandung kata tidak pantas.";
+    status.style.color = "red";
+    return;
+  }
+
+  status.textContent = "Mengirim...";
+  status.style.color = "white";
+
+  fetch(scriptURL, { method: "POST", body: new FormData(form) })
+    .then(() => {
+      status.textContent = "Pesan terkirim 💖";
+      form.reset();
+
+      // tampilkan langsung pesan baru
+      const waktuTeks = new Date().toLocaleString("id-ID", { dateStyle: "short", timeStyle: "short" });
+      const div = document.createElement("div");
+      div.classList.add("pesan");
+      div.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <strong>${namaAsli}</strong>
+          <small style="opacity:0.8;">${waktuTeks}</small>
+        </div>
+        <p>${pesanAsli}</p>
+      `;
+      daftarPesan.prepend(div);
+      updateIndikator();
+    })
+    .catch(() => (status.textContent = "Gagal mengirim pesan 😢"));
+});
+
+// === Ambil pesan dari backend ===
+function muatPesan() {
+  fetch(`${scriptURL}?action=read`)
+    .then(res => res.json())
+    .then(data => {
+      semuaPesan = data.reverse();
+      tampilkanPesan(semuaPesan);
+    })
+    .catch(err => console.error("Gagal memuat pesan:", err));
+}
+
+// === Tampilkan pesan ===
+function tampilkanPesan(data) {
+  daftarPesan.innerHTML = "";
+  data.forEach(item => {
+    const waktu = new Date(item.tanggal);
+    const waktuTeks = !isNaN(waktu)
+      ? waktu.toLocaleString("id-ID", { dateStyle: "short", timeStyle: "short" })
+      : "-";
+
+    const div = document.createElement("div");
+    div.classList.add("pesan");
+    div.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <strong>${item.nama}</strong>
+        <small style="opacity:0.8;">${waktuTeks}</small>
+      </div>
+      <p>${item.pesan}</p>
+    `;
+    daftarPesan.appendChild(div);
+  });
+  updateIndikator();
+}
+
+// === Indikator titik ===
+function updateIndikator() {
+  if (!indikatorContainer) return;
+  indikatorContainer.innerHTML = "";
+  const totalPesan = daftarPesan.children.length;
+const jumlahDot = Math.min(Math.ceil(totalPesan / 2), 5);
+  for (let i = 0; i < jumlahDot; i++) {
+    const dot = document.createElement("span");
+    if (i === 0) dot.classList.add("aktif");
+    indikatorContainer.appendChild(dot);
+  }
+}
+
+function sinkronIndikator() {
+  if (!indikatorContainer) return;
+  const dots = indikatorContainer.querySelectorAll("span");
+  if (dots.length === 0 || daftarPesan.children.length === 0) return;
+
+  const cardWidth = daftarPesan.children[0].offsetWidth + 20;
+  const posisi = daftarPesan.scrollLeft;
+  const aktifIndex = Math.floor(posisi / (cardWidth * 2));
+  const indeksMaks = dots.length - 1;
+
+  // 🔥 kalau sudah lewat jangkauan, biarin titik terakhir tetap nyala
+  const indexTampil = aktifIndex >= indeksMaks ? indeksMaks : aktifIndex;
+
+  dots.forEach((dot, i) => dot.classList.toggle("aktif", i === indexTampil));
+}
+daftarPesan.addEventListener("scroll", sinkronIndikator);
+
+// === Pencarian ===
+searchInput.addEventListener("input", e => {
+  const q = e.target.value.toLowerCase();
+  const hasil = semuaPesan.filter(p => p.nama.toLowerCase().includes(q));
+  tampilkanPesan(hasil);
+});
+
+document.addEventListener("DOMContentLoaded", muatPesan);
+</script>
+
+<script>
+const slider = document.querySelector('.news-slider');
+const dots = document.querySelectorAll('.indikator-news span');
+
+slider.addEventListener('scroll', () => {
+  const cardWidth = slider.children[0].offsetWidth + 20;
+  const index = Math.round(slider.scrollLeft / cardWidth);
+  dots.forEach((dot, i) => dot.classList.toggle('aktif', i === index));
+});
+</script>
+
+<script>
+const galleryGrid = document.getElementById("galleryGrid");
+const galleryCount = document.getElementById("galleryCount");
+const btnMore = document.getElementById("btnMore");
+const btnLess = document.getElementById("btnLess");
+
+// Kategori manual
+const kategoriFoto = {
+  trishelca: [
+    1,2,3,4,5,6,7,8,9,10,
+    13,14,15,16,17,18,19,
+    22,23,24,25,26,
+    32,64,66
+  ],
+
+  show: [
+    11,12,
+    20,21,
+    27,
+    44,45,46,47,
+    60,62,
+    73,74,75,76,77,78,79,80,81,
+    83,85,87
+  ],
+
+  friends: [
+    28,29,30,31,
+    33,34,35,36,37,38,39,40,41,42,43,
+    55,56,
+    58,59,
+    61,
+    63,
+    65,
+    67,68,69,70,71,72,
+    82,84,86
+  ],
+
+  trishart: [
+    48,49,50,51,52,53,54,
+    57
+  ]
+};
+
+const totalFoto = 87;
+let tampil = 15; // foto awal
+let fotoList = [];
+
+// Load foto
+function loadGallery(filter = "all") {
+  galleryGrid.innerHTML = "";
+
+if (filter === "all") {
+    fotoList = Array.from({length: totalFoto}, (_, i) => i + 1).reverse();
+} else {
+    fotoList = [...(kategoriFoto[filter] ?? [])].sort((a, b) => b - a);
+}
+
+  renderGallery();
+}
+
+function renderGallery() {
+  galleryGrid.innerHTML = "";
+  let slice = fotoList.slice(0, tampil);
+
+  slice.forEach(i => {
+    const img = document.createElement("img");
+    img.src = `galeri${i}.webp`;
+    img.dataset.index = i;
+    img.addEventListener("click", () => openModal(i));
+    galleryGrid.appendChild(img);
+  });
+
+  galleryCount.textContent = 
+    `Menampilkan ${slice.length} dari ${fotoList.length} foto`;
+
+  btnMore.style.display = tampil < fotoList.length ? "inline-block" : "none";
+  btnLess.style.display = tampil > 15 ? "inline-block" : "none";
+}
+
+// Button Load More
+btnMore.onclick = () => {
+  tampil += 10;
+  renderGallery();
+};
+
+// Button Less
+btnLess.onclick = () => {
+  tampil = 15;
+  renderGallery();
+};
+
+// Tabs
+document.querySelectorAll(".gallery-tab").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".gallery-tab")
+      .forEach(x => x.classList.remove("active"));
+    btn.classList.add("active");
+
+    tampil = 15;
+    loadGallery(btn.dataset.filter);
+  });
+});
+
+loadGallery();
+
+// =======================
+// Modal Zoom Foto
+// =======================
+const modalBg = document.getElementById("modalBg");
+const modalImg = document.getElementById("modalImg");
+const modalClose = document.getElementById("modalClose");
+const modalNext = document.getElementById("modalNext");
+const modalPrev = document.getElementById("modalPrev");
+
+let currentIndex = 1;
+
+function openModal(i) {
+  currentIndex = i;
+  modalImg.src = `galeri${i}.webp`;
+  modalBg.style.display = "flex";
+}
+
+modalClose.onclick = () => modalBg.style.display = "none";
+
+// Next
+modalNext.onclick = () => {
+  currentIndex++;
+  if (currentIndex > fotoList.length) currentIndex = 1;
+  modalImg.src = `galeri${fotoList[currentIndex - 1]}.webp`;
+};
+
+// Prev
+modalPrev.onclick = () => {
+  currentIndex--;
+  if (currentIndex < 1) currentIndex = fotoList.length;
+  modalImg.src = `galeri${fotoList[currentIndex - 1]}.webp`;
+};
+</script>
+
+<script>
+const tabs = document.querySelectorAll(".tab-btn");
+const contents = document.querySelectorAll(".tab-content");
+
+tabs.forEach(tab => {
+  tab.addEventListener("click", () => {
+    tabs.forEach(t => t.classList.remove("active"));
+    contents.forEach(c => c.classList.remove("active"));
+
+    tab.classList.add("active");
+    document.getElementById(tab.dataset.tab).classList.add("active");
+  });
+});
+</script>
 </body>
 </html>
+
