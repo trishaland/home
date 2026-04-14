@@ -1108,36 +1108,37 @@
       });
 
       // Countdown
-      const targetDate = new Date("Feb 16, 2026 00:00:00").getTime();
-      const daysEl = document.getElementById("days");
-      const hoursEl = document.getElementById("hours");
-      const minutesEl = document.getElementById("minutes");
-      const secondsEl = document.getElementById("seconds");
+// Countdown
+const targetDate = new Date("Feb 16, 2027 00:00:00").getTime();
+const daysEl = document.getElementById("days");
+const hoursEl = document.getElementById("hours");
+const minutesEl = document.getElementById("minutes");
+const secondsEl = document.getElementById("seconds");
 
-      function updateCountdown() {
-        const now = new Date().getTime();
-        const distance = targetDate - now;
+function updateCountdown() {
+  const now = new Date().getTime();
+  const distance = targetDate - now;
 
-        if (distance <= 0) {
-          document.querySelector(".countdown-section").style.background = "#ffe4ec";
-          document.querySelector(".countdown-timer").innerHTML = "<h3>🎉 Selamat Ulang Tahun, Trisha! 🎂</h3>";
-          clearInterval(timer);
-          return;
-        }
+  if (distance <= 0) {
+    document.querySelector(".countdown-section").style.background = "#ffe4ec";
+    document.querySelector(".countdown-timer").innerHTML = "<h3>🎉 Selamat Ulang Tahun, Trisha! 🎂</h3>";
+    clearInterval(timer);
+    return;
+  }
 
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        daysEl.innerText = days;
-        hoursEl.innerText = hours;
-        minutesEl.innerText = minutes;
-        secondsEl.innerText = seconds;
-      }
+  daysEl.innerText = days;
+  hoursEl.innerText = hours;
+  minutesEl.innerText = minutes;
+  secondsEl.innerText = seconds;
+}
 
-      const timer = setInterval(updateCountdown, 1000);
-      updateCountdown();
+const timer = setInterval(updateCountdown, 1000);
+updateCountdown();
     });
   </script>
 </head>
@@ -1218,6 +1219,16 @@
 
     <div class="news-slider">
     <!-- Card 1 -->
+    <div class="news-card" style="background-image:url('trishanews10.jpg');">
+      <div class="news-overlay">
+        <span class="news-tag">Berita</span>
+        <h3>Trisha & “Rhenai Kinshi Jourei” di Request Hour JKT48</h3>
+        <p>Dalam rangka menyambut event Request Hour JKT48...</p>
+        <a href="news b10.html" class="btn-news">Lihat Detail ➜</a>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
     <div class="news-card" style="background-image:url('trishanews9.jpg');">
       <div class="news-overlay">
         <span class="news-tag">Berita</span>
@@ -1227,7 +1238,7 @@
       </div>
     </div>
 
-    <!-- Card 2 -->
+    <!-- Card 3 -->
     <div class="news-card" style="background-image:url('trishanews8.jpg');">
       <div class="news-overlay">
         <span class="news-tag">Berita</span>
@@ -1237,7 +1248,7 @@
       </div>
     </div>
 
-    <!-- Card 3 -->
+    <!-- Card 4 -->
     <div class="news-card" style="background-image:url('trishanews7.jpg');">
       <div class="news-overlay">
         <span class="news-tag">Berita</span>
@@ -1247,7 +1258,7 @@
       </div>
     </div>
 
-    <!-- Card 4 -->
+    <!-- Card 5 -->
     <div class="news-card" style="background-image:url('trishanews6.jpg');">
       <div class="news-overlay">
         <span class="news-tag">Berita</span>
@@ -1257,7 +1268,7 @@
       </div>
     </div>
     
-    <!-- Card 5 -->
+    <!-- Card 6 -->
     <div class="news-card" style="background-image:url('trishanews5.jpg');">
       <div class="news-overlay">
         <span class="news-tag">Berita</span>
@@ -1267,7 +1278,7 @@
       </div>
     </div>
 
-    <!-- Card 6 -->
+    <!-- Card 7 -->
     <div class="news-card" style="background-image:url('trishanews4.jpg');">
       <div class="news-overlay">
         <span class="news-tag">Berita</span>
@@ -1277,7 +1288,7 @@
       </div>
     </div>
 
-    <!-- Card 7 -->
+    <!-- Card 8 -->
     <div class="news-card" style="background-image:url('trishanews3.jpg');">
       <div class="news-overlay">
         <span class="news-tag">Video Call</span>
@@ -1347,7 +1358,7 @@
   <!-- COUNTDOWN -->
   <section class="countdown-section">
     <h2>Countdown Ulang Tahun Trisha 🎂</h2>
-    <p>Hitung mundur menuju 16 Februari 2026</p>
+    <p>Hitung mundur menuju 16 Februari 2027</p>
     <div class="countdown-timer">
       <div class="time-box"><span id="days">0</span><small>Hari</small></div>
       <div class="time-box"><span id="hours">0</span><small>Jam</small></div>
