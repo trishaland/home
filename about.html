@@ -1472,6 +1472,41 @@ header.floating {
     transform: rotateY(180deg);
   }
 }
+
+html, body {
+  overflow-x: hidden;
+}
+
+.about-container {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.about-text,
+.about-image {
+  max-width: 100%;
+}
+
+* {
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  .flipcard-container {
+    grid-template-columns: 1fr !important; /* 🔥 paksa 1 kolom */
+  }
+
+  .flip-card {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .flip-card-front .caption {
+    font-size: 1rem;
+    padding: 12px;
+  }
+}
 </style>
 
   <script>
