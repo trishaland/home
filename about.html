@@ -1207,23 +1207,10 @@ header.floating {
 }
 
 .scroll-track {
-  display: flex;
+  display: inline-flex;
   gap: 14px;
-  animation: scrollLeft 15s linear infinite; /* 🔥 lebih cepat */
-}
-
-@keyframes scrollLeft {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); } /* 🔥 biar loop halus */
-}
-
-.scroll-wrapper {
-  overflow: hidden;
-  position: relative;
-}
-
-.scroll-track:hover {
-  animation-play-state: paused; /* pause saat di-hover */
+  padding-left: 100%;
+  animation: scrollLeft 100s linear infinite; /* LEBIH LAMBAT */
 }
 
 /* CHIP RECTANGLE */
@@ -1253,7 +1240,7 @@ header.floating {
     padding: 7px 12px;
   }
   .scroll-track {
-    animation-duration: 15s; /* lebih lambat lagi di hp */
+    animation-duration: 100s; /* lebih lambat lagi di hp */
   }
 }
 
@@ -1483,41 +1470,6 @@ header.floating {
 @media (hover: hover) {
   .flip-card:hover .flip-card-inner {
     transform: rotateY(180deg);
-  }
-}
-
-html, body {
-  overflow-x: hidden;
-}
-
-.about-container {
-  max-width: 100%;
-  overflow: hidden;
-}
-
-.about-text,
-.about-image {
-  max-width: 100%;
-}
-
-* {
-  max-width: 100%;
-}
-
-@media (max-width: 768px) {
-  .flipcard-container {
-    grid-template-columns: 1fr !important; /* 🔥 paksa 1 kolom */
-  }
-
-  .flip-card {
-    max-width: 100%;
-  }
-}
-
-@media (max-width: 768px) {
-  .flip-card-front .caption {
-    font-size: 1rem;
-    padding: 12px;
   }
 }
 </style>
@@ -1824,17 +1776,17 @@ html, body {
             <div class="rekap-info">
               <div class="info-item">
                 <img src="icon-show.png" alt="Show Icon">
-                <span><span class="count" data-target="110">0</span> Show</span>
+                <span><span class="count" data-target="109">0</span> Show</span>
               </div>
 
               <div class="info-item">
                 <img src="icon-setlist.png" alt="Setlist Icon">
-                <span><span class="count" data-target="6">0</span> Setlist</span>
+                <span><span class="count" data-target="5">0</span> Setlist</span>
               </div>
 
               <div class="info-item">
                 <img src="icon-unit.png" alt="Unit Icon">
-                <span><span class="count" data-target="13">0</span> Unit Songs</span>
+                <span><span class="count" data-target="12">0</span> Unit Songs</span>
               </div>
             </div>
 
@@ -1851,7 +1803,6 @@ html, body {
                     <strong>Shonichi:</strong> 30 Mei 2024<br>
                     <strong>Global Center:</strong> 3 Mei 2025<br>
                     <strong>Unit Song:</strong> Tenshi no Shippo<br><br>
-                    <strong>Show:</strong> 55 kali<br><br>
                   </div>
                 </div>
               </div>
@@ -1867,7 +1818,6 @@ html, body {
                     <strong>Shonichi:</strong> 16 Februari 2024<br>
                     <strong>Global Center:</strong> 10 Mei 2025<br>
                     <strong>Unit Songs:</strong> Koi No Plan, Revolusi Rio, Senaka Kara Dakishimete, Nageki no Figure, dan Nagisa no Cherry<br><br>
-                    <strong>Show:</strong> 39 kali<br><br>
                   </div>
                 </div>
               </div>
@@ -1882,7 +1832,6 @@ html, body {
                     <div class="back-title">Cara Meminum Ramune</div>
                     <strong>Shonichi:</strong> 17 Juli 2025<br>
                     <strong>Unit Song:</strong> Finland Miracle, Cross, Dachou<br><br>
-                    <strong>Show:</strong> 6 kali<br><br>
                   </div>
                 </div>
               </div>
@@ -1897,7 +1846,6 @@ html, body {
                     <div class="back-title">Sambil Menggandeng Erat Tanganku</div>
                     <strong>Shonichi:</strong> 24 Januari 2026<br>
                     <strong>Unit Song:</strong> Wimbledon e Tsureteitte dan Choco no Yukue<br><br>
-                    <strong>Show:</strong> 1 kali<br><br>
                   </div>
                 </div>
               </div>
@@ -1912,22 +1860,6 @@ html, body {
                     <div class="back-title">Kira kira girls</div>
                     <strong>Shonichi:</strong> 21 November 2025<br>
                     <strong>Unit Songs:</strong> Gomen Ne, Jewel<br><br>
-                    <strong>Show:</strong> 3 kali<br><br>
-                  </div>
-                </div>
-              </div>
-
-              <div class="flip-card">
-                <div class="flip-card-inner">
-                  <div class="flip-card-front">
-                    <img src="teamlove.png" alt="1 love">
-                    <div class="caption">1 kali<br>Itadaki Love</div>
-                  </div>
-                  <div class="flip-card-back">
-                    <div class="back-title">Itadaki Love</div>
-                    <strong>Shonichi:</strong> 25 April 2026<br>
-                    <strong>Unit Song:</strong> Hatsukoi Dorobou<br><br>
-                    <strong>Show:</strong> 1 kali<br><br>
                   </div>
                 </div>
               </div>
