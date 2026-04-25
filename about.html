@@ -1507,6 +1507,31 @@ html, body {
     padding: 12px;
   }
 }
+
+.funfact-scroll {
+  overflow: hidden;
+}
+
+.scroll-wrapper {
+  overflow: hidden;
+  width: 100%;
+}
+
+.scroll-track {
+  display: inline-flex;
+  gap: 14px;
+  white-space: nowrap;
+}
+
+.chip {
+  flex: 0 0 auto; /* 🔥 penting biar ga ke-compress */
+}
+
+@media (max-width: 768px) {
+  .chip {
+    font-size: 0.95rem;
+  }
+}
 </style>
 
   <script>
