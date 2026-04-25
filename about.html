@@ -1207,10 +1207,23 @@ header.floating {
 }
 
 .scroll-track {
-  display: inline-flex;
+  display: flex;
   gap: 14px;
-  padding-left: 100%;
-  animation: scrollLeft 100s linear infinite; /* LEBIH LAMBAT */
+  animation: scrollLeft 15s linear infinite; /* 🔥 lebih cepat */
+}
+
+@keyframes scrollLeft {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); } /* 🔥 biar loop halus */
+}
+
+.scroll-wrapper {
+  overflow: hidden;
+  position: relative;
+}
+
+.scroll-track:hover {
+  animation-play-state: paused; /* pause saat di-hover */
 }
 
 /* CHIP RECTANGLE */
@@ -1240,7 +1253,7 @@ header.floating {
     padding: 7px 12px;
   }
   .scroll-track {
-    animation-duration: 100s; /* lebih lambat lagi di hp */
+    animation-duration: 15s; /* lebih lambat lagi di hp */
   }
 }
 
@@ -1505,31 +1518,6 @@ html, body {
   .flip-card-front .caption {
     font-size: 1rem;
     padding: 12px;
-  }
-}
-
-.funfact-scroll {
-  overflow: hidden;
-}
-
-.scroll-wrapper {
-  overflow: hidden;
-  width: 100%;
-}
-
-.scroll-track {
-  display: inline-flex;
-  gap: 14px;
-  white-space: nowrap;
-}
-
-.chip {
-  flex: 0 0 auto; /* 🔥 penting biar ga ke-compress */
-}
-
-@media (max-width: 768px) {
-  .chip {
-    font-size: 0.95rem;
   }
 }
 </style>
