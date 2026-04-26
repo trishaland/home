@@ -256,13 +256,13 @@ header.floating {
       flex-wrap: wrap;
     }
 
-    .about-text {
-      flex: 1;
-      min-width: 300px;
-      font-size: 1rem;
-      line-height: 1.8;
-      color: #333;
-    }
+.about-text {
+  flex: 1;
+  min-width: 0; /* ini kuncinya */
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #333;
+}
 
     .about-text b {
       color: #004080;
@@ -1471,19 +1471,6 @@ header.floating {
   .flip-card:hover .flip-card-inner {
     transform: rotateY(180deg);
   }
-}
-
-.about-text {
-  max-width: 600px;
-  width: 100%;
-}
-
-.about-container {
-  align-items: center;
-}
-
-.about-text p {
-  text-align: left;
 }
 </style>
 
