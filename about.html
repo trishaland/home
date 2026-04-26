@@ -256,13 +256,13 @@ header.floating {
       flex-wrap: wrap;
     }
 
-.about-text {
-  flex: 1;
-  min-width: 0; /* ini kuncinya */
-  font-size: 1rem;
-  line-height: 1.8;
-  color: #333;
-}
+    .about-text {
+      flex: 1;
+      min-width: 300px;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #333;
+    }
 
     .about-text b {
       color: #004080;
@@ -401,7 +401,7 @@ header.floating {
   transform: scale(1.15);
 }
 
-/* ====== REKAP + FLIPCARD SECTION ====== */
+/* ====== REKAP + FLIPCARD SECTION FIXED ====== */
 .flipcard-section {
   text-align: center;
   padding: 70px 20px;
@@ -411,18 +411,11 @@ header.floating {
 .flipcard-section h2 {
   font-size: 2rem;
   color: #1a5cff;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
   font-weight: 700;
 }
 
-/* sub text */
-.rekap-sub {
-  margin-bottom: 30px;
-  font-size: 0.95rem;
-  color: #666;
-}
-
-/* ===== WRAPPER ===== */
+/* Wrapper dua kolom (rekap kiri + flip kanan) */
 .rekap-wrapper {
   display: flex;
   align-items: flex-start;
@@ -431,7 +424,7 @@ header.floating {
   flex-wrap: wrap;
 }
 
-/* ===== REKAP INFO ===== */
+/* Kiri: rekap info */
 .rekap-info {
   display: flex;
   flex-direction: column;
@@ -456,159 +449,203 @@ header.floating {
   height: 36px;
 }
 
-/* ===== GRID CARD ===== */
+/* Kanan: Flip Card Container */
 .flipcard-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(2, 1fr); /* 2 card per baris */
   gap: 25px;
+  justify-items: center;
   width: 100%;
-  max-width: 700px;
+  padding: 10px;
+
+  /* hilangkan semua ini karena tidak dipakai lagi */
+  overflow-x: visible;
+  scroll-snap-type: none;
+  scroll-behavior: auto;
 }
 
-/* ===== CARD WRAPPER ===== */
+@media (max-width: 768px) {
+  .flipcard-container {
+    grid-template-columns: 1fr; /* 1 per baris */
+  }
+}
+
+.flipcard-container::-webkit-scrollbar { display: none; }
+
+/* Individual Card */
 .flip-card {
-  width: 100%;
-  max-width: 260px;
-  aspect-ratio: 4 / 5;
+  flex: 0 0 auto;
+  scroll-snap-align: center;
+  width: 260px;
+  aspect-ratio: 3 / 4;       /* ✅ biar proporsional di semua device */
   perspective: 1000px;
+  cursor: grab;
   border-radius: 20px;
-  position: relative; /* 🔥 penting */
-  transition: transform 0.25s ease;
+  position: relative;
 }
 
-.flip-card:hover {
-  transform: translateY(-8px) scale(1.02);
-}
+.flip-card:active { cursor: grabbing; }
 
-/* ===== INNER ===== */
 .flip-card-inner {
+  position: relative;
   width: 100%;
   height: 100%;
   border-radius: 20px;
   transform-style: preserve-3d;
-  transition: transform 0.6s cubic-bezier(.22,1,.36,1);
-  position: relative;
+  transition: transform 0.6s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-/* ===== FRONT & BACK ===== */
 .flip-card-front,
 .flip-card-back {
   position: absolute;
-  inset: 0; /* 🔥 fix utama */
   width: 100%;
   height: 100%;
-  border-radius: 20px;
   backface-visibility: hidden;
+  border-radius: 20px;
   overflow: hidden;
 }
 
-/* ===== FRONT ===== */
 .flip-card-front {
+  background: #fff;
   display: flex;
   flex-direction: column;
-  background: #ffffff;
-  border: 2px solid #dbe8ff;
-  box-shadow: 0 8px 20px rgba(120,150,255,0.15);
 }
-
 .flip-card-front img {
   width: 100%;
-  height: 100%;
-  object-fit: contain; /* 🔥 ga kepotong */
-  background: #f5f8ff; /* biar ga keliatan kosong banget */
+  height: 75%;
+  object-fit: cover;
 }
-
-.flip-card-front {
-  display: flex;
-  flex-direction: column;
-}
-
-.flip-card-front img {
-  flex: 1;
-}
-
-/* caption (NO absolute!) */
 .flip-card-front .caption {
-  height: 25%;
-  background: linear-gradient(135deg, #6ea8ff, #8ec5ff);
+  background: #1a5cff;
   color: #fff;
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 1rem;
   text-align: center;
-  padding: 6px;
+  padding: 5px;
 }
 
-/* ===== BACK ===== */
+.flip-card-back {
+  background: #add8e6;
+  color: #003366;
+  transform: rotateY(180deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 25px;
+  font-size: 0.95rem;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* RESPONSIF */
+@media (max-width: 900px) {
+  .rekap-wrapper {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 30px;
+  }
+
+  .rekap-info {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    width: 85%;
+  }
+
+  .flipcard-container {
+    flex-direction: column;
+    align-items: center;
+    overflow-x: visible;
+    overflow-y: visible;
+    width: 100%;
+    gap: 25px;
+  }
+
+  .flip-card {
+    width: 95%;          /* sebelumnya 85%, biar lebih lebar */
+    max-width: 380px;    /* sebelumnya 320px, biar proporsional */
+    height: auto;        /* sebelumnya 340px, biar fleksibel */
+    aspect-ratio: 3 / 4; /* biar bentuknya tetap seimbang */
+  }
+
+  .flip-card-inner {
+    height: 100%;
+  }
+
+  .flip-card-front img {
+    height: 100%;        /* sebelumnya 75%, biar isi penuh */
+    object-fit: cover;   /* biar gambar gak gepeng */
+  }
+}
+
+/* ======== RAPIHKAN TEKS DI BELAKANG FLIP CARD ======== */
 .flip-card-back {
   background: #ffffff;
   color: #003366;
   transform: rotateY(180deg);
-
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: flex-start;   /* 🔁 biar teks mulai dari atas */
   align-items: flex-start;
-
-  padding: 18px;
-  font-size: 0.9rem;
+  padding: 20px 18px;
+  font-size: 0.95rem;
+  text-align: left;
   line-height: 1.6;
-
-  overflow-y: auto;
-  scrollbar-width: none;
+  border-radius: 20px;
+  white-space: normal;           /* 🧩 biar teks wrap otomatis */
+  overflow-y: auto;              /* ✅ kalau teks panjang bisa discroll */
+  max-height: 100%;              /* biar ga keluar dari kartu */
+  box-sizing: border-box;
+  scrollbar-width: thin;         /* untuk Firefox */
 }
 
 .flip-card-back::-webkit-scrollbar {
-  display: none;
+  width: 6px;
+}
+.flip-card-back::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.15);
+  border-radius: 3px;
 }
 
-/* TEXT */
 .flip-card-back strong {
   color: #002244;
+  font-weight: 700;
 }
 
 .flip-card-back .back-title {
   font-weight: 700;
   margin-bottom: 8px;
   text-align: center;
-  width: 100%;
 }
 
-/* ===== FLIP ACTION ===== */
-.flip-card.flipped .flip-card-inner {
-  transform: rotateY(180deg);
+.flip-card-back ul {
+  list-style: none;
+  padding: 0;
+  margin: 6px 0 0 0;
 }
 
-  .rekap-info {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 90%;
-  }
-
-.flipcard-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* desktop = 2 kolom */
-  gap: 25px;
-  justify-content: center;
+.flip-card-back ul li::before {
+  content: "🎵 ";
+  font-size: 0.9rem;
 }
 
+@media (max-width: 900px) {
   .flip-card {
     width: 90%;
     max-width: 360px;
-    aspect-ratio: 4 / 5; /* 🔥 tetap konsisten */
+    aspect-ratio: 3 / 4;
   }
 
   .flip-card-back {
     font-size: 0.85rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .flipcard-container {
-    grid-template-columns: 1fr; /* mobile jadi 1 */
+    padding: 16px;
   }
 }
 
@@ -1275,11 +1312,10 @@ header.floating {
   background:#fff;
 }
 
-.frame img {
-  width: 100%;
-  aspect-ratio: 3/4;   /* 🔥 proporsi idol foto */
-  object-fit: cover;
-  border-radius: 10px;
+.frame img{
+  width:260px;
+  height:auto;
+  display:block;
 }
 
 /* caption */
@@ -1354,123 +1390,6 @@ header.floating {
 
 .frame:hover img{
   transform:scale(1.05);
-}
-
-/* === CONTAINER SOSMED (BOX PANJANG) === */
-.social-icons {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-
-  padding: 10px 16px;
-
-  border: 1px solid rgba(255,255,255,0.5); /* tipis */
-  border-radius: 10px; /* boleh kecil atau 0 kalau mau kaku */
-
-  background: rgba(255,255,255,0.1); /* opsional biar keliatan */
-  backdrop-filter: blur(6px); /* glass effect */
-}
-
-/* === ICON DI DALAM === */
-.social-icons a {
-  color: #fff;
-  font-size: 18px;
-  transition: 0.25s ease;
-}
-
-/* === HOVER ICON === */
-.social-icons a:hover {
-  transform: translateY(-2px);
-  color: #ffffff;
-}
-
-/* 💖 CUTE FRAME UPGRADE */
-.cute-frame {
-  position: relative;
-  border: 2px solid #ffb6c1;
-  border-radius: 16px;
-  padding: 12px;
-  background: #fff0f5;
-  box-shadow: 0 6px 18px rgba(255, 182, 193, 0.4);
-  transition: all 0.4s ease;
-}
-
-/* 💕 LOVE DECORATION */
-.cute-frame::before {
-  content: "💖 💗 💕";
-  position: absolute;
-  top: -14px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 14px;
-  opacity: 0.8;
-}
-
-/* ✨ HOVER EFFECT */
-.cute-frame:hover {
-  transform: translateY(-12px) scale(1.05) rotate(-1deg);
-  box-shadow: 0 18px 35px rgba(255, 105, 180, 0.5);
-}
-
-/* 🎀 IMAGE INSIDE */
-.cute-frame img {
-  border-radius: 10px;
-}
-
-/* 💫 CAPTION UPGRADE */
-.member-journey .caption h4 {
-  color: #ff69b4;
-}
-
-.member-journey .caption .year {
-  color: #ff85a1;
-}
-
-.journey-wrapper {
-  display: flex;
-  justify-content: center;
-  gap: 60px;
-  flex-wrap: wrap;
-}
-
-.member-journey {
-  background: linear-gradient(180deg, #fdf6ff, #f0f8ff);
-}
-
-/* cute upgrade */
-.flip-card-inner {
-  border-radius: 20px;
-  transition: transform 0.6s ease;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-}
-
-/* hover desktop */
-.flip-card:hover .flip-card-inner {
-  transform: rotateY(180deg);
-}
-
-/* glow cute */
-.flip-card:hover {
-  transform: translateY(-8px) scale(1.02);
-}
-
-.flip-card-back {
-  overflow-y: auto;
-  scrollbar-width: none;
-}
-
-.flip-card-back::-webkit-scrollbar {
-  display: none;
-}
-
-.flip-card.flipped .flip-card-inner {
-  transform: rotateY(180deg);
-}
-
-@media (hover: hover) {
-  .flip-card:hover .flip-card-inner {
-    transform: rotateY(180deg);
-  }
 }
 </style>
 
@@ -1679,7 +1598,7 @@ header.floating {
 
     <!-- CARD 1 -->
     <div class="journey-card">
-  <div class="frame cute-frame">
+      <div class="frame">
         <img src="kabesha1.jpg" alt="Trisha 2023">
       </div>
 
@@ -1696,7 +1615,7 @@ header.floating {
 
     <!-- CARD 2 -->
     <div class="journey-card">
-  <div class="frame cute-frame">
+      <div class="frame">
         <img src="kabesha2.jpg" alt="Trisha 2026">
       </div>
 
@@ -1710,23 +1629,6 @@ header.floating {
         </p>
       </div>
     </div>
-
-<!-- CARD 3 -->
-<div class="journey-card">
-  <div class="frame cute-frame">
-    <img src="kabesha3.jpg" alt="Trisha 2027">
-  </div>
-
-  <div class="caption">
-    <span class="year">2026</span>
-    <h4>Team Love</h4>
-    <p>
-      Keep shining,<br>
-      keep growing,<br>
-      Trisha’s journey continues 💖
-    </p>
-  </div>
-</div>
 
   </div>
 </section>
@@ -1768,25 +1670,24 @@ header.floating {
       <!-- 📊 REKAP SHOW -->
       <div id="rekap" class="content-section active">
         <section class="flipcard-section">
-<h2>Rekap Show Trisha</h2>
-<p class="rekap-sub">Flip kartu untuk melihat detail ✨</p>
+          <h2>Rekap Show Trisha</h2>
           <div class="rekap-wrapper">
             
             <!-- BAGIAN KIRI -->
             <div class="rekap-info">
               <div class="info-item">
                 <img src="icon-show.png" alt="Show Icon">
-                <span><span class="count" data-target="110">0</span> Show</span>
+                <span><span class="count" data-target="109">0</span> Show</span>
               </div>
 
               <div class="info-item">
                 <img src="icon-setlist.png" alt="Setlist Icon">
-                <span><span class="count" data-target="6">0</span> Setlist</span>
+                <span><span class="count" data-target="5">0</span> Setlist</span>
               </div>
 
               <div class="info-item">
                 <img src="icon-unit.png" alt="Unit Icon">
-                <span><span class="count" data-target="13">0</span> Unit Songs</span>
+                <span><span class="count" data-target="12">0</span> Unit Songs</span>
               </div>
             </div>
 
@@ -1803,7 +1704,6 @@ header.floating {
                     <strong>Shonichi:</strong> 30 Mei 2024<br>
                     <strong>Global Center:</strong> 3 Mei 2025<br>
                     <strong>Unit Song:</strong> Tenshi no Shippo<br><br>
-                    <strong>Show:</strong> 55 kali<br><br>
                   </div>
                 </div>
               </div>
@@ -1819,7 +1719,6 @@ header.floating {
                     <strong>Shonichi:</strong> 16 Februari 2024<br>
                     <strong>Global Center:</strong> 10 Mei 2025<br>
                     <strong>Unit Songs:</strong> Koi No Plan, Revolusi Rio, Senaka Kara Dakishimete, Nageki no Figure, dan Nagisa no Cherry<br><br>
-                    <strong>Show:</strong> 39 kali<br><br>
                   </div>
                 </div>
               </div>
@@ -1834,7 +1733,6 @@ header.floating {
                     <div class="back-title">Cara Meminum Ramune</div>
                     <strong>Shonichi:</strong> 17 Juli 2025<br>
                     <strong>Unit Song:</strong> Finland Miracle, Cross, Dachou<br><br>
-                    <strong>Show:</strong> 6 kali<br><br>
                   </div>
                 </div>
               </div>
@@ -1849,7 +1747,6 @@ header.floating {
                     <div class="back-title">Sambil Menggandeng Erat Tanganku</div>
                     <strong>Shonichi:</strong> 24 Januari 2026<br>
                     <strong>Unit Song:</strong> Wimbledon e Tsureteitte dan Choco no Yukue<br><br>
-                    <strong>Show:</strong> 1 kali<br><br>
                   </div>
                 </div>
               </div>
@@ -1864,22 +1761,6 @@ header.floating {
                     <div class="back-title">Kira kira girls</div>
                     <strong>Shonichi:</strong> 21 November 2025<br>
                     <strong>Unit Songs:</strong> Gomen Ne, Jewel<br><br>
-                    <strong>Show:</strong> 3 kali<br><br>
-                  </div>
-                </div>
-              </div>
-
-              <div class="flip-card">
-                <div class="flip-card-inner">
-                  <div class="flip-card-front">
-                    <img src="teamlove.png" alt="1 love">
-                    <div class="caption">1 kali<br>Itadaki Love</div>
-                  </div>
-                  <div class="flip-card-back">
-                    <div class="back-title">Itadaki Love</div>
-                    <strong>Shonichi:</strong> 25 April 2026<br>
-                    <strong>Unit Song:</strong> Hatsukoi Dorobou<br><br>
-                    <strong>Show:</strong> 1 kali<br><br>
                   </div>
                 </div>
               </div>
@@ -2182,9 +2063,49 @@ header.floating {
 
 <script>
 document.querySelectorAll('.flip-card').forEach(card => {
-  card.addEventListener('click', () => {
-    card.classList.toggle('flipped');
-  });
+  const inner = card.querySelector('.flip-card-inner');
+  let isDragging = false;
+  let startX = 0;
+  let currentRotation = 0;
+  let flipped = false;
+
+  function setRotation(deg) {
+    inner.style.transform = `rotateY(${deg}deg)`;
+  }
+
+  function start(e) {
+    isDragging = true;
+    startX = e.touches ? e.touches[0].clientX : e.clientX;
+    inner.style.transition = 'none';
+  }
+
+  function move(e) {
+    if (!isDragging) return;
+    const x = e.touches ? e.touches[0].clientX : e.clientX;
+    const diff = x - startX;
+    let rotate = flipped ? 180 + (diff / 2) : diff / 2;
+    rotate = Math.max(0, Math.min(180, rotate));
+    setRotation(rotate);
+    currentRotation = rotate;
+  }
+
+  function end() {
+    if (!isDragging) return;
+    isDragging = false;
+    inner.style.transition = 'transform 0.6s ease';
+    if ((!flipped && currentRotation > 90) || (flipped && currentRotation < 90)) {
+      flipped = !flipped;
+    }
+    setRotation(flipped ? 180 : 0);
+  }
+
+  card.addEventListener('mousedown', start);
+  card.addEventListener('mousemove', move);
+  card.addEventListener('mouseup', end);
+  card.addEventListener('mouseleave', end);
+  card.addEventListener('touchstart', start);
+  card.addEventListener('touchmove', move);
+  card.addEventListener('touchend', end);
 });
 </script>
 
