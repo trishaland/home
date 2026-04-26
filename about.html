@@ -401,7 +401,7 @@ header.floating {
   transform: scale(1.15);
 }
 
-/* ====== REKAP + FLIPCARD SECTION FIXED ====== */
+/* ====== REKAP + FLIPCARD SECTION ====== */
 .flipcard-section {
   text-align: center;
   padding: 70px 20px;
@@ -411,11 +411,18 @@ header.floating {
 .flipcard-section h2 {
   font-size: 2rem;
   color: #1a5cff;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   font-weight: 700;
 }
 
-/* Wrapper dua kolom (rekap kiri + flip kanan) */
+/* sub text */
+.rekap-sub {
+  margin-bottom: 30px;
+  font-size: 0.95rem;
+  color: #666;
+}
+
+/* ===== WRAPPER ===== */
 .rekap-wrapper {
   display: flex;
   align-items: flex-start;
@@ -424,7 +431,7 @@ header.floating {
   flex-wrap: wrap;
 }
 
-/* Kiri: rekap info */
+/* ===== REKAP INFO ===== */
 .rekap-info {
   display: flex;
   flex-direction: column;
@@ -449,203 +456,166 @@ header.floating {
   height: 36px;
 }
 
-/* Kanan: Flip Card Container */
+/* ===== GRID CARD ===== */
 .flipcard-container {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 2 card per baris */
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 25px;
-  justify-items: center;
   width: 100%;
-  padding: 10px;
-
-  /* hilangkan semua ini karena tidak dipakai lagi */
-  overflow-x: visible;
-  scroll-snap-type: none;
-  scroll-behavior: auto;
+  max-width: 700px;
 }
 
-@media (max-width: 768px) {
-  .flipcard-container {
-    grid-template-columns: 1fr; /* 1 per baris */
-  }
-}
-
-.flipcard-container::-webkit-scrollbar { display: none; }
-
-/* Individual Card */
+/* ===== CARD WRAPPER ===== */
 .flip-card {
-  flex: 0 0 auto;
-  scroll-snap-align: center;
-  width: 260px;
-  aspect-ratio: 3 / 4;       /* ✅ biar proporsional di semua device */
+  width: 100%;
+  max-width: 260px;
+  aspect-ratio: 4 / 5;
   perspective: 1000px;
-  cursor: grab;
   border-radius: 20px;
-  position: relative;
+  position: relative; /* 🔥 penting */
+  transition: transform 0.25s ease;
 }
 
-.flip-card:active { cursor: grabbing; }
+.flip-card:hover {
+  transform: translateY(-8px) scale(1.02);
+}
 
+/* ===== INNER ===== */
 .flip-card-inner {
-  position: relative;
   width: 100%;
   height: 100%;
   border-radius: 20px;
   transform-style: preserve-3d;
-  transition: transform 0.6s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: transform 0.6s cubic-bezier(.22,1,.36,1);
+  position: relative;
 }
 
+/* ===== FRONT & BACK ===== */
 .flip-card-front,
 .flip-card-back {
   position: absolute;
+  inset: 0; /* 🔥 fix utama */
   width: 100%;
   height: 100%;
-  backface-visibility: hidden;
   border-radius: 20px;
+  backface-visibility: hidden;
   overflow: hidden;
 }
 
+/* ===== FRONT ===== */
 .flip-card-front {
-  background: #fff;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border: 2px solid #dbe8ff;
+  box-shadow: 0 8px 20px rgba(120,150,255,0.15);
+}
+
+.flip-card-front img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* 🔥 ga kepotong */
+  background: #f5f8ff; /* biar ga keliatan kosong banget */
+}
+
+.flip-card-front {
   display: flex;
   flex-direction: column;
 }
+
 .flip-card-front img {
-  width: 100%;
-  height: 75%;
-  object-fit: cover;
-}
-.flip-card-front .caption {
-  background: #1a5cff;
-  color: #fff;
   flex: 1;
+}
+
+/* caption (NO absolute!) */
+.flip-card-front .caption {
+  height: 25%;
+  background: linear-gradient(135deg, #6ea8ff, #8ec5ff);
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 600;
-  font-size: 1rem;
-  text-align: center;
-  padding: 5px;
-}
-
-.flip-card-back {
-  background: #add8e6;
-  color: #003366;
-  transform: rotateY(180deg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 25px;
   font-size: 0.95rem;
   text-align: center;
-  line-height: 1.5;
+  padding: 6px;
 }
 
-/* RESPONSIF */
-@media (max-width: 900px) {
-  .rekap-wrapper {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 30px;
-  }
-
-  .rekap-info {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    width: 85%;
-  }
-
-  .flipcard-container {
-    flex-direction: column;
-    align-items: center;
-    overflow-x: visible;
-    overflow-y: visible;
-    width: 100%;
-    gap: 25px;
-  }
-
-  .flip-card {
-    width: 95%;          /* sebelumnya 85%, biar lebih lebar */
-    max-width: 380px;    /* sebelumnya 320px, biar proporsional */
-    height: auto;        /* sebelumnya 340px, biar fleksibel */
-    aspect-ratio: 3 / 4; /* biar bentuknya tetap seimbang */
-  }
-
-  .flip-card-inner {
-    height: 100%;
-  }
-
-  .flip-card-front img {
-    height: 100%;        /* sebelumnya 75%, biar isi penuh */
-    object-fit: cover;   /* biar gambar gak gepeng */
-  }
-}
-
-/* ======== RAPIHKAN TEKS DI BELAKANG FLIP CARD ======== */
+/* ===== BACK ===== */
 .flip-card-back {
   background: #ffffff;
   color: #003366;
   transform: rotateY(180deg);
+
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;   /* 🔁 biar teks mulai dari atas */
+  justify-content: flex-start;
   align-items: flex-start;
-  padding: 20px 18px;
-  font-size: 0.95rem;
-  text-align: left;
+
+  padding: 18px;
+  font-size: 0.9rem;
   line-height: 1.6;
-  border-radius: 20px;
-  white-space: normal;           /* 🧩 biar teks wrap otomatis */
-  overflow-y: auto;              /* ✅ kalau teks panjang bisa discroll */
-  max-height: 100%;              /* biar ga keluar dari kartu */
-  box-sizing: border-box;
-  scrollbar-width: thin;         /* untuk Firefox */
+
+  overflow-y: auto;
+  scrollbar-width: none;
 }
 
 .flip-card-back::-webkit-scrollbar {
-  width: 6px;
-}
-.flip-card-back::-webkit-scrollbar-thumb {
-  background: rgba(0,0,0,0.15);
-  border-radius: 3px;
+  display: none;
 }
 
+/* TEXT */
 .flip-card-back strong {
   color: #002244;
-  font-weight: 700;
 }
 
 .flip-card-back .back-title {
   font-weight: 700;
   margin-bottom: 8px;
   text-align: center;
+  width: 100%;
 }
 
-.flip-card-back ul {
-  list-style: none;
-  padding: 0;
-  margin: 6px 0 0 0;
+/* ===== FLIP ACTION ===== */
+.flip-card.flipped .flip-card-inner {
+  transform: rotateY(180deg);
 }
 
-.flip-card-back ul li::before {
-  content: "🎵 ";
-  font-size: 0.9rem;
+  .rekap-info {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 90%;
+  }
+
+/* DEFAULT (mobile dulu) */
+.flipcard-container {
+  display: grid;
+  grid-template-columns: 1fr; /* ✅ 1 kolom */
+  gap: 25px;
 }
 
-@media (max-width: 900px) {
+/* TABLET / DESKTOP */
+@media (min-width: 768px) {
+  .flipcard-container {
+    grid-template-columns: repeat(2, 1fr); /* ✅ baru jadi 2 kolom */
+  }
+}
+
   .flip-card {
     width: 90%;
     max-width: 360px;
-    aspect-ratio: 3 / 4;
+    aspect-ratio: 4 / 5; /* 🔥 tetap konsisten */
   }
 
   .flip-card-back {
     font-size: 0.85rem;
-    padding: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .flipcard-container {
+    grid-template-columns: 1fr; /* mobile jadi 1 */
   }
 }
 
@@ -1312,10 +1282,11 @@ header.floating {
   background:#fff;
 }
 
-.frame img{
-  width:260px;
-  height:auto;
-  display:block;
+.frame img {
+  width: 100%;
+  aspect-ratio: 3/4;   /* 🔥 proporsi idol foto */
+  object-fit: cover;
+  border-radius: 10px;
 }
 
 /* caption */
@@ -1390,6 +1361,95 @@ header.floating {
 
 .frame:hover img{
   transform:scale(1.05);
+}
+
+/* 💖 CUTE FRAME UPGRADE */
+.cute-frame {
+  position: relative;
+  border: 2px solid #ffb6c1;
+  border-radius: 16px;
+  padding: 12px;
+  background: #fff0f5;
+  box-shadow: 0 6px 18px rgba(255, 182, 193, 0.4);
+  transition: all 0.4s ease;
+}
+
+/* 💕 LOVE DECORATION */
+.cute-frame::before {
+  content: "💖 💗 💕";
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* ✨ HOVER EFFECT */
+.cute-frame:hover {
+  transform: translateY(-12px) scale(1.05) rotate(-1deg);
+  box-shadow: 0 18px 35px rgba(255, 105, 180, 0.5);
+}
+
+/* 🎀 IMAGE INSIDE */
+.cute-frame img {
+  border-radius: 10px;
+}
+
+/* 💫 CAPTION UPGRADE */
+.member-journey .caption h4 {
+  color: #ff69b4;
+}
+
+.member-journey .caption .year {
+  color: #ff85a1;
+}
+
+.journey-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  flex-wrap: wrap;
+}
+
+.member-journey {
+  background: linear-gradient(180deg, #fdf6ff, #f0f8ff);
+}
+
+/* cute upgrade */
+.flip-card-inner {
+  border-radius: 20px;
+  transition: transform 0.6s ease;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+/* hover desktop */
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* glow cute */
+.flip-card:hover {
+  transform: translateY(-8px) scale(1.02);
+}
+
+.flip-card-back {
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.flip-card-back::-webkit-scrollbar {
+  display: none;
+}
+
+.flip-card.flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+@media (hover: hover) {
+  .flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+  }
 }
 </style>
 
@@ -1598,7 +1658,7 @@ header.floating {
 
     <!-- CARD 1 -->
     <div class="journey-card">
-      <div class="frame">
+  <div class="frame cute-frame">
         <img src="kabesha1.jpg" alt="Trisha 2023">
       </div>
 
@@ -1615,7 +1675,7 @@ header.floating {
 
     <!-- CARD 2 -->
     <div class="journey-card">
-      <div class="frame">
+  <div class="frame cute-frame">
         <img src="kabesha2.jpg" alt="Trisha 2026">
       </div>
 
@@ -1629,6 +1689,23 @@ header.floating {
         </p>
       </div>
     </div>
+
+<!-- CARD 3 -->
+<div class="journey-card">
+  <div class="frame cute-frame">
+    <img src="kabesha3.jpg" alt="Trisha 2027">
+  </div>
+
+  <div class="caption">
+    <span class="year">2026</span>
+    <h4>Team Love</h4>
+    <p>
+      Keep shining,<br>
+      keep growing,<br>
+      Trisha’s journey continues 💖
+    </p>
+  </div>
+</div>
 
   </div>
 </section>
@@ -1670,24 +1747,25 @@ header.floating {
       <!-- 📊 REKAP SHOW -->
       <div id="rekap" class="content-section active">
         <section class="flipcard-section">
-          <h2>Rekap Show Trisha</h2>
+<h2>Rekap Show Trisha</h2>
+<p class="rekap-sub">Flip kartu untuk melihat detail ✨</p>
           <div class="rekap-wrapper">
             
             <!-- BAGIAN KIRI -->
             <div class="rekap-info">
               <div class="info-item">
                 <img src="icon-show.png" alt="Show Icon">
-                <span><span class="count" data-target="109">0</span> Show</span>
+                <span><span class="count" data-target="110">0</span> Show</span>
               </div>
 
               <div class="info-item">
                 <img src="icon-setlist.png" alt="Setlist Icon">
-                <span><span class="count" data-target="5">0</span> Setlist</span>
+                <span><span class="count" data-target="6">0</span> Setlist</span>
               </div>
 
               <div class="info-item">
                 <img src="icon-unit.png" alt="Unit Icon">
-                <span><span class="count" data-target="12">0</span> Unit Songs</span>
+                <span><span class="count" data-target="13">0</span> Unit Songs</span>
               </div>
             </div>
 
@@ -1704,6 +1782,7 @@ header.floating {
                     <strong>Shonichi:</strong> 30 Mei 2024<br>
                     <strong>Global Center:</strong> 3 Mei 2025<br>
                     <strong>Unit Song:</strong> Tenshi no Shippo<br><br>
+                    <strong>Show:</strong> 55 kali<br><br>
                   </div>
                 </div>
               </div>
@@ -1719,6 +1798,7 @@ header.floating {
                     <strong>Shonichi:</strong> 16 Februari 2024<br>
                     <strong>Global Center:</strong> 10 Mei 2025<br>
                     <strong>Unit Songs:</strong> Koi No Plan, Revolusi Rio, Senaka Kara Dakishimete, Nageki no Figure, dan Nagisa no Cherry<br><br>
+                    <strong>Show:</strong> 39 kali<br><br>
                   </div>
                 </div>
               </div>
@@ -1733,6 +1813,7 @@ header.floating {
                     <div class="back-title">Cara Meminum Ramune</div>
                     <strong>Shonichi:</strong> 17 Juli 2025<br>
                     <strong>Unit Song:</strong> Finland Miracle, Cross, Dachou<br><br>
+                    <strong>Show:</strong> 6 kali<br><br>
                   </div>
                 </div>
               </div>
@@ -1747,6 +1828,7 @@ header.floating {
                     <div class="back-title">Sambil Menggandeng Erat Tanganku</div>
                     <strong>Shonichi:</strong> 24 Januari 2026<br>
                     <strong>Unit Song:</strong> Wimbledon e Tsureteitte dan Choco no Yukue<br><br>
+                    <strong>Show:</strong> 1 kali<br><br>
                   </div>
                 </div>
               </div>
@@ -1761,6 +1843,22 @@ header.floating {
                     <div class="back-title">Kira kira girls</div>
                     <strong>Shonichi:</strong> 21 November 2025<br>
                     <strong>Unit Songs:</strong> Gomen Ne, Jewel<br><br>
+                    <strong>Show:</strong> 3 kali<br><br>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flip-card">
+                <div class="flip-card-inner">
+                  <div class="flip-card-front">
+                    <img src="teamlove.png" alt="1 love">
+                    <div class="caption">1 kali<br>Itadaki Love</div>
+                  </div>
+                  <div class="flip-card-back">
+                    <div class="back-title">Itadaki Love</div>
+                    <strong>Shonichi:</strong> 25 April 2026<br>
+                    <strong>Unit Song:</strong> Hatsukoi Dorobou<br><br>
+                    <strong>Show:</strong> 1 kali<br><br>
                   </div>
                 </div>
               </div>
